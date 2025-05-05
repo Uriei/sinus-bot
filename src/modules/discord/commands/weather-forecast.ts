@@ -9,13 +9,7 @@ export default {
     .setDescription("Shows the weather forecast for Sinus Ardorum in the next X hours. (Max 24 hours)")
 
     .addNumberOption((numberOption) =>
-      numberOption
-        .setName("hours")
-        .setDescription("Hours to forecast")
-        .setMinValue(1)
-        .setMaxValue(24)
-        .setAutocomplete(true)
-        .setRequired(false)
+      numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
