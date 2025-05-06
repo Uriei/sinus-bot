@@ -1,6 +1,7 @@
 import { AttachmentBuilder, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { CHANNEL_REDALERT_COOLDOWN, RED_ALERT_TYPES } from "../../../constants";
 import { Discord } from "../discord";
+import { addHours } from "date-fns";
 
 export default {
   data: new SlashCommandBuilder()
@@ -37,7 +38,11 @@ export default {
           (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
         );
         const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
-        const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${redAlertType.name}`;
+        const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
+        const nextTimeframeEnd = Math.floor(addHours(currentTime, 6).valueOf() / 1000);
+        const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${
+          redAlertType.name
+        } | Next estimated window: <t:${nextTimeframeInit}:t>-<t:${nextTimeframeEnd}:t>`;
         const image = new AttachmentBuilder(redAlertType.image);
         await interaction.reply({ content: redAlertMessage, files: [image] });
       }
