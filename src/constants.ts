@@ -25,3 +25,9 @@ export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
     important: true,
   },
 ];
+
+export const RED_ALERT_TYPES = [
+  { name: "Meteor Shower", emoji: "<:meteoriteshowers:1369197984952225862>" },
+  { name: "Sporing Mist", emoji: "<:sporingmist:1369198013590802472>" },
+  { name: "Astromagnetic Storm", emoji: "<:astromagneticstorm:1369198031127449671>" },
+];
