@@ -41,4 +41,4 @@ export const RED_ALERT_TYPES = [
   },
 ];
 
-export const CHANNEL_REDALERT_COOLDOWN = 10 * 1000; // Milliseconds
+export const CHANNEL_REDALERT_COOLDOWN = 30 * 1000; // Milliseconds

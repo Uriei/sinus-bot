@@ -17,7 +17,9 @@ export default {
     async execute(interaction: ChatInputCommandInteraction) {
       const type = interaction.options.getString("type");
       const currentTime = new Date().valueOf();
-      if (!type) {
+      if (!interaction.inCachedGuild()) {
+        await interaction.reply({ content: "You can't use this command in Direct Messages.", flags: MessageFlags.Ephemeral });
+      } else if (!type) {
         await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral });
       } else if (
         Discord.channelRedAlertCooldown[interaction.channelId] &&
