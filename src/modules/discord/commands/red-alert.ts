@@ -20,8 +20,8 @@ export default {
       } else {
         const role = interaction.guild.roles.cache.find((r) => r.name === interaction.channel.name && r.mentionable);
         const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
-        const redAlertMessage = `${role ? `@${role.name} ` : ""}Red Alert incoming - ${redAlertType.emoji} ${redAlertType.name}`;
-        await interaction.reply({ content: redAlertMessage });
+        const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${redAlertType.name}`;
+        await interaction.reply({ content: redAlertMessage, options: { allowedMentions: { roles: [role.id] } } });
       }
     },
   },
