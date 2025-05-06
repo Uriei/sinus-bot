@@ -6,7 +6,7 @@ const DEFAULT_COLOR = 0x033280;
 export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[], hours: number): Array<APIEmbed> {
   const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`Sinus Ardorum Weather Forecast for the next ${hours} hours`);
 
-  for (let index = 0; index < weatherReport.length; index++) {
+  for (let index = 0; index < weatherReport.length && index < 24; index++) {
     const element = weatherReport[index];
     const nextElement = index < weatherReport.length - 1 ? weatherReport[index + 1] : null;
     let value = "";
