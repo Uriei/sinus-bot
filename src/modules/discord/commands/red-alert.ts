@@ -33,7 +33,9 @@ export default {
         );
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
-        const role = interaction.guild.roles.cache.find((r) => r.name === interaction.channel.name && r.mentionable);
+        const role = interaction.guild.roles.cache.find(
+          (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
+        );
         const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
         const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${redAlertType.name}`;
         const image = new AttachmentBuilder(redAlertType.image);
