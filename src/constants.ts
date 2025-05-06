@@ -1,4 +1,5 @@
 import { IWeatherData } from "./modules/models/weather-report.model";
+import * as path from "path";
 
 export const WEATHER_EMOJIS = {
   MOON_DUST: "<:moondust:1367875156914999336>",
@@ -27,7 +28,17 @@ export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
 ];
 
 export const RED_ALERT_TYPES = [
-  { name: "Meteor Shower", emoji: "<:meteoriteshowers:1369197984952225862>" },
-  { name: "Sporing Mist", emoji: "<:sporingmist:1369198013590802472>" },
-  { name: "Astromagnetic Storm", emoji: "<:astromagneticstorm:1369198031127449671>" },
+  {
+    name: "Meteor Shower",
+    emoji: "<:meteoriteshowers:1369197984952225862>",
+    image: path.resolve("./assets/red-alerts/ra-meteorshower.png"),
+  },
+  { name: "Sporing Mist", emoji: "<:sporingmist:1369198013590802472>", image: path.resolve("./assets/red-alerts/ra-sporingmist.png") },
+  {
+    name: "Astromagnetic Storm",
+    emoji: "<:astromagneticstorm:1369198031127449671>",
+    image: path.resolve("./assets/red-alerts/ra-astromagneticstorm.png"),
+  },
 ];
+
+export const CHANNEL_REDALERT_COOLDOWN = 10 * 1000; // Milliseconds

@@ -2,6 +2,7 @@ import { ActivityType, Client, Events, GatewayIntentBits, MessageFlags, REST, Ro
 import { readdirSync as fsReaddirSync } from "fs";
 import { get as _get, has as _has, set as _set } from "lodash";
 import * as path from "path";
+import { IChannelRedAlertCooldown } from "../models/red-alert.model";
 
 class Discord {
   private static _discordKeepAliveInterval: NodeJS.Timeout;
@@ -27,6 +28,8 @@ class Discord {
   };
   private botToken: string = "";
   private botClientId: string = "";
+
+  public static channelRedAlertCooldown: IChannelRedAlertCooldown = {};
 
   private constructor() {
     this.getCredentialInfo();
