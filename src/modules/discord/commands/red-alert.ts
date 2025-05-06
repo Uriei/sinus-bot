@@ -37,7 +37,7 @@ export default {
         const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
         const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${redAlertType.name}`;
         const image = new AttachmentBuilder(redAlertType.image);
-        await interaction.reply({ content: redAlertMessage, options: { allowedMentions: { roles: [role.id] } }, files: [image] });
+        await interaction.reply({ content: redAlertMessage, options: { allowedMentions: { roles: [role?.id] } }, files: [image] });
       }
     },
   },
