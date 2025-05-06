@@ -33,7 +33,7 @@ class Discord {
 
   private constructor() {
     this.getCredentialInfo();
-    this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
+    this.client = new Client({ intents: [GatewayIntentBits.Guilds], allowedMentions: { parse: ["users", "roles"], repliedUser: true } });
     this.client.on("warn", console.debug);
     this.slashCommands = {};
     this.slashCommandsAdmin = {};
