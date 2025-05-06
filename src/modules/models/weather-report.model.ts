@@ -6,4 +6,5 @@ export interface IWeatherData {
 }
 export interface IWeatherReport extends IWeatherData {
   date: number;
+  weatherChance?: number;
 }

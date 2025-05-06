@@ -34,12 +34,13 @@ export function getNextWeatherForecast(maxHours: number = 24): Array<IWeatherRep
 
   while (currentDate.valueOf() < maxDate.valueOf()) {
     const currentChance = calculateForecastTarget(currentDate);
-    const weatherForecast = SINUS_ARDORUM_WEATHER.find((weather) => currentChance <= weather.rate);
+    const weatherForecast = SINUS_ARDORUM_WEATHER.find((weather) => currentChance < weather.rate);
 
     if (weatherArray.length === 0 || weatherArray[weatherArray.length - 1].name !== weatherForecast.name) {
       const newWeather: IWeatherReport = {
         ...weatherForecast,
         date: currentDate.valueOf(),
+        weatherChance: currentChance,
       };
       weatherArray.push(newWeather);
     }
