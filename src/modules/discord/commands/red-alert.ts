@@ -90,7 +90,7 @@ function addFalseAlarmButton(counter = 0) {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId("false_alarm")
-      .setLabel(`False Alarm${getCounter(counter)}`)
+      .setLabel(`Report False Alarm${getCounter(counter)}`)
       .setStyle(ButtonStyle.Danger)
   );
 }
@@ -111,7 +111,7 @@ async function falseAlert(
     | MentionableSelectMenuInteraction<"cached">
     | ChannelSelectMenuInteraction<"cached">
 ) {
-  await c.update({ content: "**IT WAS A FALSE ALERT!!!**", components: [], files: [] });
+  await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] });
   setTimeout(async () => {
     return await c.deleteReply();
   }, 10000);
