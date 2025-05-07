@@ -1,13 +1,18 @@
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
 import { IWeatherReport } from "./models/weather-report.model";
+import { addHours } from "date-fns";
 
 const DEFAULT_COLOR = 0x033280;
 
 export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[], hours: number): Array<APIEmbed> {
+  const reportHourLimit = addHours(new Date(), hours).valueOf();
   const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`Sinus Ardorum Weather Forecast for the next ${hours} hours`);
 
   for (let index = 0; index < weatherReport.length && index < 24; index++) {
     const element = weatherReport[index];
+    if (element.date >= reportHourLimit) {
+      break;
+    }
     const nextElement = index < weatherReport.length - 1 ? weatherReport[index + 1] : null;
     let value = "";
     if (index === 0) {

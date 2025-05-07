@@ -30,7 +30,7 @@ export function getWeatherForecastName() {
 export function getNextWeatherForecast(maxHours: number = 24): Array<IWeatherReport> {
   const weatherArray: Array<IWeatherReport> = [];
   const currentDate = new Date(new Date().setMilliseconds(0));
-  const maxDate = new Date().setHours(new Date().getHours() + maxHours);
+  const maxDate = new Date().setHours(new Date().getHours() + maxHours + 6);
 
   while (currentDate.valueOf() < maxDate.valueOf()) {
     const currentChance = calculateForecastTarget(currentDate);
