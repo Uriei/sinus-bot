@@ -2,9 +2,12 @@ import { IWeatherData } from "./modules/models/weather-report.model";
 import * as path from "path";
 
 export const WEATHER_EMOJIS = {
-  MOON_DUST: "<:moondust:1367875156914999336>",
-  UMBRAL_WIND: "<:umbralwind:1367875129463275603>",
-  FAIR_SKIES: "<:fairskies:1367874950479745044>",
+  MOON_DUST: "<:moondust:1369561645151551558>",
+  UMBRAL_WIND: "<:umbralwind:1369561668132274177>",
+  FAIR_SKIES: "<:fairskies:1369561680278978631>",
+  METEOR_SHOWER: "<:meteorshower:1369565029824860211>",
+  SPORING_MIST: "<:sporingmist:1369565042231611412>",
+  ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
 };
 export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
   {
@@ -30,13 +33,13 @@ export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
 export const RED_ALERT_TYPES = [
   {
     name: "Meteor Shower",
-    emoji: "<:meteoriteshowers:1369197984952225862>",
+    emoji: WEATHER_EMOJIS.METEOR_SHOWER,
     image: path.resolve("./assets/red-alerts/ra-meteorshower.png"),
   },
-  { name: "Sporing Mist", emoji: "<:sporingmist:1369198013590802472>", image: path.resolve("./assets/red-alerts/ra-sporingmist.png") },
+  { name: "Sporing Mist", emoji: WEATHER_EMOJIS.SPORING_MIST, image: path.resolve("./assets/red-alerts/ra-sporingmist.png") },
   {
     name: "Astromagnetic Storm",
-    emoji: "<:astromagneticstorm:1369198031127449671>",
+    emoji: WEATHER_EMOJIS.ASTROMAGNETIC_STORM,
     image: path.resolve("./assets/red-alerts/ra-astromagneticstorm.png"),
   },
 ];

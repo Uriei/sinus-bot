@@ -2,3 +2,4 @@
 /.env
 /dist
 /package-lock.json
+/TODO.md
