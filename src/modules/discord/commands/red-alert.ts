@@ -1,5 +1,19 @@
-import { AttachmentBuilder, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
-import { CHANNEL_REDALERT_COOLDOWN, RED_ALERT_TYPES } from "../../../constants";
+import {
+  ActionRowBuilder,
+  AttachmentBuilder,
+  ButtonBuilder,
+  ButtonInteraction,
+  ButtonStyle,
+  ChannelSelectMenuInteraction,
+  ChatInputCommandInteraction,
+  MentionableSelectMenuInteraction,
+  MessageFlags,
+  RoleSelectMenuInteraction,
+  SlashCommandBuilder,
+  StringSelectMenuInteraction,
+  UserSelectMenuInteraction,
+} from "discord.js";
+import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants";
 import { Discord } from "../discord";
 import { addHours } from "date-fns";
 
@@ -44,8 +58,73 @@ export default {
           redAlertType.name
         } | Next estimated window: <t:${nextTimeframeInit}:t>-<t:${nextTimeframeEnd}:t>`;
         const image = new AttachmentBuilder(redAlertType.image);
-        await interaction.reply({ content: redAlertMessage, files: [image] });
+        const interactionReply = await interaction.reply({ content: redAlertMessage, files: [image], components: [addFalseAlarmButton()] });
+        const falseAlarmRequests: Array<string> = [];
+        interactionReply
+          .createMessageComponentCollector({
+            time: 60000,
+          })
+          .on("collect", async (c) => {
+            if (c.customId === "false_alarm") {
+              if (c.user.id === interaction.user.id) {
+                await falseAlert(c);
+              } else if (!falseAlarmRequests.includes(c.user.id)) {
+                falseAlarmRequests.push(c.user.id);
+                if (falseAlarmRequests.length >= FALSE_ALARM_REQUIRED_COUNT) {
+                  await falseAlert(c);
+                } else {
+                  await setFalseAlertCounter(c, falseAlarmRequests.length);
+                }
+              }
+            }
+          })
+          .on("end", () => {
+            interaction.editReply({ components: [] });
+          });
       }
     },
   },
 };
+
+function addFalseAlarmButton(counter = 0) {
+  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId("false_alarm")
+      .setLabel(`False Alarm${getCounter(counter)}`)
+      .setStyle(ButtonStyle.Danger)
+  );
+}
+
+function getCounter(counter: number) {
+  if (counter) {
+    return ` (${counter}/${FALSE_ALARM_REQUIRED_COUNT})`;
+  }
+  return ``;
+}
+
+async function falseAlert(
+  c:
+    | ButtonInteraction<"cached">
+    | StringSelectMenuInteraction<"cached">
+    | UserSelectMenuInteraction<"cached">
+    | RoleSelectMenuInteraction<"cached">
+    | MentionableSelectMenuInteraction<"cached">
+    | ChannelSelectMenuInteraction<"cached">
+) {
+  await c.update({ content: "**IT WAS A FALSE ALERT!!!**", components: [], files: [] });
+  setTimeout(async () => {
+    return await c.deleteReply();
+  }, 10000);
+}
+async function setFalseAlertCounter(
+  c:
+    | ButtonInteraction<"cached">
+    | StringSelectMenuInteraction<"cached">
+    | UserSelectMenuInteraction<"cached">
+    | RoleSelectMenuInteraction<"cached">
+    | MentionableSelectMenuInteraction<"cached">
+    | ChannelSelectMenuInteraction<"cached">,
+  counter: number
+) {
+  await c.update({ components: [addFalseAlarmButton(counter)] });
+}

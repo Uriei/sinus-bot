@@ -45,3 +45,4 @@ export const RED_ALERT_TYPES = [
 ];
 
 export const CHANNEL_REDALERT_COOLDOWN = 30 * 1000; // Milliseconds
+export const FALSE_ALARM_REQUIRED_COUNT = 3;
