@@ -94,7 +94,7 @@ function addFalseAlarmButton(counter = 0) {
     new ButtonBuilder()
       .setCustomId("false_alarm")
       .setLabel(`Report False Alarm${getCounter(counter)}`)
-      .setStyle(ButtonStyle.Danger)
+      .setStyle(ButtonStyle.Secondary)
   );
 }
 
