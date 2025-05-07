@@ -59,7 +59,7 @@ export default {
         } | Next estimated window: <t:${nextTimeframeInit}:t>-<t:${nextTimeframeEnd}:t>`;
         const image = new AttachmentBuilder(redAlertType.image);
         const interactionReply = await interaction.reply({ content: redAlertMessage, files: [image], components: [addFalseAlarmButton()] });
-        const falseAlarmRequests: Array<string> = [];
+        let falseAlarmRequests: Array<string> = [];
         interactionReply
           .createMessageComponentCollector({
             time: 60000,
@@ -75,6 +75,9 @@ export default {
                 } else {
                   await setFalseAlertCounter(c, falseAlarmRequests.length);
                 }
+              } else if (falseAlarmRequests.includes(c.user.id)) {
+                falseAlarmRequests = falseAlarmRequests.filter((u) => u !== c.user.id);
+                await setFalseAlertCounter(c, falseAlarmRequests.length);
               }
             }
           })
