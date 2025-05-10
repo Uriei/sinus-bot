@@ -4,7 +4,8 @@
   "scripts": {
     "prebuild": "npm run clean",
     "build": "tsc",
-    "postbuild": "copyfiles -u 1 \"assets/**/*\" dist/assets",
+    "postbuild": "npm run copy:assets",
+    "copy:assets": "copyfiles -u 1 \"assets/**/*\" dist/assets",
     "prestart": "npm run build",
     "start": "node ./dist/app.js",
     "clean": "rimraf ./dist"
