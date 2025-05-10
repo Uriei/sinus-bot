@@ -41,11 +41,6 @@ export default {
         Discord.channelRedAlertCooldown[interaction.channelId] + CHANNEL_REDALERT_COOLDOWN > currentTime
       ) {
         await interaction.reply({ content: "Red Alert in cooldown...", flags: MessageFlags.Ephemeral });
-        console.debug(
-          `Red Alert Cooldown triggered: user:${interaction.user.username}, channelCooldownTime:${
-            Discord.channelRedAlertCooldown[interaction.channelId]
-          }, currentTime:${currentTime}`
-        );
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const role = interaction.guild.roles.cache.find(
