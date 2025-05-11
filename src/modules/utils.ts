@@ -1,6 +1,6 @@
+import { addHours, formatDuration, intervalToDuration } from "date-fns";
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
 import { IWeatherReport } from "./models/weather-report.model";
-import { addHours } from "date-fns";
 
 const DEFAULT_COLOR = 0x033280;
 
@@ -22,6 +22,7 @@ export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[],
     }
     if (nextElement) {
       value += ` :arrow_right: <t:${nextElement.date / 1000}:T>`;
+      value += ` :watch: ${calculateDuration(element.date, nextElement.date)}`;
     } else {
       value += ` :arrow_right: Outside Forecast`;
     }
@@ -36,6 +37,10 @@ export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[],
   }
 
   return [embed.toJSON()];
+}
+
+function calculateDuration(init: number, end: number): string {
+  return formatDuration(intervalToDuration({ start: init, end: end }), { zero: false });
 }
 
 export function wait(ms: number) {
