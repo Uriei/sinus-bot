@@ -21,10 +21,10 @@ export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[],
       value += `<t:${element.date / 1000}:T>`;
     }
     if (nextElement) {
-      value += ` :arrow_right: <t:${nextElement.date / 1000}:T>`;
+      value += ` ► <t:${nextElement.date / 1000}:T>`;
       value += ` :watch: ${calculateDuration(element.date, nextElement.date)}`;
     } else {
-      value += ` :arrow_right: Outside Forecast`;
+      value += ` ► Outside Forecast`;
     }
 
     const field: APIEmbedField = {
