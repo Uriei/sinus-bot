@@ -14,10 +14,7 @@ jobs:
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
           port: 22
           uploads: |
-            ./assets/ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/assets/
-            ./src/ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/src/
-            ./tsconfig.json => ${{ secrets.SINUS_BOT_SFTP_PATH }}/tsconfig.json
-            ./package.json => ${{ secrets.SINUS_BOT_SFTP_PATH }}/package.json
+            ./ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
         with:
