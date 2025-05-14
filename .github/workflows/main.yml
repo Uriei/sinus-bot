@@ -18,7 +18,6 @@ jobs:
             ./src/ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/src/
             ./tsconfig.json => ${{ secrets.SINUS_BOT_SFTP_PATH }}/tsconfig.json
             ./package.json => ${{ secrets.SINUS_BOT_SFTP_PATH }}/package.json
-          delete: "true"
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
         with:
