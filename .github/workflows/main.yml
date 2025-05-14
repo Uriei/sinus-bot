@@ -6,6 +6,8 @@ jobs:
   Upload-Build-Run:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: SFTP upload
         uses: Dylan700/sftp-upload-action@latest
         with:
@@ -14,7 +16,7 @@ jobs:
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
           port: 22
           uploads: |
-            ./ => /home/sinus-bot/
+            ./ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
         with:
@@ -23,7 +25,7 @@ jobs:
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
           port: 22
           script: |
-            cd /home/sinus-bot
+            cd ${{ secrets.SINUS_BOT_SFTP_PATH }}/
             npm install
             npm run build
             sudo systemctl restart sinusbot
