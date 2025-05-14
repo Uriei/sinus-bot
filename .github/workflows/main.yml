@@ -18,8 +18,15 @@ jobs:
           uploads: |
             ./ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/
           ignore: |
+            .git/
+            .github/
+            .editorconfig
+            .env
+            .env.*
             *.env
             *.git
+            .gitignore
+            LICENSE
             */**/*git*
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
