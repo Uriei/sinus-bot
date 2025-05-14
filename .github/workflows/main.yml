@@ -6,16 +6,27 @@ jobs:
   Upload-Build-Run:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH Push
-        uses: ErenKrt/ssh-push@cea145c9f5cc7a0a12e8151ac946e6d2fe565fd7
+      - name: SFTP upload
+        uses: Dylan700/sftp-upload-action@latest
         with:
-          host: ${{ secrets.SINUS_BOT_SFTP_HOST }}
-          port: 22
+          server: ${{ secrets.SINUS_BOT_SFTP_HOST }}
           username: ${{ secrets.SINUS_BOT_SFTP_USER }}
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
-          source: "./"
-          destination: ${{ secrets.SINUS_BOT_SFTP_PATH }}
-          scripts: |
+          port: 22
+          uploads: |
+            ./assets/ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/assets/
+            ./src/ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/src/
+            ./tsconfig.json => ${{ secrets.SINUS_BOT_SFTP_PATH }}/tsconfig.json
+            ./package.json => ${{ secrets.SINUS_BOT_SFTP_PATH }}/package.json
+          delete: "true"
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SINUS_BOT_SFTP_HOST }}
+          username: ${{ secrets.SINUS_BOT_SFTP_USER }}
+          password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
+          port: 22
+          script: |
             npm install
             npm run build
             sudo systemctl restart sinusbot
