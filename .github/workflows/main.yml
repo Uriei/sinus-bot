@@ -14,7 +14,7 @@ jobs:
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
           port: 22
           uploads: |
-            ./ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/
+            ./ => /home/sinus-bot/
       - name: Execute remote SSH commands using password
         uses: appleboy/ssh-action@v1
         with:
@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
           port: 22
           script: |
-            cd ${{ secrets.SINUS_BOT_SFTP_PATH }}
+            cd /home/sinus-bot
             npm install
             npm run build
             sudo systemctl restart sinusbot
