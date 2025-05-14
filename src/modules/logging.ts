@@ -9,6 +9,7 @@ export function setLogLevel() {
     case "INFO":
       global.console.debug = () => {};
     case "DEBUG":
+    default:
       break;
   }
 }

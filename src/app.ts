@@ -12,7 +12,7 @@ async function app() {
   discord = await Discord.getInstance();
   weatherPresenceService = await WeatherPresenceService.getInstance();
   weatherPresenceService.start(60000);
-  console.info("Sinus Bot online.");
+  console.log("Sinus Bot online.");
 }
 
 async function shutdown() {

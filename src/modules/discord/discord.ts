@@ -34,7 +34,7 @@ class Discord {
   private constructor() {
     this.getCredentialInfo();
     this.client = new Client({ intents: [GatewayIntentBits.Guilds], allowedMentions: { parse: ["users", "roles"], repliedUser: true } });
-    this.client.on("warn", console.debug);
+    this.client.on("warn", console.warn);
     this.slashCommands = {};
     this.slashCommandsAdmin = {};
     this.fillSlashCommands();
@@ -77,7 +77,7 @@ class Discord {
         );
         _set(filePath.includes("admin-") ? this.slashCommandsAdmin : this.slashCommands, [command.data.name, "data"], command.data);
       } else {
-        console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+        console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
       }
     }
   }
@@ -160,7 +160,7 @@ class Discord {
 
   private getCredentialInfo() {
     if (process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_CLIENT_ID) {
-      console.info("Discord credentials found on Environment.");
+      console.log("Discord credentials found on Environment.");
       this.botToken = process.env.DISCORD_BOT_TOKEN || "";
       this.botClientId = process.env.DISCORD_CLIENT_ID || "";
     } else {
@@ -176,7 +176,7 @@ class Discord {
     const res = await this.client.login(this.botToken);
 
     if (res) {
-      console.info("Discord logged in.");
+      console.log("Discord logged in.");
     } else {
       console.error("Discord login failed.");
     }
