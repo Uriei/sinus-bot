@@ -1,1 +1,42 @@
-
+name: Upload, build and start bot
+run-name: ${{ github.actor }} just updated the bot
+on:
+  - push
+jobs:
+  Upload-Build-Run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: SFTP upload
+        uses: Dylan700/sftp-upload-action@latest
+        with:
+          server: ${{ secrets.SINUS_BOT_SFTP_HOST }}
+          username: ${{ secrets.SINUS_BOT_SFTP_USER }}
+          password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
+          port: 22
+          uploads: |
+            ./ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/
+          ignore: |
+            .git/
+            .github/
+            .editorconfig
+            .env
+            .env.*
+            *.env
+            *.git
+            .gitignore
+            LICENSE
+            */**/*git*
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SINUS_BOT_SFTP_HOST }}
+          username: ${{ secrets.SINUS_BOT_SFTP_USER }}
+          password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
+          port: 22
+          script: |
+            cd ${{ secrets.SINUS_BOT_SFTP_PATH }}/
+            npm install
+            npm run build
+            sudo systemctl restart sinusbot
