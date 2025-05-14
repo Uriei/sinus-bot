@@ -23,6 +23,7 @@ jobs:
           password: ${{ secrets.SINUS_BOT_SFTP_PASS }}
           port: 22
           script: |
+            cd ${{ secrets.SINUS_BOT_SFTP_PATH }}
             npm install
             npm run build
             sudo systemctl restart sinusbot
