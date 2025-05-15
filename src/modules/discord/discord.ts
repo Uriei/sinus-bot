@@ -1,4 +1,4 @@
-import { ActivityType, Client, Events, GatewayIntentBits, MessageFlags, REST, Routes } from "discord.js";
+import { ActivityType, Client, Events, GatewayIntentBits, MessageFlags, PresenceStatusData, REST, Routes } from "discord.js";
 import { readdirSync as fsReaddirSync } from "fs";
 import { get as _get, has as _has, set as _set } from "lodash";
 import * as path from "path";
@@ -187,24 +187,30 @@ class Discord {
     this.client.destroy();
   }
 
-  public setPresence(status: "CUSTOM", customPresence?: string): void {
-    switch (status) {
-      case "CUSTOM":
-        this.client.user?.setPresence({
-          status: "online",
-          afk: false,
-          activities: [
-            {
-              name: "Sinus Ardorum weather forecast...",
-              type: customPresence ? ActivityType.Custom : ActivityType.Watching,
-              state: customPresence,
-            },
-          ],
-        });
-        break;
-      default:
-        break;
+  public setPresence(status: PresenceStatusData = "online", customPresence?: string): void {
+    let activities = [];
+    if (status !== "online") {
+      activities = [
+        {
+          name: "Restarting...",
+          type: ActivityType.Custom,
+          state: "Restarting...",
+        },
+      ];
+    } else {
+      activities = [
+        {
+          name: "Sinus Ardorum weather forecast...",
+          type: customPresence ? ActivityType.Custom : ActivityType.Watching,
+          state: customPresence,
+        },
+      ];
     }
+    this.client.user?.setPresence({
+      status: status,
+      afk: status !== "online",
+      activities: activities,
+    });
   }
 }
 

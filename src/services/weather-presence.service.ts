@@ -43,7 +43,7 @@ export class WeatherPresenceService {
       console.debug("Weather Presence Service: Checking for weather forecast.");
       const weatherForecast = getNextWeatherForecast(24);
       const newPresence = getCustomPresence(weatherForecast);
-      this.discord.setPresence("CUSTOM", newPresence);
+      this.discord.setPresence("online", newPresence);
       console.debug(`Weather Presence Service: Setting Bot Presence to "${newPresence}"`);
     } catch (error) {
       console.error("Weather Presence Service: ERROR:", error);

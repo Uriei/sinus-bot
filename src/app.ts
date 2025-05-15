@@ -16,6 +16,7 @@ async function app() {
 }
 
 async function shutdown() {
+  discord.setPresence("idle");
   console.log("Closing Sinus Bot.");
   // Stop all timeout intervals
   discord.disconnect();
