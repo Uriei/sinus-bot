@@ -18,8 +18,8 @@ jobs:
           uploads: |
             ./ => ${{ secrets.SINUS_BOT_SFTP_PATH }}/
           ignore: |
-            .git/
-            .github/
+            .git/**/*
+            .github/**/*
             .editorconfig
             .env
             .env.*
