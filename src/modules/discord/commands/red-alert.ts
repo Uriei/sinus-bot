@@ -102,7 +102,7 @@ export default {
             }
           });
 
-        if (!chosenVariant && redAlertType.variants.length > 1) {
+        if (!chosenVariant && redAlertType.variants?.length > 1) {
           const interactionReplyVariants = await interaction.followUp({
             content: "Please pick a variant, if you know it...",
             components: addRedAlertButtons(redAlertType),
