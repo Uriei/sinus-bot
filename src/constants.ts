@@ -40,47 +40,47 @@ export const RED_ALERT_TYPES: Array<IRedAlertType> = [
     name: "Meteor Shower",
     emoji: WEATHER_EMOJIS.METEOR_SHOWER,
     image: path.resolve("./assets/red-alerts/ra-meteorshower.png"),
-    // variants: [
-    //   {
-    //     name: "Variant A",
-    //     classes: ["ARM", "GSM", "BSM", "LTW", "MIN"],
-    //     image: path.resolve("./assets/red-alerts/ra-meteorshower.png"),
-    //   },
-    // ],
+    variants: [
+      {
+        name: "Variant A",
+        classes: ["ARM", "GSM", "BSM", "LTW", "MIN"],
+        image: path.resolve("./assets/red-alerts/ra-meteorshower.png"),
+      },
+    ],
   },
   {
     name: "Sporing Mist",
     emoji: WEATHER_EMOJIS.SPORING_MIST,
     image: path.resolve("./assets/red-alerts/ra-sporingmist.png"),
-    // variants: [
-    //   {
-    //     name: "Variant A",
-    //     classes: ["BSM", "ALC", "CRP", "WVR", "BTN"],
-    //     image: path.resolve("./assets/red-alerts/ra-sporingmist-a.png"),
-    //   },
-    //   {
-    //     name: "Variant B",
-    //     classes: ["CUL", "BTN", "FSH", "CRP", "LTW", "WVR"],
-    //     image: path.resolve("./assets/red-alerts/ra-sporingmist-b.png"),
-    //   },
-    // ],
+    variants: [
+      {
+        name: "Variant A",
+        classes: ["BSM", "ALC", "CRP", "WVR", "BTN"],
+        image: path.resolve("./assets/red-alerts/ra-sporingmist-a.png"),
+      },
+      {
+        name: "Variant B",
+        classes: ["CUL", "BTN", "FSH", "CRP", "LTW", "WVR"],
+        image: path.resolve("./assets/red-alerts/ra-sporingmist-b.png"),
+      },
+    ],
   },
   {
     name: "Astromagnetic Storm",
     emoji: WEATHER_EMOJIS.ASTROMAGNETIC_STORM,
     image: path.resolve("./assets/red-alerts/ra-astromagneticstorm.png"),
-    // variants: [
-    //   {
-    //     name: "Variant A",
-    //     classes: ["MIN", "FSH", "ARM", "GSM", "ALC"],
-    //     image: path.resolve("./assets/red-alerts/ra-astromagneticstorm-a.png"),
-    //   },
-    //   {
-    //     name: "Variant B",
-    //     classes: ["CUL", "MIN", "FSH", "CRP", "GSM", "WVR"],
-    //     image: path.resolve("./assets/red-alerts/ra-astromagneticstorm-b.png"),
-    //   },
-    // ],
+    variants: [
+      {
+        name: "Variant A",
+        classes: ["MIN", "FSH", "ARM", "GSM", "ALC"],
+        image: path.resolve("./assets/red-alerts/ra-astromagneticstorm-a.png"),
+      },
+      {
+        name: "Variant B",
+        classes: ["CUL", "MIN", "FSH", "CRP", "GSM", "WVR"],
+        image: path.resolve("./assets/red-alerts/ra-astromagneticstorm-b.png"),
+      },
+    ],
   },
 ];
 
