@@ -115,11 +115,10 @@ export default {
                 await setVariant(c, interaction, redAlertType);
                 c.update({
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
-                  components: [],
                 });
                 setTimeout(() => {
                   c.deleteReply();
-                }, 5 * 1000);
+                }, 5 * 60 * 1000);
               }
             }
           });
@@ -135,7 +134,6 @@ export default {
           const variants = RED_ALERT_TYPES.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
-            // .map((v) => ({ name: `Variant ${v.toUpperCase()}`, value: v }));
             await interaction.respond(variantAutoCompleteOptions);
           } else {
             await interaction.respond([{ name: "No variants information available", value: "" }]);
@@ -193,9 +191,11 @@ async function setVariant(
   interaction: ChatInputCommandInteraction,
   redAlertType: IRedAlertType
 ) {
-  const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
-  const image = new AttachmentBuilder(variant.image);
-  await interaction.editReply({ files: [image] });
+  if (interaction.id) {
+    const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
+    const image = new AttachmentBuilder(variant.image);
+    await interaction.editReply({ files: [image] });
+  }
 }
 
 async function falseAlarm(
