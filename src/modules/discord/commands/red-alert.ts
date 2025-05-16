@@ -98,7 +98,11 @@ export default {
           })
           .on("end", () => {
             if (interaction.id) {
-              interaction.editReply({ components: [] });
+              try {
+                interaction.editReply({ components: [] });
+              } catch (error) {
+                console.error("ERROR: Red Alert-OnEnd", error, interaction);
+              }
             }
           });
 
@@ -117,7 +121,11 @@ export default {
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
                 });
                 setTimeout(() => {
-                  c.deleteReply();
+                  try {
+                    c.deleteReply();
+                  } catch (error) {
+                    console.error("ERROR: Red Alert-Variant-DeleteReply", error, interaction, c);
+                  }
                 }, 5 * 60 * 1000);
               }
             }
@@ -209,7 +217,11 @@ async function falseAlarm(
 ) {
   await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] });
   setTimeout(async () => {
-    return await c.deleteReply();
+    try {
+      return await c.deleteReply();
+    } catch (error) {
+      console.error("ERROR: Red Alert-FalseAlarm", error, c);
+    }
   }, 10000);
 }
 
@@ -223,5 +235,9 @@ async function setFalseAlarmCounter(
     | ChannelSelectMenuInteraction,
   counter: number
 ) {
-  await c.update({ components: [addFalseAlarmButton(counter)] });
+  try {
+    await c.update({ components: [addFalseAlarmButton(counter)] });
+  } catch (error) {
+    console.error("ERROR: Red Alert-FalseAlarmCounter", error, c);
+  }
 }
