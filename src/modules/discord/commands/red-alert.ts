@@ -1,63 +1,83 @@
+import { addHours } from "date-fns";
 import {
   ActionRowBuilder,
   AttachmentBuilder,
+  AutocompleteInteraction,
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
   ChannelSelectMenuInteraction,
   ChatInputCommandInteraction,
+  InteractionContextType,
   MentionableSelectMenuInteraction,
   MessageFlags,
+  PermissionFlagsBits,
   RoleSelectMenuInteraction,
   SlashCommandBuilder,
   StringSelectMenuInteraction,
   UserSelectMenuInteraction,
 } from "discord.js";
+import { kebabCase as _kebabCase } from "lodash";
 import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants";
+import { IRedAlertType } from "../../models/red-alert.model";
 import { Discord } from "../discord";
-import { addHours } from "date-fns";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("redalert")
     .setDescription("Sends a Red Alert message to the channel.")
+    .setContexts(InteractionContextType.Guild)
+    .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages)
     .addStringOption((stringOption) =>
       stringOption
         .setName("type")
         .setDescription("Select the type of Red Alert")
         .setRequired(true)
         .setChoices(RED_ALERT_TYPES.map((a) => ({ name: a.name, value: a.name })))
+    )
+    .addStringOption((stringOption) =>
+      stringOption.setName("variant").setDescription("Select the variant for this Red Alert").setRequired(false).setAutocomplete(true)
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
       const type = interaction.options.getString("type");
+      const variant = interaction.options.getString("variant");
       const currentTime = new Date().valueOf();
-      if (!interaction.inCachedGuild()) {
-        await interaction.reply({ content: "You can't use this command in Direct Messages.", flags: MessageFlags.Ephemeral });
-      } else if (!type) {
+      if (!type) {
         await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral });
       } else if (
         Discord.channelRedAlertCooldown[interaction.channelId] &&
         Discord.channelRedAlertCooldown[interaction.channelId] + CHANNEL_REDALERT_COOLDOWN > currentTime
       ) {
-        await interaction.reply({ content: "Red Alert in cooldown...", flags: MessageFlags.Ephemeral });
+        await interaction.reply({
+          content: `Red Alert in cooldown, please wait ${CHANNEL_REDALERT_COOLDOWN / 1000} seconds...`,
+          flags: MessageFlags.Ephemeral,
+        });
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const role = interaction.guild.roles.cache.find(
           (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
         );
+
         const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
         const nextTimeframeEnd = Math.floor(addHours(currentTime, 6).valueOf() / 1000);
         const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${
           redAlertType.name
         } | Next estimated window: <t:${nextTimeframeInit}:t>-<t:${nextTimeframeEnd}:t>`;
-        const image = new AttachmentBuilder(redAlertType.image);
-        const interactionReply = await interaction.reply({ content: redAlertMessage, files: [image], components: [addFalseAlarmButton()] });
+        const chosenVariant = redAlertType.variants?.find((v) => v.name === variant);
+        const image = new AttachmentBuilder(chosenVariant ? chosenVariant.image : redAlertType.image);
+
+        const interactionReply = await interaction.reply({
+          content: redAlertMessage,
+          files: [image],
+          components: addRedAlertButtons(chosenVariant ? null : redAlertType),
+        });
+
         let falseAlarmRequests: Array<string> = [];
         interactionReply
           .createMessageComponentCollector({
-            time: 60000,
+            time: 5 * 60 * 1000,
           })
           .on("collect", async (c) => {
             if (c.customId === "false_alarm") {
@@ -74,16 +94,60 @@ export default {
                 falseAlarmRequests = falseAlarmRequests.filter((u) => u !== c.user.id);
                 await setFalseAlertCounter(c, falseAlarmRequests.length);
               }
+            } else if (redAlertType.variants?.map((v) => _kebabCase(v.name)).includes(c.customId)) {
+              if (c.user.id === interaction.user.id) {
+                await setVariant(c, interaction, redAlertType);
+              }
             }
           })
           .on("end", () => {
-            interaction.editReply({ components: [] });
+            if (interaction.id) {
+              interaction.editReply({ components: [] });
+            }
           });
+      }
+    },
+  },
+  autocomplete: {
+    async autocomplete(interaction: AutocompleteInteraction) {
+      if (interaction.isAutocomplete()) {
+        if (interaction.options.get("variant").focused && interaction.options.get("type").value) {
+          const redAlertType = interaction.options.getString("type");
+          const variants = RED_ALERT_TYPES.find((rat) => rat.name === redAlertType)?.variants;
+          if (variants && variants.length > 1) {
+            const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
+            // .map((v) => ({ name: `Variant ${v.toUpperCase()}`, value: v }));
+            await interaction.respond(variantAutoCompleteOptions);
+          } else {
+            await interaction.respond([{ name: "No variants information available", value: "" }]);
+          }
+        }
       }
     },
   },
 };
 
+function addRedAlertButtons(redAlertType: IRedAlertType): ActionRowBuilder<ButtonBuilder>[] {
+  const buttonRows = [];
+
+  if (redAlertType?.variants && redAlertType.variants.length > 1) {
+    const variantButtons = new ActionRowBuilder<ButtonBuilder>();
+    for (const element of redAlertType.variants) {
+      variantButtons.addComponents(addVariantButtons(element.name));
+    }
+    buttonRows.push(variantButtons);
+  }
+
+  buttonRows.push(addFalseAlarmButton());
+  return buttonRows;
+}
+
+function addVariantButtons(variantName: string) {
+  return new ButtonBuilder()
+    .setCustomId(`${_kebabCase(variantName)}`)
+    .setLabel(variantName)
+    .setStyle(ButtonStyle.Primary);
+}
 function addFalseAlarmButton(counter = 0) {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
@@ -100,28 +164,46 @@ function getCounter(counter: number) {
   return ``;
 }
 
+async function setVariant(
+  c:
+    | ButtonInteraction
+    | StringSelectMenuInteraction
+    | UserSelectMenuInteraction
+    | RoleSelectMenuInteraction
+    | MentionableSelectMenuInteraction
+    | ChannelSelectMenuInteraction,
+  interaction: ChatInputCommandInteraction,
+  redAlertType: IRedAlertType
+) {
+  const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
+  const image = new AttachmentBuilder(variant.image);
+  const lastComponent = (await interaction.fetchReply()).components.findLast((a) => a);
+  await c.update({ files: [image], components: [lastComponent] });
+}
+
 async function falseAlert(
   c:
-    | ButtonInteraction<"cached">
-    | StringSelectMenuInteraction<"cached">
-    | UserSelectMenuInteraction<"cached">
-    | RoleSelectMenuInteraction<"cached">
-    | MentionableSelectMenuInteraction<"cached">
-    | ChannelSelectMenuInteraction<"cached">
+    | ButtonInteraction
+    | StringSelectMenuInteraction
+    | UserSelectMenuInteraction
+    | RoleSelectMenuInteraction
+    | MentionableSelectMenuInteraction
+    | ChannelSelectMenuInteraction
 ) {
   await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] });
   setTimeout(async () => {
     return await c.deleteReply();
   }, 10000);
 }
+
 async function setFalseAlertCounter(
   c:
-    | ButtonInteraction<"cached">
-    | StringSelectMenuInteraction<"cached">
-    | UserSelectMenuInteraction<"cached">
-    | RoleSelectMenuInteraction<"cached">
-    | MentionableSelectMenuInteraction<"cached">
-    | ChannelSelectMenuInteraction<"cached">,
+    | ButtonInteraction
+    | StringSelectMenuInteraction
+    | UserSelectMenuInteraction
+    | RoleSelectMenuInteraction
+    | MentionableSelectMenuInteraction
+    | ChannelSelectMenuInteraction,
   counter: number
 ) {
   await c.update({ components: [addFalseAlarmButton(counter)] });
