@@ -71,7 +71,7 @@ export default {
         const interactionReply = await interaction.reply({
           content: redAlertMessage,
           files: [image],
-          components: addRedAlertButtons(chosenVariant ? null : redAlertType),
+          components: [addFalseAlarmButton()],
         });
 
         let falseAlarmRequests: Array<string> = [];
@@ -82,21 +82,17 @@ export default {
           .on("collect", async (c) => {
             if (c.customId === "false_alarm") {
               if (c.user.id === interaction.user.id) {
-                await falseAlert(c);
+                await falseAlarm(c);
               } else if (!falseAlarmRequests.includes(c.user.id)) {
                 falseAlarmRequests.push(c.user.id);
                 if (falseAlarmRequests.length >= FALSE_ALARM_REQUIRED_COUNT) {
-                  await falseAlert(c);
+                  await falseAlarm(c);
                 } else {
-                  await setFalseAlertCounter(c, falseAlarmRequests.length);
+                  await setFalseAlarmCounter(c, falseAlarmRequests.length);
                 }
               } else if (falseAlarmRequests.includes(c.user.id)) {
                 falseAlarmRequests = falseAlarmRequests.filter((u) => u !== c.user.id);
-                await setFalseAlertCounter(c, falseAlarmRequests.length);
-              }
-            } else if (redAlertType.variants?.map((v) => _kebabCase(v.name)).includes(c.customId)) {
-              if (c.user.id === interaction.user.id) {
-                await setVariant(c, interaction, redAlertType);
+                await setFalseAlarmCounter(c, falseAlarmRequests.length);
               }
             }
           })
@@ -105,6 +101,29 @@ export default {
               interaction.editReply({ components: [] });
             }
           });
+
+        if (!chosenVariant && redAlertType.variants.length > 1) {
+          const interactionReplyVariants = await interaction.followUp({
+            content: "Please pick a variant, if you know it...",
+            components: addRedAlertButtons(redAlertType),
+            flags: MessageFlags.Ephemeral,
+          });
+          interactionReplyVariants.createMessageComponentCollector({}).on("collect", async (c) => {
+            const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === c.customId);
+            if (variant) {
+              if (c.user.id === interaction.user.id) {
+                await setVariant(c, interaction, redAlertType);
+                c.update({
+                  content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
+                  components: [],
+                });
+                setTimeout(() => {
+                  c.deleteReply();
+                }, 5 * 1000);
+              }
+            }
+          });
+        }
       }
     },
   },
@@ -138,7 +157,6 @@ function addRedAlertButtons(redAlertType: IRedAlertType): ActionRowBuilder<Butto
     buttonRows.push(variantButtons);
   }
 
-  buttonRows.push(addFalseAlarmButton());
   return buttonRows;
 }
 
@@ -177,11 +195,10 @@ async function setVariant(
 ) {
   const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
   const image = new AttachmentBuilder(variant.image);
-  const lastComponent = (await interaction.fetchReply()).components.findLast((a) => a);
-  await c.update({ files: [image], components: [lastComponent] });
+  await interaction.editReply({ files: [image] });
 }
 
-async function falseAlert(
+async function falseAlarm(
   c:
     | ButtonInteraction
     | StringSelectMenuInteraction
@@ -196,7 +213,7 @@ async function falseAlert(
   }, 10000);
 }
 
-async function setFalseAlertCounter(
+async function setFalseAlarmCounter(
   c:
     | ButtonInteraction
     | StringSelectMenuInteraction
