@@ -44,7 +44,12 @@ export const RED_ALERT_TYPES: Array<IRedAlertType> = [
       {
         name: "Variant A",
         classes: ["ARM", "GSM", "BSM", "LTW", "MIN"],
-        image: path.resolve("./assets/red-alerts/ra-meteorshower.png"),
+        image: path.resolve("./assets/red-alerts/ra-meteorshower-a.png"),
+      },
+      {
+        name: "Variant B",
+        classes: ["BSM", "ARM", "LTW", "ALC", "CUL", "BTN"],
+        image: path.resolve("./assets/red-alerts/ra-meteorshower-b.png"),
       },
     ],
   },
