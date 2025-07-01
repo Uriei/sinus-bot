@@ -44,15 +44,17 @@ export default {
       const variant = interaction.options.getString("variant");
       const currentTime = new Date().valueOf();
       if (!type) {
-        await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral });
+        await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral }).catch(console.error);
       } else if (
         Discord.channelRedAlertCooldown[interaction.channelId] &&
         Discord.channelRedAlertCooldown[interaction.channelId] + CHANNEL_REDALERT_COOLDOWN > currentTime
       ) {
-        await interaction.reply({
-          content: `Red Alert in cooldown, please wait ${CHANNEL_REDALERT_COOLDOWN / 1000} seconds...`,
-          flags: MessageFlags.Ephemeral,
-        });
+        await interaction
+          .reply({
+            content: `Red Alert in cooldown, please wait ${CHANNEL_REDALERT_COOLDOWN / 1000} seconds...`,
+            flags: MessageFlags.Ephemeral,
+          })
+          .catch(console.error);
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const role = interaction.guild.roles.cache.find(
@@ -68,12 +70,14 @@ export default {
         const chosenVariant = redAlertType.variants?.find((v) => v.name === variant);
         const image = new AttachmentBuilder(chosenVariant ? chosenVariant.image : redAlertType.image);
 
-        const interactionReply = await interaction.reply({
-          content: redAlertMessage,
-          files: [image],
-          components: [addFalseAlarmButton()],
-        });
-
+        const interactionReply = await interaction
+          .reply({
+            content: redAlertMessage,
+            files: [image],
+            components: [addFalseAlarmButton()],
+          })
+          .catch(console.error);
+        if (!interactionReply) return;
         let falseAlarmRequests: Array<string> = [];
         interactionReply
           .createMessageComponentCollector({
@@ -103,11 +107,14 @@ export default {
           });
 
         if (!chosenVariant && redAlertType.variants?.length > 1) {
-          const interactionReplyVariants = await interaction.followUp({
-            content: "Please pick a variant, if you know it...",
-            components: addRedAlertButtons(redAlertType),
-            flags: MessageFlags.Ephemeral,
-          });
+          const interactionReplyVariants = await interaction
+            .followUp({
+              content: "Please pick a variant, if you know it...",
+              components: addRedAlertButtons(redAlertType),
+              flags: MessageFlags.Ephemeral,
+            })
+            .catch(console.error);
+          if (!interactionReplyVariants) return;
           interactionReplyVariants.createMessageComponentCollector({}).on("collect", async (c) => {
             const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === c.customId);
             if (variant) {
@@ -134,9 +141,9 @@ export default {
           const variants = RED_ALERT_TYPES.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
-            await interaction.respond(variantAutoCompleteOptions);
+            await interaction.respond(variantAutoCompleteOptions).catch(console.error);
           } else {
-            await interaction.respond([{ name: "No variants information available", value: "" }]);
+            await interaction.respond([{ name: "No variants information available", value: "" }]).catch(console.error);
           }
         }
       }
