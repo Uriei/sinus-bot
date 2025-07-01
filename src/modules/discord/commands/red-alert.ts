@@ -98,11 +98,7 @@ export default {
           })
           .on("end", () => {
             if (interaction.id) {
-              try {
-                interaction.editReply({ components: [] });
-              } catch (error) {
-                console.error("ERROR: Red Alert-OnEnd", error, interaction);
-              }
+              interaction.editReply({ components: [] }).catch((err) => console.error("ERROR: Red Alert-OnEn", err, interaction));
             }
           });
 
@@ -121,11 +117,7 @@ export default {
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
                 });
                 setTimeout(() => {
-                  try {
-                    c.deleteReply();
-                  } catch (error) {
-                    console.error("ERROR: Red Alert-Variant-DeleteReply", error, interaction, c);
-                  }
+                  c.deleteReply().catch((err) => console.error("ERROR: Red Alert-Variant-DeleteReply", err, interaction, c));
                 }, 5 * 60 * 1000);
               }
             }
@@ -202,7 +194,7 @@ async function setVariant(
   if (interaction.id) {
     const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
     const image = new AttachmentBuilder(variant.image);
-    await interaction.editReply({ files: [image] });
+    await interaction.editReply({ files: [image] }).catch((err) => console.error("ERROR: Red Alert-FalseAlarm", err, interaction));
   }
 }
 
@@ -217,11 +209,7 @@ async function falseAlarm(
 ) {
   await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] });
   setTimeout(async () => {
-    try {
-      return await c.deleteReply();
-    } catch (error) {
-      console.error("ERROR: Red Alert-FalseAlarm", error, c);
-    }
+    return await c.deleteReply().catch((err) => console.error("ERROR: Red Alert-FalseAlarm", err, c));
   }, 10000);
 }
 
@@ -235,9 +223,7 @@ async function setFalseAlarmCounter(
     | ChannelSelectMenuInteraction,
   counter: number
 ) {
-  try {
-    await c.update({ components: [addFalseAlarmButton(counter)] });
-  } catch (error) {
-    console.error("ERROR: Red Alert-FalseAlarmCounter", error, c);
-  }
+  await c
+    .update({ components: [addFalseAlarmButton(counter)] })
+    .catch((err) => console.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
 }
