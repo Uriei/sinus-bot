@@ -50,9 +50,11 @@ export default {
         Discord.channelRedAlertCooldown[interaction.channelId] &&
         Discord.channelRedAlertCooldown[interaction.channelId] + CHANNEL_REDALERT_COOLDOWN > currentTime
       ) {
+        const cooldownRemaining = CHANNEL_REDALERT_COOLDOWN / 1000;
+        Log.debug(`Red Alert called, but it's in cooldown for ${cooldownRemaining} seconds`);
         await interaction
           .reply({
-            content: `Red Alert in cooldown, please wait ${CHANNEL_REDALERT_COOLDOWN / 1000} seconds...`,
+            content: `Red Alert in cooldown, please wait ${cooldownRemaining} seconds...`,
             flags: MessageFlags.Ephemeral,
           })
           .catch(Log.error);
@@ -71,6 +73,7 @@ export default {
         const chosenVariant = redAlertType.variants?.find((v) => v.name === variant);
         const image = new AttachmentBuilder(chosenVariant ? chosenVariant.image : redAlertType.image);
 
+        Log.log(`Red Alert | Role:${role?.name} | Type:${redAlertType.name} | Variant:${chosenVariant.name}`);
         const interactionReply = await interaction
           .reply({
             content: redAlertMessage,
@@ -120,6 +123,7 @@ export default {
             const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === c.customId);
             if (variant) {
               if (c.user.id === interaction.user.id) {
+                Log.log(`Red Alert-Pick Variant | Role:${role?.name} | Type:${redAlertType.name} | Variant:${variant.name}`);
                 await setVariant(c, interaction, redAlertType);
                 c.update({
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
