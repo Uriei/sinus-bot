@@ -19,8 +19,9 @@ export class Log {
         LOG_LEVELS_TO_DISABLE.push("DEBUG");
       case "DEBUG":
       default:
-        return false;
+        break;
     }
+    return LOG_LEVELS_TO_DISABLE.includes(logLevel);
   }
 
   public static log(...msg: any[]) {
