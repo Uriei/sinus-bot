@@ -127,7 +127,7 @@ export default {
                 await setVariant(c, interaction, redAlertType);
                 c.update({
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
-                });
+                }).catch(Log.error);
                 setTimeout(() => {
                   c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-Variant-DeleteReply", err, interaction, c));
                 }, 5 * 60 * 1000);
@@ -219,7 +219,7 @@ async function falseAlarm(
     | MentionableSelectMenuInteraction
     | ChannelSelectMenuInteraction
 ) {
-  await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] });
+  await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] }).catch(Log.error);
   setTimeout(async () => {
     return await c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-FalseAlarm", err, c));
   }, 10000);
