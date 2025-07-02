@@ -2,6 +2,7 @@ import { formatDistance } from "date-fns";
 import { Discord } from "../modules/discord/discord";
 import { IWeatherReport } from "../modules/models/weather-report.model";
 import { getNextWeatherForecast } from "../worker/weather-update";
+import { Log } from "../modules/logging";
 
 export class WeatherPresenceService {
   private static instance: WeatherPresenceService;
@@ -29,7 +30,7 @@ export class WeatherPresenceService {
 
   public async start(interval: number = 120000) {
     if (interval < 60000) {
-      console.error("Interval can't be lower than 60000ms, 1 minute.");
+      Log.error("Interval can't be lower than 60000ms, 1 minute.");
     } else {
       this.interval = interval;
     }
@@ -40,13 +41,13 @@ export class WeatherPresenceService {
 
   private async runWeatherPresenceService() {
     try {
-      console.debug("Weather Presence Service: Checking for weather forecast.");
+      Log.debug("Weather Presence Service: Checking for weather forecast.");
       const weatherForecast = getNextWeatherForecast(24);
       const newPresence = getCustomPresence(weatherForecast);
       this.discord.setPresence("online", newPresence);
-      console.debug(`Weather Presence Service: Setting Bot Presence to "${newPresence}"`);
+      Log.debug(`Weather Presence Service: Setting Bot Presence to "${newPresence}"`);
     } catch (error) {
-      console.error("Weather Presence Service: ERROR:", error);
+      Log.error("Weather Presence Service: ERROR:", error);
     }
 
     this.scheduleNextRun();

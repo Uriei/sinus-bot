@@ -1,9 +1,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import { Discord } from "./modules/discord/discord";
-import { setLogLevel } from "./modules/logging";
+import { Log } from "./modules/logging";
 import { WeatherPresenceService } from "./services/weather-presence.service";
-setLogLevel();
 
 let discord: Discord;
 let weatherPresenceService: WeatherPresenceService;
@@ -12,18 +11,18 @@ async function app() {
   discord = await Discord.getInstance();
   weatherPresenceService = await WeatherPresenceService.getInstance();
   weatherPresenceService.start(60000);
-  console.log("Sinus Bot online.");
+  Log.log("Sinus Bot online.");
 }
 
 async function shutdown() {
   discord.setPresence("idle");
-  console.log("Closing Sinus Bot.");
+  Log.log("Closing Sinus Bot.");
   // Stop all timeout intervals
   discord.disconnect();
   clearInterval(discord.discordKeepAliveInterval);
   clearInterval(weatherPresenceService.timeoutCallback);
 
-  console.log("Sinus Bot offline.");
+  Log.log("Sinus Bot offline.");
   process.exit(0);
 }
 

@@ -3,6 +3,7 @@ import { readdirSync as fsReaddirSync } from "fs";
 import { get as _get, has as _has, set as _set } from "lodash";
 import * as path from "path";
 import { IChannelRedAlertCooldown } from "../models/red-alert.model";
+import { Log } from "../logging";
 
 class Discord {
   private static _discordKeepAliveInterval: NodeJS.Timeout;
@@ -34,7 +35,7 @@ class Discord {
   private constructor() {
     this.getCredentialInfo();
     this.client = new Client({ intents: [GatewayIntentBits.Guilds], allowedMentions: { parse: ["users", "roles"], repliedUser: true } });
-    this.client.on("warn", console.warn);
+    this.client.on("warn", Log.warning);
     this.slashCommands = {};
     this.slashCommandsAdmin = {};
     this.fillSlashCommands();
@@ -77,7 +78,7 @@ class Discord {
         );
         _set(filePath.includes("admin-") ? this.slashCommandsAdmin : this.slashCommands, [command.data.name, "data"], command.data);
       } else {
-        console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+        Log.warning(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
       }
     }
   }
@@ -87,14 +88,14 @@ class Discord {
       if (interaction.isChatInputCommand()) {
         const command = _get({ ...this.slashCommands, ...this.slashCommandsAdmin }, [interaction.commandName, "execute"]);
         if (!command) {
-          console.error(`No command matching ${interaction.commandName} was found.`);
+          Log.error(`No command matching ${interaction.commandName} was found.`);
           return;
         }
 
         try {
           await command.execute(interaction);
         } catch (error) {
-          console.error(error);
+          Log.error(error);
           await interaction.reply({
             content: "There was an error while executing this command!",
             flags: MessageFlags.Ephemeral,
@@ -109,7 +110,7 @@ class Discord {
         try {
           await command.autocomplete(interaction);
         } catch (error) {
-          console.error(error);
+          Log.error(error);
         }
       } else {
         return;
@@ -130,9 +131,9 @@ class Discord {
       const data = (await rest.put(Routes.applicationCommands(this.botClientId), {
         body: commands,
       })) as Array<any>;
-      console.log(`Loaded ${data.length} SlashCommands.`);
+      Log.log(`Loaded ${data.length} SlashCommands.`);
     } catch (error) {
-      console.error("Error loading SlashCommands", error);
+      Log.error("Error loading SlashCommands", error);
     }
   }
   private async registerSlashCommandsAdminDiscord() {
@@ -152,19 +153,19 @@ class Discord {
       const data = (await rest.put(Routes.applicationGuildCommands(this.botClientId, DEV_GUILD_ID), {
         body: commands,
       })) as Array<any>;
-      console.log(`Loaded ${data.length} admin SlashCommands.`);
+      Log.log(`Loaded ${data.length} admin SlashCommands.`);
     } catch (error) {
-      console.error("Error loading Admin SlashCommands", error);
+      Log.error("Error loading Admin SlashCommands", error);
     }
   }
 
   private getCredentialInfo() {
     if (process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_CLIENT_ID) {
-      console.log("Discord credentials found on Environment.");
+      Log.log("Discord credentials found on Environment.");
       this.botToken = process.env.DISCORD_BOT_TOKEN || "";
       this.botClientId = process.env.DISCORD_CLIENT_ID || "";
     } else {
-      console.error("Discord credentials not found on Environment.");
+      Log.error("Discord credentials not found on Environment.");
       process.exit(1);
     }
   }
@@ -176,9 +177,9 @@ class Discord {
     const res = await this.client.login(this.botToken);
 
     if (res) {
-      console.log("Discord logged in.");
+      Log.log("Discord logged in.");
     } else {
-      console.error("Discord login failed.");
+      Log.error("Discord login failed.");
     }
     return res;
   }

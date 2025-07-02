@@ -21,6 +21,7 @@ import { kebabCase as _kebabCase } from "lodash";
 import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants";
 import { IRedAlertType } from "../../models/red-alert.model";
 import { Discord } from "../discord";
+import { Log } from "../../logging";
 
 export default {
   data: new SlashCommandBuilder()
@@ -44,7 +45,7 @@ export default {
       const variant = interaction.options.getString("variant");
       const currentTime = new Date().valueOf();
       if (!type) {
-        await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral }).catch(console.error);
+        await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral }).catch(Log.error);
       } else if (
         Discord.channelRedAlertCooldown[interaction.channelId] &&
         Discord.channelRedAlertCooldown[interaction.channelId] + CHANNEL_REDALERT_COOLDOWN > currentTime
@@ -54,7 +55,7 @@ export default {
             content: `Red Alert in cooldown, please wait ${CHANNEL_REDALERT_COOLDOWN / 1000} seconds...`,
             flags: MessageFlags.Ephemeral,
           })
-          .catch(console.error);
+          .catch(Log.error);
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const role = interaction.guild.roles.cache.find(
@@ -76,7 +77,7 @@ export default {
             files: [image],
             components: [addFalseAlarmButton()],
           })
-          .catch(console.error);
+          .catch(Log.error);
         if (!interactionReply) return;
         let falseAlarmRequests: Array<string> = [];
         interactionReply
@@ -102,7 +103,7 @@ export default {
           })
           .on("end", () => {
             if (interaction.id) {
-              interaction.editReply({ components: [] }).catch((err) => console.error("ERROR: Red Alert-OnEn", err, interaction));
+              interaction.editReply({ components: [] }).catch((err) => Log.error("ERROR: Red Alert-OnEn", err, interaction));
             }
           });
 
@@ -113,7 +114,7 @@ export default {
               components: addRedAlertButtons(redAlertType),
               flags: MessageFlags.Ephemeral,
             })
-            .catch(console.error);
+            .catch(Log.error);
           if (!interactionReplyVariants) return;
           interactionReplyVariants.createMessageComponentCollector({}).on("collect", async (c) => {
             const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === c.customId);
@@ -124,7 +125,7 @@ export default {
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
                 });
                 setTimeout(() => {
-                  c.deleteReply().catch((err) => console.error("ERROR: Red Alert-Variant-DeleteReply", err, interaction, c));
+                  c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-Variant-DeleteReply", err, interaction, c));
                 }, 5 * 60 * 1000);
               }
             }
@@ -141,9 +142,9 @@ export default {
           const variants = RED_ALERT_TYPES.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
-            await interaction.respond(variantAutoCompleteOptions).catch(console.error);
+            await interaction.respond(variantAutoCompleteOptions).catch(Log.error);
           } else {
-            await interaction.respond([{ name: "No variants information available", value: "" }]).catch(console.error);
+            await interaction.respond([{ name: "No variants information available", value: "" }]).catch(Log.error);
           }
         }
       }
@@ -201,7 +202,7 @@ async function setVariant(
   if (interaction.id) {
     const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
     const image = new AttachmentBuilder(variant.image);
-    await interaction.editReply({ files: [image] }).catch((err) => console.error("ERROR: Red Alert-FalseAlarm", err, interaction));
+    await interaction.editReply({ files: [image] }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarm", err, interaction));
   }
 }
 
@@ -216,7 +217,7 @@ async function falseAlarm(
 ) {
   await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] });
   setTimeout(async () => {
-    return await c.deleteReply().catch((err) => console.error("ERROR: Red Alert-FalseAlarm", err, c));
+    return await c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-FalseAlarm", err, c));
   }, 10000);
 }
 
@@ -230,7 +231,5 @@ async function setFalseAlarmCounter(
     | ChannelSelectMenuInteraction,
   counter: number
 ) {
-  await c
-    .update({ components: [addFalseAlarmButton(counter)] })
-    .catch((err) => console.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
+  await c.update({ components: [addFalseAlarmButton(counter)] }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
 }
