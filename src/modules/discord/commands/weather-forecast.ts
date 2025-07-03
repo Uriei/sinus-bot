@@ -1,9 +1,8 @@
 import { AutocompleteInteraction, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
+import { ALARM_SOUNDS } from "../../../constants/weather.constants";
 import { getNextWeatherForecast } from "../../../worker/weather-update";
 import { formatWeatherForecastForDiscord, formatWeatherForecastMacroAlarm } from "../../utils";
-import { ALARM_SOUNDS } from "../../../constants";
-import { IWeatherReport } from "../../models/weather-report.model";
 
 export default {
   data: new SlashCommandBuilder()

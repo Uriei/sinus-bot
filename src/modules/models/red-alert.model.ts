@@ -1,4 +1,4 @@
-import { CLASS_LIST } from "../../constants";
+import { CLASS_LIST } from "../../constants/red-alerts.constants";
 
 export interface IChannelRedAlertCooldown {
   [channelID: number]: number;

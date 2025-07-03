@@ -18,10 +18,10 @@ import {
   UserSelectMenuInteraction,
 } from "discord.js";
 import { kebabCase as _kebabCase } from "lodash";
-import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants";
+import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants/red-alerts.constants";
+import { Log } from "../../logging";
 import { IRedAlertType } from "../../models/red-alert.model";
 import { Discord } from "../discord";
-import { Log } from "../../logging";
 
 export default {
   data: new SlashCommandBuilder()

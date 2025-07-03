@@ -1,0 +1,4 @@
+{
+  "dotnet.formatting.organizeImportsOnFormat": true,
+  "editor.formatOnSave": true
+}
