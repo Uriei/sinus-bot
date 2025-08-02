@@ -1,7 +1,9 @@
 name: Upload, build and start bot
 run-name: ${{ github.actor }} just updated the bot
 on:
-  - push
+  push:
+    branches:
+      - "master"
 jobs:
   Upload-Build-Run:
     runs-on: ubuntu-latest
