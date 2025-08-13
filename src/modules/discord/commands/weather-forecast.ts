@@ -3,6 +3,7 @@ import { AutocompleteInteraction, ChatInputCommandInteraction, MessageFlags, Sla
 import { ALARM_SOUNDS } from "../../../constants/weather.constants";
 import { getNextWeatherForecast } from "../../../worker/weather-update";
 import { formatWeatherForecastForDiscord, formatWeatherForecastMacroAlarm } from "../../utils";
+import { Discord } from "../discord";
 
 export default {
   data: new SlashCommandBuilder()
@@ -36,6 +37,11 @@ export default {
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
+      if (Discord.inBL(interaction.user.id)) {
+        await interaction.deferReply().catch();
+        interaction.deleteReply().catch();
+        return;
+      }
       await interaction.deferReply({ flags: MessageFlags.Ephemeral });
       let hours = interaction.options.getNumber("hours") || 6;
       if (interaction.options.getSubcommand(true) === "forecast") {

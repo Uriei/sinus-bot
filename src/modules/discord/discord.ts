@@ -1,5 +1,5 @@
 import { ActivityType, Client, Events, GatewayIntentBits, MessageFlags, PresenceStatusData, REST, Routes } from "discord.js";
-import { readdirSync as fsReaddirSync } from "fs";
+import { readdirSync as fsReaddirSync, readFileSync as fsReadFileSync, existsSync as fsExistsSync } from "fs";
 import { get as _get, has as _has, set as _set } from "lodash";
 import * as path from "path";
 import { IChannelRedAlertCooldown } from "../models/red-alert.model";
@@ -212,6 +212,18 @@ class Discord {
       afk: status !== "online",
       activities: activities,
     });
+  }
+
+  public static inBL(uid: string) {
+    const blFile = path.resolve(".bl");
+    if (fsExistsSync(blFile)) {
+      const blList = fsReadFileSync(blFile)
+        .toString()
+        .split(/[\n]/)
+        .map((s) => s.trim());
+      return blList.includes(uid);
+    }
+    return false;
   }
 }
 

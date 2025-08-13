@@ -41,6 +41,11 @@ export default {
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
+      if (Discord.inBL(interaction.user.id)) {
+        await interaction.deferReply().catch();
+        interaction.deleteReply().catch();
+        return;
+      }
       const type = interaction.options.getString("type");
       const variant = interaction.options.getString("variant");
       const currentTime = new Date().valueOf();
