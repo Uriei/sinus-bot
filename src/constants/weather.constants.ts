@@ -8,7 +8,7 @@ export const WEATHER_EMOJIS = {
   SPORING_MIST: "<:sporingmist:1369565042231611412>",
   ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
   CLOUDS: "<:clouds:1412390614875639808>",
-  THUNDERSTORM: "<:thunderstorm:1412394500319477840>",
+  THUNDERSTORMS: "<:thunderstorm:1412394500319477840>",
 };
 export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
   {
