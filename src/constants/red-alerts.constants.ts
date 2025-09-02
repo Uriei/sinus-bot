@@ -70,14 +70,14 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
     ],
   },
   {
-    name: "Freezing Currents",
-    emoji: WEATHER_EMOJIS.FREEZING_CURRENTS,
-    image: path.resolve("./assets/red-alerts/phaenna/ra-freezingcurrents.png"),
+    name: "Annealing Winds",
+    emoji: WEATHER_EMOJIS.ANNEALING_WINDS,
+    image: path.resolve("./assets/red-alerts/phaenna/ra-annealingwinds.png"),
     variants: [
       {
         name: "Variant A",
         classes: ["BSM", "LTW", "BTN", "CUL", "MIN", "FSH"],
-        image: path.resolve("./assets/red-alerts/phaenna/ra-freezingcurrents-a.png"),
+        image: path.resolve("./assets/red-alerts/phaenna/ra-annealingwinds-a.png"),
       },
     ],
   },

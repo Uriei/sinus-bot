@@ -9,7 +9,7 @@ export const WEATHER_EMOJIS = {
   ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
   CLOUDS: "<:clouds:1412390614875639808>",
   THUNDERSTORMS: "<:thunderstorm:1412394500319477840>",
-  FREEZING_CURRENTS: "",
+  ANNEALING_WINDS: "<:annealingwinds:1412459057410740274>",
 };
 export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
   {
