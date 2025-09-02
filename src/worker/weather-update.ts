@@ -1,5 +1,4 @@
 import { STARS } from "../constants/stars.constants";
-import { SINUS_ARDORUM_WEATHER } from "../constants/weather.constants";
 import { IWeatherReport } from "../modules/models/weather-report.model";
 
 function calculateForecastTarget(lDate: Date): number {

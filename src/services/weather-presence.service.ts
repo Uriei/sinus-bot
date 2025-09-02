@@ -1,9 +1,9 @@
 import { formatDistance } from "date-fns";
+import { STARS } from "../constants/stars.constants";
 import { Discord } from "../modules/discord/discord";
+import { Log } from "../modules/logging";
 import { IWeatherReport } from "../modules/models/weather-report.model";
 import { getNextWeatherForecast } from "../worker/weather-update";
-import { Log } from "../modules/logging";
-import { STARS } from "../constants/stars.constants";
 
 export class WeatherPresenceService {
   private static instance: WeatherPresenceService;

@@ -1,10 +1,10 @@
 import { AutocompleteInteraction, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
+import { STARS } from "../../../constants/stars.constants";
 import { ALARM_SOUNDS } from "../../../constants/weather.constants";
 import { getNextWeatherForecast } from "../../../worker/weather-update";
 import { formatWeatherForecastForDiscord, formatWeatherForecastMacroAlarm } from "../../utils";
 import { Discord } from "../discord";
-import { STARS } from "../../../constants/stars.constants";
 
 export default {
   data: new SlashCommandBuilder()
