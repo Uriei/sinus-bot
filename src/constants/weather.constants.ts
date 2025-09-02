@@ -8,6 +8,7 @@ export const WEATHER_EMOJIS = {
   METEOR_SHOWER: "<:meteorshower:1369565029824860211>",
   MOON_DUST: "<:moondust:1369561645151551558>",
   SPORING_MIST: "<:sporingmist:1369565042231611412>",
+  RAIN: "<:rain:1412487034723106958>",
   THUNDERSTORMS: "<:thunderstorm:1412394500319477840>",
   UMBRAL_WIND: "<:umbralwind:1369561668132274177>",
 };
@@ -39,9 +40,15 @@ export const PHAENNA_WEATHER: Array<IWeatherData> = [
     important: false,
   },
   {
-    rate: 100,
+    rate: 75,
     emoji: WEATHER_EMOJIS.CLOUDS,
     name: "Clouds",
+    important: true,
+  },
+  {
+    rate: 100,
+    emoji: WEATHER_EMOJIS.RAIN,
+    name: "Rain",
     important: true,
   },
 ];
