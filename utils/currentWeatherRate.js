@@ -41,6 +41,6 @@ function getNextWeatherForecast(maxHours = 24) {
   return weatherArray;
 }
 
-console.log(getNextWeatherForecast(24));
+console.log(getNextWeatherForecast(8).forEach((a) => console.log(JSON.stringify(a))));
 console.log("Current Weather Rate", getNextWeatherForecast(24)[0]);
 console.log("Next Weather Rate", getNextWeatherForecast(24)[1]);
