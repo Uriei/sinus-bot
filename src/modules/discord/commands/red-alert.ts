@@ -74,17 +74,24 @@ export default {
           .catch(Log.error);
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
-        const role = interaction.guild.roles.cache.find(
-          (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
+        const star = interaction.options.getString("star");
+        const starName = STARS[star].name;
+        // Finds a pingable role with the pattern @world-star
+        let role = interaction.guild.roles.cache.find(
+          (r) => `${r.name}-${starName}`.toLowerCase() === `${interaction.channel.name}-${starName}`.toLowerCase() && r.mentionable
         );
+        if (!role) {
+          // In case there is no pingable @world-star role
+          role = interaction.guild.roles.cache.find(
+            (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
+          );
+        }
 
         const RED_ALERTS = Object.entries(STARS)
           .map((s) => s[1].redAlerts)
           .reduce((pV, cV) => pV.concat(cV))
           .filter((a) => a);
         const redAlertType = RED_ALERTS.find((ra) => ra.name === type);
-        const star = interaction.options.getString("star");
-        const starName = STARS[star].name;
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
         const nextTimeframeEnd = Math.floor(addHours(currentTime, 6).valueOf() / 1000);
         const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${starName} ${redAlertType.emoji} ${
