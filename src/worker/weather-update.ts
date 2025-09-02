@@ -1,3 +1,4 @@
+import { STARS } from "../constants/stars.constants";
 import { SINUS_ARDORUM_WEATHER } from "../constants/weather.constants";
 import { IWeatherReport } from "../modules/models/weather-report.model";
 
@@ -15,26 +16,26 @@ function calculateForecastTarget(lDate: Date): number {
   return weatherChance;
 }
 
-function getWeatherForecast() {
+function getWeatherForecast(star: string) {
   const currentStep = calculateForecastTarget(new Date());
-  const weatherForecast = SINUS_ARDORUM_WEATHER.find((weather) => currentStep <= weather.rate);
+  const weatherForecast = STARS[star].weather.find((weather) => currentStep <= weather.rate);
   return weatherForecast;
 }
-export function getWeatherForecastIcon() {
-  return getWeatherForecast().emoji;
+export function getWeatherForecastIcon(star: string) {
+  return getWeatherForecast(star).emoji;
 }
-export function getWeatherForecastName() {
-  return getWeatherForecast().name;
+export function getWeatherForecastName(star: string) {
+  return getWeatherForecast(star).name;
 }
 
-export function getNextWeatherForecast(maxHours: number = 24): Array<IWeatherReport> {
+export function getNextWeatherForecast(star: string, maxHours: number = 24): Array<IWeatherReport> {
   const weatherArray: Array<IWeatherReport> = [];
   const currentDate = new Date(new Date().setMilliseconds(0));
   const maxDate = new Date().setHours(new Date().getHours() + maxHours + 6);
 
   while (currentDate.valueOf() < maxDate.valueOf()) {
     const currentChance = calculateForecastTarget(currentDate);
-    const weatherForecast = SINUS_ARDORUM_WEATHER.find((weather) => currentChance < weather.rate);
+    const weatherForecast = STARS[star].weather.find((weather) => currentChance < weather.rate);
 
     if (weatherArray.length === 0 || weatherArray[weatherArray.length - 1].name !== weatherForecast.name) {
       const newWeather: IWeatherReport = {

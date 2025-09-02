@@ -56,4 +56,17 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
   },
 ];
 
-export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [];
+export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
+  {
+    name: "Thunderstorm",
+    emoji: WEATHER_EMOJIS.THUNDERSTORM,
+    image: path.resolve("./assets/red-alerts/phaenna/ra-thunderstorm.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: ["CRP", "LTW", "ALC", "GSM", "WVR"],
+        image: path.resolve("./assets/red-alerts/phaenna/ra-thunderstorm-a.png"),
+      },
+    ],
+  },
+];

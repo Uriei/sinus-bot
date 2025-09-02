@@ -1,5 +1,3 @@
-import { CLASS_LIST } from "../../constants/red-alerts.constants";
-
 export interface IChannelRedAlertCooldown {
   [channelID: number]: number;
 }
@@ -13,6 +11,6 @@ export interface IRedAlertType {
 
 export interface IRedAlertVariants {
   name: string;
-  classes: Array<CLASS_LIST>;
+  classes: Array<string>;
   image: string;
 }
