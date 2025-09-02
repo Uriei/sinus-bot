@@ -3,6 +3,7 @@ import { Discord } from "../modules/discord/discord";
 import { IWeatherReport } from "../modules/models/weather-report.model";
 import { getNextWeatherForecast } from "../worker/weather-update";
 import { Log } from "../modules/logging";
+import { STARS } from "../constants/stars.constants";
 
 export class WeatherPresenceService {
   private static instance: WeatherPresenceService;
@@ -15,6 +16,7 @@ export class WeatherPresenceService {
     WeatherPresenceService._timeoutCallback = value;
   }
   private discord: Discord | null = null;
+  private static STAR_INDEX = 99999;
 
   private constructor() {}
 
@@ -42,8 +44,9 @@ export class WeatherPresenceService {
   private async runWeatherPresenceService() {
     try {
       Log.debug("Weather Presence Service: Checking for weather forecast.");
-      const weatherForecast = getNextWeatherForecast(24);
-      const newPresence = getCustomPresence(weatherForecast);
+      const star = this.getNextStar();
+      const weatherForecast = getNextWeatherForecast(star, 24);
+      const newPresence = getCustomPresence(star, weatherForecast);
       this.discord.setPresence("online", newPresence);
       Log.debug(`Weather Presence Service: Setting Bot Presence to "${newPresence}"`);
     } catch (error) {
@@ -61,18 +64,28 @@ export class WeatherPresenceService {
       this.runWeatherPresenceService();
     }, this.interval);
   }
+
+  private getNextStar(): string {
+    const STAR_COUNT = Object.keys(STARS).length;
+    WeatherPresenceService.STAR_INDEX++;
+    if (WeatherPresenceService.STAR_INDEX > STAR_COUNT - 1) {
+      WeatherPresenceService.STAR_INDEX = 0;
+    }
+    return Object.keys(STARS)[WeatherPresenceService.STAR_INDEX];
+  }
 }
 
-function getCustomPresence(weatherForecast: IWeatherReport[]): string {
+function getCustomPresence(star: string, weatherForecast: IWeatherReport[]): string {
+  const starName = STARS[star].nameShort || STARS[star].name;
   if (weatherForecast.length === 1) {
-    return `${weatherForecast[0].name} for the foreseeable future.`;
+    return `${starName}: ${weatherForecast[0].name} for the foreseeable future.`;
   } else if (weatherForecast.length > 1) {
     if (weatherForecast[0].important) {
-      return `${weatherForecast[0].name} for ${getNextTime(weatherForecast[1].date)}${
+      return `${starName}: ${weatherForecast[0].name} for ${getNextTime(weatherForecast[1].date)}${
         weatherForecast[1].important ? ", then " + weatherForecast[1].name : ""
       }.`;
     } else {
-      return `${weatherForecast[1].name} ${getNextTime(weatherForecast[1].date, "in ")}.`;
+      return `${starName}: ${weatherForecast[1].name} ${getNextTime(weatherForecast[1].date, "in ")}.`;
     }
   }
   return null;

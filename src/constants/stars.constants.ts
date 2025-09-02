@@ -5,12 +5,13 @@ import { PHAENNA_WEATHER, SINUS_ARDORUM_WEATHER } from "./weather.constants";
 export const STARS: IStars = {
   SINUS_ARDORUM: {
     name: "Sinus Ardorum",
+    nameShort: "Sinus A.",
     redAlerts: RED_ALERT_SINUS_ARDORUM,
     weather: SINUS_ARDORUM_WEATHER,
   },
-  // PHAENNA: {
-  // name:"Phaenna",
-  //   redAlerts: RED_ALERT_PHAENNA,
-  //   weather: PHAENNA_WEATHER,
-  // },
+  PHAENNA: {
+    name: "Phaenna",
+    redAlerts: RED_ALERT_PHAENNA,
+    weather: PHAENNA_WEATHER,
+  },
 };
