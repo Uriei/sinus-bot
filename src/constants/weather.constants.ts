@@ -7,6 +7,7 @@ export const WEATHER_EMOJIS = {
   METEOR_SHOWER: "<:meteorshower:1369565029824860211>",
   SPORING_MIST: "<:sporingmist:1369565042231611412>",
   ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
+  CLOUDS: "<:clouds:1412390614875639808>",
 };
 export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
   {
@@ -26,6 +27,14 @@ export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
     emoji: WEATHER_EMOJIS.UMBRAL_WIND,
     name: "Umbral Wind",
     important: true,
+  },
+];
+export const PHAENNA_WEATHER: Array<IWeatherData> = [
+  {
+    rate: 100,
+    emoji: WEATHER_EMOJIS.CLOUDS,
+    name: "Clouds",
+    important: false,
   },
 ];
 

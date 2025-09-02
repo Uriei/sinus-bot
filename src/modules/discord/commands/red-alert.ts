@@ -18,10 +18,11 @@ import {
   UserSelectMenuInteraction,
 } from "discord.js";
 import { kebabCase as _kebabCase } from "lodash";
-import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants/red-alerts.constants";
+import { RED_ALERT_SINUS_ARDORUM } from "../../../constants/red-alerts.constants";
 import { Log } from "../../logging";
 import { IRedAlertType } from "../../models/red-alert.model";
 import { Discord } from "../discord";
+import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT } from "../../../constants/constants";
 
 export default {
   data: new SlashCommandBuilder()
@@ -34,7 +35,7 @@ export default {
         .setName("type")
         .setDescription("Select the type of Red Alert")
         .setRequired(true)
-        .setChoices(RED_ALERT_TYPES.map((a) => ({ name: a.name, value: a.name })))
+        .setChoices(RED_ALERT_SINUS_ARDORUM.map((a) => ({ name: a.name, value: a.name })))
     )
     .addStringOption((stringOption) =>
       stringOption.setName("variant").setDescription("Select the variant for this Red Alert").setRequired(false).setAutocomplete(true)
@@ -69,7 +70,7 @@ export default {
           (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
         );
 
-        const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
+        const redAlertType = RED_ALERT_SINUS_ARDORUM.find((ra) => ra.name === type);
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
         const nextTimeframeEnd = Math.floor(addHours(currentTime, 6).valueOf() / 1000);
         const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${
@@ -148,7 +149,7 @@ export default {
       if (interaction.isAutocomplete()) {
         if (interaction.options.get("variant").focused && interaction.options.get("type").value) {
           const redAlertType = interaction.options.getString("type");
-          const variants = RED_ALERT_TYPES.find((rat) => rat.name === redAlertType)?.variants;
+          const variants = RED_ALERT_SINUS_ARDORUM.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
             await interaction.respond(variantAutoCompleteOptions).catch(Log.error);

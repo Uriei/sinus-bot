@@ -1,11 +1,8 @@
-import * as dotenv from "dotenv";
 import * as path from "path";
 import { IRedAlertType } from "../modules/models/red-alert.model";
 import { WEATHER_EMOJIS } from "./weather.constants";
-dotenv.config();
 
-const TESTING = process.env.ENV === "TESTING";
-export const RED_ALERT_TYPES: Array<IRedAlertType> = [
+export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
   {
     name: "Meteor Shower",
     emoji: WEATHER_EMOJIS.METEOR_SHOWER,
@@ -59,9 +56,4 @@ export const RED_ALERT_TYPES: Array<IRedAlertType> = [
   },
 ];
 
-export const CHANNEL_REDALERT_COOLDOWN = TESTING ? 0 : 30 * 1000; // Milliseconds
-export const FALSE_ALARM_REQUIRED_COUNT = 3;
-
-export type CLASS_DOL_LIST = "BTN" | "MIN" | "FSH";
-export type CLASS_DOH_LIST = "LTW" | "WVR" | "CRP" | "BSM" | "ARM" | "GSM" | "ALC" | "CUL";
-export type CLASS_LIST = CLASS_DOH_LIST | CLASS_DOL_LIST;
+export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [];
