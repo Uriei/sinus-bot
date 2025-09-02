@@ -85,14 +85,14 @@ export default {
   autocomplete: {
     async autocomplete(interaction: AutocompleteInteraction) {
       if (interaction.isAutocomplete()) {
-        if (interaction.options.get("hours").focused) {
+        if (interaction.options.get("hours")?.focused) {
           await interaction.respond([
             { name: "6 hours", value: 6 },
             { name: "12 hours", value: 12 },
             { name: "18 hours", value: 18 },
             { name: "24 hours", value: 24 },
           ]);
-        } else if (interaction.options.get("reminder").focused) {
+        } else if (interaction.options.get("reminder")?.focused) {
           await interaction.respond([
             { name: "1 minute", value: 1 },
             { name: "2 minutes", value: 2 },
