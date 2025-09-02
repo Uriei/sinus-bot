@@ -12,6 +12,6 @@ export const STARS: IStars = {
   PHAENNA: {
     name: "Phaenna",
     redAlerts: RED_ALERT_PHAENNA,
-    weather: PHAENNA_WEATHER,
+    // weather: PHAENNA_WEATHER,
   },
 };
