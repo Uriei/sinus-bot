@@ -8,7 +8,8 @@
     "copy:assets": "copyfiles -u 1 \"assets/**/*\" dist/assets",
     "prestart": "npm run build",
     "start": "node ./dist/app.js",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ./dist",
+    "weather-rate": "node ./utils/currentWeatherRate.js"
   },
   "author": "",
   "license": "ISC",
