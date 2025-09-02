@@ -1,15 +1,15 @@
 import { IWeatherData } from "../modules/models/weather-report.model";
 
 export const WEATHER_EMOJIS = {
-  MOON_DUST: "<:moondust:1369561645151551558>",
-  UMBRAL_WIND: "<:umbralwind:1369561668132274177>",
-  FAIR_SKIES: "<:fairskies:1369561680278978631>",
-  METEOR_SHOWER: "<:meteorshower:1369565029824860211>",
-  SPORING_MIST: "<:sporingmist:1369565042231611412>",
+  ANNEALING_WINDS: "<:annealingwinds:1412459057410740274>",
   ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
   CLOUDS: "<:clouds:1412390614875639808>",
+  FAIR_SKIES: "<:fairskies:1369561680278978631>",
+  METEOR_SHOWER: "<:meteorshower:1369565029824860211>",
+  MOON_DUST: "<:moondust:1369561645151551558>",
+  SPORING_MIST: "<:sporingmist:1369565042231611412>",
   THUNDERSTORMS: "<:thunderstorm:1412394500319477840>",
-  ANNEALING_WINDS: "<:annealingwinds:1412459057410740274>",
+  UMBRAL_WIND: "<:umbralwind:1369561668132274177>",
 };
 export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
   {
@@ -42,7 +42,7 @@ export const PHAENNA_WEATHER: Array<IWeatherData> = [
     rate: 100,
     emoji: WEATHER_EMOJIS.CLOUDS,
     name: "Clouds",
-    important: false,
+    important: true,
   },
 ];
 
