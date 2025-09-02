@@ -69,4 +69,16 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
       },
     ],
   },
+  {
+    name: "Freezing Currents",
+    emoji: WEATHER_EMOJIS.FREEZING_CURRENTS,
+    image: path.resolve("./assets/red-alerts/phaenna/ra-freezingcurrents.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: ["BSM", "LTW", "BTN", "CUL", "MIN", "FSH"],
+        image: path.resolve("./assets/red-alerts/phaenna/ra-freezingcurrents-a.png"),
+      },
+    ],
+  },
 ];
