@@ -36,7 +36,11 @@ export default {
         .setName("star")
         .setDescription("Select Star for Red Alert")
         .setRequired(true)
-        .setChoices(Object.entries(STARS).map((s) => ({ name: s[1].name, value: s[0] })))
+        .setChoices(
+          Object.entries(STARS)
+            .filter((s) => s[1].redAlerts)
+            .map((s) => ({ name: s[1].name, value: s[0] }))
+        )
     )
     .addStringOption((stringOption) =>
       stringOption.setName("type").setDescription("Select the type of Red Alert").setRequired(true).setAutocomplete(true)
@@ -76,7 +80,8 @@ export default {
 
         const RED_ALERTS = Object.entries(STARS)
           .map((s) => s[1].redAlerts)
-          .reduce((pV, cV) => pV.concat(cV));
+          .reduce((pV, cV) => pV.concat(cV))
+          .filter((a) => a);
         const redAlertType = RED_ALERTS.find((ra) => ra.name === type);
         const star = interaction.options.getString("star");
         const starName = STARS[star].name;
@@ -164,7 +169,8 @@ export default {
           const redAlertType = interaction.options.getString("type");
           const RED_ALERTS = Object.entries(STARS)
             .map((s) => s[1].redAlerts)
-            .reduce((pV, cV) => pV.concat(cV));
+            .reduce((pV, cV) => pV.concat(cV))
+            .filter((a) => a);
           const variants = RED_ALERTS.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));

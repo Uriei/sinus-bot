@@ -4,8 +4,8 @@ import { IWeatherData } from "./weather-report.model";
 export interface IStar {
   name: string;
   nameShort?: string;
-  redAlerts: IRedAlertType[];
-  weather: IWeatherData[];
+  redAlerts?: IRedAlertType[];
+  weather?: IWeatherData[];
 }
 
 export interface IStars {

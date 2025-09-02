@@ -19,7 +19,11 @@ export default {
             .setName("star")
             .setDescription("Select Star for Red Alert")
             .setRequired(true)
-            .setChoices(Object.entries(STARS).map((s) => ({ name: s[1].name, value: s[0] })))
+            .setChoices(
+              Object.entries(STARS)
+                .filter((s) => s[1].weather)
+                .map((s) => ({ name: s[1].name, value: s[0] }))
+            )
         )
         .addNumberOption((numberOption) =>
           numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
@@ -34,7 +38,11 @@ export default {
             .setName("star")
             .setDescription("Select Star for Red Alert")
             .setRequired(true)
-            .setChoices(Object.entries(STARS).map((s) => ({ name: s[1].name, value: s[0] })))
+            .setChoices(
+              Object.entries(STARS)
+                .filter((s) => s[1].weather)
+                .map((s) => ({ name: s[1].name, value: s[0] }))
+            )
         )
         .addNumberOption((numberOption) =>
           numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
