@@ -88,6 +88,7 @@ export default {
         }
 
         const RED_ALERTS = Object.entries(STARS)
+          .filter((s) => s[1].redAlerts)
           .map((s) => s[1].redAlerts)
           .reduce((pV, cV) => pV.concat(cV))
           .filter((a) => a);
@@ -175,6 +176,7 @@ export default {
         if (interaction.options.get("variant")?.focused && interaction.options.get("type")?.value) {
           const redAlertType = interaction.options.getString("type");
           const RED_ALERTS = Object.entries(STARS)
+            .filter((s) => s[1].redAlerts)
             .map((s) => s[1].redAlerts)
             .reduce((pV, cV) => pV.concat(cV))
             .filter((a) => a);
