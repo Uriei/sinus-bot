@@ -11,6 +11,7 @@ export const WEATHER_EMOJIS = {
   RAIN: "<:rain:1412487034723106958>",
   THUNDERSTORMS: "<:thunderstorm:1412394500319477840>",
   UMBRAL_WIND: "<:umbralwind:1369561668132274177>",
+  GLASSRAIN: "<:glassrain:1412771742128013433>",
 };
 export const SINUS_ARDORUM_WEATHER: Array<IWeatherData> = [
   {

@@ -81,4 +81,16 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
       },
     ],
   },
+  {
+    name: "Glass Rain",
+    emoji: WEATHER_EMOJIS.GLASSRAIN,
+    image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: [],
+        image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain-a.png"),
+      },
+    ],
+  },
 ];
