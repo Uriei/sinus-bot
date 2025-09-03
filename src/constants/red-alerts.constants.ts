@@ -88,7 +88,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: [],
+        classes: ["CRP", "ARM", "LTW", "CUL", "FSH"],
         image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain-a.png"),
       },
     ],
