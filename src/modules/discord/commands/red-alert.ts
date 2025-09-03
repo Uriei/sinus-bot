@@ -118,9 +118,10 @@ export default {
         const interactionReply = await interaction.reply(replyPayload).catch(Log.error);
         if (!interactionReply) return;
         let falseAlarmRequests: Array<string> = [];
+        const falseAlarmTimeout = 5; // In minutes
         interactionReply
           .createMessageComponentCollector({
-            time: 5 * 60 * 1000,
+            time: falseAlarmTimeout * 60 * 1000 + 1000,
           })
           .on("collect", async (c) => {
             if (c.customId === "false_alarm") {
@@ -138,12 +139,10 @@ export default {
                 await setFalseAlarmCounter(c, falseAlarmRequests.length);
               }
             }
-          })
-          .on("end", () => {
-            if (interaction.id) {
-              interaction.editReply({ components: [] }).catch((err) => Log.error("ERROR: Red Alert-OnEn", err, interaction));
-            }
           });
+        setTimeout(() => {
+          interaction.editReply({ components: [] }).catch((err) => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton", err, interaction));
+        }, falseAlarmTimeout * 60 * 1000);
 
         if (!chosenVariant && redAlertType.variants?.length > 1) {
           const interactionReplyVariants = await interaction
