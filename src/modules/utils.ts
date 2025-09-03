@@ -10,7 +10,7 @@ export function formatWeatherForecastForDiscord(star: string, weatherReport: IWe
   const reportHourLimit = addHours(new Date(), hours).valueOf();
   const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`${starName} Weather Forecast for the next ${hours} hours`);
 
-  for (let index = 0; index < weatherReport.length && index < 24; index++) {
+  for (let index = 0; index < weatherReport.length && index < 23; index++) {
     const element = weatherReport[index];
     if (element.date >= reportHourLimit) {
       break;
@@ -37,6 +37,8 @@ export function formatWeatherForecastForDiscord(star: string, weatherReport: IWe
 
     embed.addFields(field);
   }
+  const endField: APIEmbedField = { name: "", value: "❗ denotes weather with restricted missions available.", inline: false };
+  embed.addFields(endField);
 
   return [embed.toJSON()];
 }
