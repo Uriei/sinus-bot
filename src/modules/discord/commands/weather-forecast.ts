@@ -1,5 +1,6 @@
 import { AutocompleteInteraction, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
+import { STARS } from "../../../constants/stars.constants";
 import { ALARM_SOUNDS } from "../../../constants/weather.constants";
 import { getNextWeatherForecast } from "../../../worker/weather-update";
 import { formatWeatherForecastForDiscord, formatWeatherForecastMacroAlarm } from "../../utils";
@@ -13,6 +14,17 @@ export default {
       subCommandOption
         .setName("forecast")
         .setDescription("Shows forecast as a list")
+        .addStringOption((stringOption) =>
+          stringOption
+            .setName("star")
+            .setDescription("Select Star for Red Alert")
+            .setRequired(true)
+            .setChoices(
+              Object.entries(STARS)
+                .filter((s) => s[1].weather)
+                .map((s) => ({ name: s[1].name, value: s[0] }))
+            )
+        )
         .addNumberOption((numberOption) =>
           numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
         )
@@ -21,6 +33,17 @@ export default {
       subCommandOption
         .setName("alarm-macro")
         .setDescription("Prints forecast as a FFXIV macro with /alarm")
+        .addStringOption((stringOption) =>
+          stringOption
+            .setName("star")
+            .setDescription("Select Star for Red Alert")
+            .setRequired(true)
+            .setChoices(
+              Object.entries(STARS)
+                .filter((s) => s[1].weather)
+                .map((s) => ({ name: s[1].name, value: s[0] }))
+            )
+        )
         .addNumberOption((numberOption) =>
           numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
         )
@@ -43,16 +66,17 @@ export default {
         return;
       }
       await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+      let star = interaction.options.getString("star");
       let hours = interaction.options.getNumber("hours") || 6;
       if (interaction.options.getSubcommand(true) === "forecast") {
-        const embed = formatWeatherForecastForDiscord(getNextWeatherForecast(hours), hours);
+        const embed = formatWeatherForecastForDiscord(star, getNextWeatherForecast(star, hours), hours);
 
         await interaction.editReply({ embeds: embed });
       } else if (interaction.options.getSubcommand(true) === "alarm-macro") {
         hours = hours > 24 ? 24 : hours;
         const reminder = interaction.options.getNumber("reminder") || 3;
         const sound = interaction.options.getString("sound") || ALARM_SOUNDS[0].value;
-        const embed = formatWeatherForecastMacroAlarm(getNextWeatherForecast(hours), hours, reminder, sound);
+        const embed = formatWeatherForecastMacroAlarm(star, getNextWeatherForecast(star, hours), hours, reminder, sound);
 
         await interaction.editReply({ embeds: embed });
       }
@@ -61,14 +85,14 @@ export default {
   autocomplete: {
     async autocomplete(interaction: AutocompleteInteraction) {
       if (interaction.isAutocomplete()) {
-        if (interaction.options.get("hours").focused) {
+        if (interaction.options.get("hours")?.focused) {
           await interaction.respond([
             { name: "6 hours", value: 6 },
             { name: "12 hours", value: 12 },
             { name: "18 hours", value: 18 },
             { name: "24 hours", value: 24 },
           ]);
-        } else if (interaction.options.get("reminder").focused) {
+        } else if (interaction.options.get("reminder")?.focused) {
           await interaction.respond([
             { name: "1 minute", value: 1 },
             { name: "2 minutes", value: 2 },

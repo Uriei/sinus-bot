@@ -17,8 +17,10 @@ import {
   StringSelectMenuInteraction,
   UserSelectMenuInteraction,
 } from "discord.js";
+import { existsSync as fsExistsSync } from "fs";
 import { kebabCase as _kebabCase } from "lodash";
-import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, RED_ALERT_TYPES } from "../../../constants/red-alerts.constants";
+import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT } from "../../../constants/constants";
+import { STARS } from "../../../constants/stars.constants";
 import { Log } from "../../logging";
 import { IRedAlertType } from "../../models/red-alert.model";
 import { Discord } from "../discord";
@@ -31,10 +33,17 @@ export default {
     .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages)
     .addStringOption((stringOption) =>
       stringOption
-        .setName("type")
-        .setDescription("Select the type of Red Alert")
+        .setName("star")
+        .setDescription("Select Star for Red Alert")
         .setRequired(true)
-        .setChoices(RED_ALERT_TYPES.map((a) => ({ name: a.name, value: a.name })))
+        .setChoices(
+          Object.entries(STARS)
+            .filter((s) => s[1].redAlerts)
+            .map((s) => ({ name: s[1].name, value: s[0] }))
+        )
+    )
+    .addStringOption((stringOption) =>
+      stringOption.setName("type").setDescription("Select the type of Red Alert").setRequired(true).setAutocomplete(true)
     )
     .addStringOption((stringOption) =>
       stringOption.setName("variant").setDescription("Select the variant for this Red Alert").setRequired(false).setAutocomplete(true)
@@ -65,27 +74,45 @@ export default {
           .catch(Log.error);
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
-        const role = interaction.guild.roles.cache.find(
-          (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
+        const star = interaction.options.getString("star");
+        const starName = STARS[star].name;
+        // Finds a pingable role with the pattern @world-star
+        let role = interaction.guild.roles.cache.find(
+          (r) => r.name.toLowerCase() === `${interaction.channel.name}-${starName}`.toLowerCase() && r.mentionable
         );
+        if (!role) {
+          // In case there is no pingable @world-star role
+          role = interaction.guild.roles.cache.find(
+            (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
+          );
+        }
 
-        const redAlertType = RED_ALERT_TYPES.find((ra) => ra.name === type);
+        const RED_ALERTS = Object.entries(STARS)
+          .filter((s) => s[1].redAlerts)
+          .map((s) => s[1].redAlerts)
+          .reduce((pV, cV) => pV.concat(cV))
+          .filter((a) => a);
+        const redAlertType = RED_ALERTS.find((ra) => ra.name === type);
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
         const nextTimeframeEnd = Math.floor(addHours(currentTime, 6).valueOf() / 1000);
-        const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${redAlertType.emoji} ${
+        const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${starName} ${redAlertType.emoji} ${
           redAlertType.name
         } | Next estimated window: <t:${nextTimeframeInit}:t>-<t:${nextTimeframeEnd}:t>`;
-        const chosenVariant = redAlertType.variants?.find((v) => v.name === variant);
-        const image = new AttachmentBuilder(chosenVariant ? chosenVariant.image : redAlertType.image);
+        const replyPayload = {
+          content: redAlertMessage,
+          files: [],
+          components: [addFalseAlarmButton()],
+        };
 
-        Log.log(`Red Alert | Role:${role?.name} | Type:${redAlertType?.name} | Variant:${chosenVariant?.name}`);
-        const interactionReply = await interaction
-          .reply({
-            content: redAlertMessage,
-            files: [image],
-            components: [addFalseAlarmButton()],
-          })
-          .catch(Log.error);
+        const chosenVariant = redAlertType.variants?.find((v) => v.name === variant);
+        const imagePath = chosenVariant ? chosenVariant.image : redAlertType.image;
+        if (fsExistsSync(imagePath)) {
+          const image = new AttachmentBuilder(imagePath);
+          replyPayload.files.push(image);
+        }
+
+        Log.log(`Red Alert | Role:${role?.name} | Star:${starName} | Type:${redAlertType?.name} | Variant:${chosenVariant?.name}`);
+        const interactionReply = await interaction.reply(replyPayload).catch(Log.error);
         if (!interactionReply) return;
         let falseAlarmRequests: Array<string> = [];
         interactionReply
@@ -146,15 +173,25 @@ export default {
   autocomplete: {
     async autocomplete(interaction: AutocompleteInteraction) {
       if (interaction.isAutocomplete()) {
-        if (interaction.options.get("variant").focused && interaction.options.get("type").value) {
+        if (interaction.options.get("variant")?.focused && interaction.options.get("type")?.value) {
           const redAlertType = interaction.options.getString("type");
-          const variants = RED_ALERT_TYPES.find((rat) => rat.name === redAlertType)?.variants;
+          const RED_ALERTS = Object.entries(STARS)
+            .filter((s) => s[1].redAlerts)
+            .map((s) => s[1].redAlerts)
+            .reduce((pV, cV) => pV.concat(cV))
+            .filter((a) => a);
+          const variants = RED_ALERTS.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
             await interaction.respond(variantAutoCompleteOptions).catch(Log.error);
           } else {
             await interaction.respond([{ name: "No variants information available", value: "" }]).catch(Log.error);
           }
+        } else if (interaction.options.get("type")?.focused && interaction.options.get("star")?.value) {
+          const star = interaction.options.getString("star");
+          const redAlertTypesOnStar = STARS[star].redAlerts;
+          const typesAutoCompleteOptions = redAlertTypesOnStar.map((v) => ({ name: v.name, value: v.name }));
+          await interaction.respond(typesAutoCompleteOptions).catch(Log.error);
         }
       }
     },

@@ -1,12 +1,14 @@
 import { addHours, format, formatDuration, intervalToDuration } from "date-fns";
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
 import { IWeatherReport } from "./models/weather-report.model";
+import { STARS } from "../constants/stars.constants";
 
 const DEFAULT_COLOR = 0x033280;
 
-export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[], hours: number): Array<APIEmbed> {
+export function formatWeatherForecastForDiscord(star: string, weatherReport: IWeatherReport[], hours: number): Array<APIEmbed> {
+  const starName = STARS[star].name;
   const reportHourLimit = addHours(new Date(), hours).valueOf();
-  const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`Sinus Ardorum Weather Forecast for the next ${hours} hours`);
+  const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`${starName} Weather Forecast for the next ${hours} hours`);
 
   for (let index = 0; index < weatherReport.length && index < 24; index++) {
     const element = weatherReport[index];
@@ -40,15 +42,17 @@ export function formatWeatherForecastForDiscord(weatherReport: IWeatherReport[],
 }
 
 export function formatWeatherForecastMacroAlarm(
+  star: string,
   weatherReport: IWeatherReport[],
   hours: number,
   reminder: number,
   sound: string
 ): Array<APIEmbed> {
+  const starName = STARS[star].name;
   const reportHourLimit = addHours(new Date(), hours).valueOf();
   const embed = new EmbedBuilder()
     .setColor(DEFAULT_COLOR)
-    .setTitle(`Sinus Ardorum Weather Forecast Macro Alarm for the next ${hours} hours (or 15 lines)`);
+    .setTitle(`${starName} Weather Forecast Macro Alarm for the next ${hours} hours (or 15 lines)`);
   let content = "";
   let linesCount = 0;
 
