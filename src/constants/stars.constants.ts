@@ -6,6 +6,7 @@ export const STARS: IStars = {
   SINUS_ARDORUM: {
     name: "Sinus Ardorum",
     nameShort: "Sinus A.",
+    nameRole: "Moon",
     redAlerts: RED_ALERT_SINUS_ARDORUM,
     weather: SINUS_ARDORUM_WEATHER,
   },

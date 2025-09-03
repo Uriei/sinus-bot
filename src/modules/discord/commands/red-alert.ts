@@ -75,15 +75,18 @@ export default {
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const star = interaction.options.getString("star");
-        const starName = STARS[star].name;
+        const starName = STARS[star].nameRole || STARS[star].name;
         // Finds a pingable role with the pattern @world-star
         let role = interaction.guild.roles.cache.find(
-          (r) => r.name.toLowerCase() === `${interaction.channel.name}-${starName}`.toLowerCase() && r.mentionable
+          (r) =>
+            r.name.toLowerCase().replaceAll(/\w/, "") === `${interaction.channel.name}-${starName}`.toLowerCase().replaceAll(/\w/, "") &&
+            r.mentionable
         );
         if (!role) {
           // In case there is no pingable @world-star role
           role = interaction.guild.roles.cache.find(
-            (r) => r.name.toLowerCase() === interaction.channel.name.toLowerCase() && r.mentionable
+            (r) =>
+              r.name.toLowerCase().replaceAll(/\w/, "") === interaction.channel.name.toLowerCase().replaceAll(/\w/, "") && r.mentionable
           );
         }
 
