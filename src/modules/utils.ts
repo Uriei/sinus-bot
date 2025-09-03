@@ -28,9 +28,9 @@ export function formatWeatherForecastForDiscord(star: string, weatherReport: IWe
     } else {
       value += ` ► Outside Forecast`;
     }
-
+    const name = element.important ? `${element.emoji} ${element.name} ❗` : `${element.emoji} ${element.name}`;
     const field: APIEmbedField = {
-      name: `${element.emoji} ${element.name}`,
+      name: name,
       value: value,
       inline: false,
     };
