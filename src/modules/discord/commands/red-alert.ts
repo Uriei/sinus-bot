@@ -79,14 +79,14 @@ export default {
         // Finds a pingable role with the pattern @world-star
         let role = interaction.guild.roles.cache.find(
           (r) =>
-            r.name.toLowerCase().replaceAll(/\w/, "") === `${interaction.channel.name}-${starName}`.toLowerCase().replaceAll(/\w/, "") &&
+            r.name.toLowerCase().replaceAll(/\s/g, "") === `${interaction.channel.name}-${starName}`.toLowerCase().replaceAll(/\s/g, "") &&
             r.mentionable
         );
         if (!role) {
           // In case there is no pingable @world-star role
           role = interaction.guild.roles.cache.find(
             (r) =>
-              r.name.toLowerCase().replaceAll(/\w/, "") === interaction.channel.name.toLowerCase().replaceAll(/\w/, "") && r.mentionable
+              r.name.toLowerCase().replaceAll(/\s/g, "") === interaction.channel.name.toLowerCase().replaceAll(/\s/g, "") && r.mentionable
           );
         }
 
