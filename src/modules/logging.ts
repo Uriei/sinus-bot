@@ -34,7 +34,17 @@ export class Log {
     if (Log.checkLogLevel("ERROR")) {
       return;
     }
-    console.error(`${Log.getTimeStamp()}-ERROR: `, ...msg);
+    try {
+      const cleanMsg = [];
+      for (const element of msg) {
+        const elementString = element.toString() as string;
+        const newMsg = elementString.substring(0, elementString.indexOf("{")).trim();
+        cleanMsg.push(newMsg);
+      }
+      console.error(`${Log.getTimeStamp()}-ERROR: `, ...cleanMsg);
+    } catch (error) {
+      console.error(`${Log.getTimeStamp()}-ERROR-CATCH: `, ...msg, error);
+    }
   }
 
   public static debug(...msg: any[]) {
