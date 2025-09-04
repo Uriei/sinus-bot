@@ -35,11 +35,10 @@ export class Log {
       return;
     }
     try {
-      const cleanMsg: Array<string> = [];
+      const cleanMsg = [];
       for (const element of msg) {
-        const elementString: string = element.toString();
-        const elementEnd = elementString.indexOf("{") > 32 ? elementString.indexOf("{") : null;
-        const newMsg = elementString.substring(0, elementEnd).trim();
+        const elementString = element.toString() as string;
+        const newMsg = elementString.substring(0, elementString.indexOf("{")).trim();
         cleanMsg.push(newMsg);
       }
       console.error(`${Log.getTimeStamp()}-ERROR: `, ...cleanMsg);
