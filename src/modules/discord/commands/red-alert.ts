@@ -141,7 +141,7 @@ export default {
             }
           });
         setTimeout(() => {
-          interaction.editReply({ components: [] }).catch((err) => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton", err, interaction));
+          interaction.editReply({ components: [] }).catch(() => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton"));
         }, falseAlarmTimeout * 60 * 1000);
 
         if (!chosenVariant && redAlertType.variants?.length > 1) {
