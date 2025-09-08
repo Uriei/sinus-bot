@@ -175,7 +175,7 @@ export default {
                   content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
                 }).catch(Log.error);
                 setTimeout(() => {
-                  c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-Variant-DeleteReply", err, interaction, c));
+                  c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
                 }, 5 * 60 * 1000);
               }
             }
