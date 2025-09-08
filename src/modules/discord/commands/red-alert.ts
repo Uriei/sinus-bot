@@ -9,6 +9,7 @@ import {
   ChannelSelectMenuInteraction,
   ChatInputCommandInteraction,
   InteractionContextType,
+  InteractionReplyOptions,
   MentionableSelectMenuInteraction,
   MessageFlags,
   PermissionFlagsBits,
@@ -96,6 +97,15 @@ export default {
           .reduce((pV, cV) => pV.concat(cV))
           .filter((a) => a);
         const redAlertType = RED_ALERTS.find((ra) => ra.name === type);
+        if (!redAlertType || !STARS[star]) {
+          const replyPayload: InteractionReplyOptions = {
+            content: "Invalid selection, please use the selections provided by the bot.",
+            flags: MessageFlags.Ephemeral,
+          };
+          await interaction.reply(replyPayload).catch(Log.error);
+          Log.error(`Red Alert-BadData | Role:${role?.name} | Star:${STARS[star]?.name}  | Type:${redAlertType?.name}`);
+          return;
+        }
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
         const nextTimeframeEnd = Math.floor(addHours(currentTime, 6).valueOf() / 1000);
         const redAlertMessage = `${role ? `<@&${role.id}> ` : ""}Red Alert incoming - ${starName} ${redAlertType.emoji} ${
