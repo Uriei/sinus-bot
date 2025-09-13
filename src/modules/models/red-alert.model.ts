@@ -9,10 +9,10 @@ export interface IRedAlertType {
   variants?: Array<IRedAlertVariants>;
 }
 export interface iRedAlertHints {
-  en: Array<string>;
+  "en-US": Array<string>;
   de?: Array<string>;
   fr?: Array<string>;
-  jp?: Array<string>;
+  ja?: Array<string>;
 }
 
 export interface IRedAlertVariants {

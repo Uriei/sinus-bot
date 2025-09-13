@@ -339,9 +339,11 @@ async function setFalseAlarmCounter(
     await c.update({ components: components }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
   }
 }
-function getRedAlertHints(lang: string = "en", redAlertType: IRedAlertType): APIEmbed[] {
+function getRedAlertHints(lang: string, redAlertType: IRedAlertType): APIEmbed[] {
   const embed: APIEmbed = {};
-
+  if (!LANGS[lang]) {
+    lang = "en-US";
+  }
   let description = `## ${redAlertType.name}\n`;
   const variants = redAlertType.variants?.filter((v) => v.hints?.[lang]?.length > 0);
   if (variants) {
@@ -350,9 +352,11 @@ function getRedAlertHints(lang: string = "en", redAlertType: IRedAlertType): API
       for (const line of variant.hints[lang]) {
         description += `- ${line}\n`;
       }
+      description += `\n-# If you find any error with a hint translation, please tell me or open an [issue](https://github.com/Uriei/sinus-bot/issues) on GitHub.`;
     }
+  } else {
+    description += `Sorry, we don't have the translation for this hint yet.\nYou can contribute by making a screenshot of the hints ingame and opening an [issue](https://github.com/Uriei/sinus-bot/issues) on GitHub with them. Thank you.\n`;
   }
-  description += `\n-# If you find any error with a hint translation, please tell me or open an issue on GitHub.`;
   embed.description = description;
   return [embed];
 }

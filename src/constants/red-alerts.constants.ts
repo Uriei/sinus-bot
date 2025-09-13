@@ -13,7 +13,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         classes: ["MIN", "FSH", "ARM", "GSM", "ALC"],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-a.png"),
         hints: {
-          en: [
+          "en-US": [
             "A massive astromagnetic storm is approaching!",
             "The delicate equipment might not make it through...",
             "We'll have to prepare for the worst!",
@@ -28,7 +28,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Für unsere Präzisionsinstrumente sieht das gar nicht gut aus ...",
             "Bereiten wir uns gebührend vor!",
           ],
-          jp: ["大規模な磁気嵐が\n予測されます！", "精密機器が\n故障するかも…", "備えねばなるまい"],
+          ja: ["大規模な磁気嵐が\n予測されます！", "精密機器が\n故障するかも…", "備えねばなるまい"],
         },
       },
       {
@@ -36,7 +36,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         classes: ["CUL", "MIN", "FSH", "CRP", "GSM", "WVR"],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-b.png"),
         hints: {
-          en: [
+          "en-US": [
             "A massive astromagnetic storm is approaching!",
             "Will our transport system be able to handle it?",
             "We have to prepare immediately!",
@@ -51,7 +51,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Ob der Gütertransport dem wohl standhält ...?",
             "Kümmern wir uns umgehend um Gegenmaßnahmen!",
           ],
-          jp: ["大規模な磁気嵐が\n予測されます！", "物流への影響が\n心配だな…！", "対策を検討しよう"],
+          ja: ["大規模な磁気嵐が\n予測されます！", "物流への影響が\n心配だな…！", "対策を検討しよう"],
         },
       },
     ],
@@ -66,7 +66,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         classes: ["BSM", "LTW", "MIN", "ARM", "GSM"],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-meteorshower-a.png"),
         hints: {
-          en: [
+          "en-US": [
             "A meteor shower is heading right for us!",
             "It might damage our facilities and equipment...",
             "We must safeguard the essentials first!",
@@ -81,7 +81,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Stationsstrukturen und Maschinerie könnten schweren Schaden davontragen ...",
             "Wir müssen den Schutz essenzieller Gerätschaften priorisieren!",
           ],
-          jp: ["小隕石群の接近を感知！", "施設や機材に\n被害が出るかも…", "重要機材には\n保護を施すとしよう"],
+          ja: ["小隕石群の接近を感知！", "施設や機材に\n被害が出るかも…", "重要機材には\n保護を施すとしよう"],
         },
       },
       {
@@ -89,7 +89,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         classes: ["BSM", "ARM", "LTW", "ALC", "CUL", "BTN"],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-meteorshower-b.png"),
         hints: {
-          en: [
+          "en-US": [
             "A meteor shower is headed right for us!",
             "It could cause irreparable damage to the surface...",
             "We have to act swiftly and fix the problems as they arise!",
@@ -104,7 +104,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Es bleibt uns nur zu hoffen, dass sein Einschlag nicht alles umwirft, wofür wir gearbeitet haben ...",
             "Wir müssen flexibel bleiben und uns der Situation anpassen!",
           ],
-          jp: ["小隕石群の接近を感知！", "地表への衝突で\n何がもたらされるのか…", "臨機応変にいこう！"],
+          ja: ["小隕石群の接近を感知！", "地表への衝突で\n何がもたらされるのか…", "臨機応変にいこう！"],
         },
       },
     ],
@@ -119,7 +119,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         classes: ["BSM", "ALC", "CRP", "WVR", "BTN"],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-sporingmist-a.png"),
         hints: {
-          en: [
+          "en-US": [
             "There's been a sharp rise of harmful spores in the air!",
             "We have to stop them from spreading...",
             "We'll be in trouble if the spores keep multiplying...",
@@ -134,7 +134,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Die Sporen müssen schnell eingedämmt werden ...",
             "Wenn die sich so weitervermehren, haben wir ein echtes Problem ...",
           ],
-          jp: ["胞子霧発生の予兆を観測！", "拡大を防がないと…", "厄介な奴らが繁殖するか…！"],
+          ja: ["胞子霧発生の予兆を観測！", "拡大を防がないと…", "厄介な奴らが繁殖するか…！"],
         },
       },
       {
@@ -142,7 +142,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         classes: ["CRP", "LTW", "WVR", "CUL", "BTN", "FSH"],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-sporingmist-b.png"),
         hints: {
-          en: [
+          "en-US": [
             "There's been a sharp rise of harmful spores in the air!",
             "We'll barely be able to see our hands in front of our faces...",
             "We must remain calm!",
@@ -153,7 +153,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Bald vernebelt es uns die Sicht komplett.",
             "In Zeiten wie diesen müssen wir einen kühlen Kopf bewahren!",
           ],
-          jp: ["胞子霧発生の予兆を観測！", "視界が悪くなりそうだ", "冷静な判断が\n求められるぞ！"],
+          ja: ["胞子霧発生の予兆を観測！", "視界が悪くなりそうだ", "冷静な判断が\n求められるぞ！"],
         },
       },
     ],
@@ -171,7 +171,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
         classes: ["CRP", "LTW", "ALC", "GSM", "WVR"],
         image: path.resolve("./assets/red-alerts/phaenna/ra-thunderstorms-a.png"),
         hints: {
-          en: [
+          "en-US": [
             "Severe thunderstorms are approaching!",
             "Our machinery could be in grave danger!",
             "We'll need to ensure we have ample supplies.",
@@ -186,7 +186,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
             "Hoffentlich werden die Maschinen nicht beschädigt ...",
             "Alle Abwehrsysteme müssen überprüft werden.",
           ],
-          jp: ["激しい雷雨が\n予測されます！", "機器への影響が\n心配だ…！", "対策用品を点検せねば"],
+          ja: ["激しい雷雨が\n予測されます！", "機器への影響が\n心配だ…！", "対策用品を点検せねば"],
         },
       },
     ],
@@ -201,7 +201,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
         classes: ["BSM", "LTW", "BTN", "CUL", "MIN", "FSH"],
         image: path.resolve("./assets/red-alerts/phaenna/ra-annealingwinds-a.png"),
         hints: {
-          en: [
+          "en-US": [
             "Annealing winds are approaching! We expect temperatures to plummet...",
             "We'll need to ensure the cave doesn't freeze over...",
             "Be ready for anything!",
@@ -216,7 +216,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
             "Wir dürfen die Kälte innerhalb der Grotte nicht unter­schätzen.",
             "Wir müssen immer auf alles vorbereitet sein!",
           ],
-          jp: ["寒冷気流の影響で\n気温低下を予測！", "洞窟内の冷え込みに\n注意しなければ", "備えねばなるまい"],
+          ja: ["寒冷気流の影響で\n気温低下を予測！", "洞窟内の冷え込みに\n注意しなければ", "備えねばなるまい"],
         },
       },
     ],
@@ -231,10 +231,10 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
         classes: ["CRP", "ARM", "LTW", "CUL", "FSH"],
         image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain-a.png"),
         hints: {
-          en: [],
+          "en-US": [],
           fr: [],
           de: [],
-          jp: [],
+          ja: [],
         },
       },
     ],

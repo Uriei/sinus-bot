@@ -7,8 +7,8 @@ export const CHANNEL_REDALERT_COOLDOWN = TESTING ? 0 : 30 * 1000; // Millisecond
 export const FALSE_ALARM_REQUIRED_COUNT = 3;
 
 export const LANGS = {
-  en: "English",
+  "en-US": "English",
   de: "Deutsch",
   fr: "Français",
-  jp: "日本語",
+  ja: "日本語",
 };
