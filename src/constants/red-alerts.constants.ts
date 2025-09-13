@@ -231,21 +231,9 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
         classes: ["CRP", "ARM", "LTW", "CUL", "FSH"],
         image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain-a.png"),
         hints: {
-          en: [
-            "We've got large quantities of glass rain incoming!",
-            "The way the wind's blowing, the crater might suffer damage.",
-            "Let's prepare for the worst and hope for the best.",
-          ],
-          fr: [
-            "Des pluies de verre sont en approche ! Et elles vont arriver très vite !",
-            "Avec un vent aussi violent, il va y avoir des dégâts dans le fond du gouffre...",
-            "Il vaut mieux se préparer au pire.",
-          ],
-          de: [
-            "Starker Glasregen ist in Kürze vorhergesagt!",
-            "Diese Windrichtung... Ich mache mir Sorgen um den Kapselgrund.",
-            "Lasst uns für den Notfall gewappnet sein.",
-          ],
+          en: [],
+          fr: [],
+          de: [],
           jp: [],
         },
       },
