@@ -4,6 +4,59 @@ import { WEATHER_EMOJIS } from "./weather.constants";
 
 export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
   {
+    name: "Astromagnetic Storm",
+    emoji: WEATHER_EMOJIS.ASTROMAGNETIC_STORM,
+    image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: ["MIN", "FSH", "ARM", "GSM", "ALC"],
+        image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-a.png"),
+        hints: {
+          en: [
+            "A massive astromagnetic storm is approaching!",
+            "The delicate equipment might not make it through...",
+            "We'll have to prepare for the worst!",
+          ],
+          fr: [
+            "Une terrible tempête magnétique s'approche !",
+            "Nos équipements de mesure risquent d'être endommagés...",
+            "Il faut se préparer au pire !",
+          ],
+          de: [
+            "Ein gigantischer Magnetsturm ist vorhergesagt!",
+            "Für unsere Präzisionsinstrumente sieht das gar nicht gut aus ...",
+            "Bereiten wir uns gebührend vor!",
+          ],
+          jp: ["大規模な磁気嵐が\n予測されます！", "精密機器が\n故障するかも…", "備えねばなるまい"],
+        },
+      },
+      {
+        name: "Variant B",
+        classes: ["CUL", "MIN", "FSH", "CRP", "GSM", "WVR"],
+        image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-b.png"),
+        hints: {
+          en: [
+            "A massive astromagnetic storm is approaching!",
+            "Will our transport system be able to handle it?",
+            "We have to prepare immediately!",
+          ],
+          fr: [
+            "Une terrible tempête magnétique s'approche !",
+            "J'espère qu'elle ne va pas trop perturber nos opérations...",
+            "Nous devrions nous préparer au pire...",
+          ],
+          de: [
+            "Ein gigantischer Magnetsturm ist vorhergesagt!",
+            "Ob der Gütertransport dem wohl standhält ...?",
+            "Kümmern wir uns umgehend um Gegenmaßnahmen!",
+          ],
+          jp: ["大規模な磁気嵐が\n予測されます！", "物流への影響が\n心配だな…！", "対策を検討しよう"],
+        },
+      },
+    ],
+  },
+  {
     name: "Meteor Shower",
     emoji: WEATHER_EMOJIS.METEOR_SHOWER,
     image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-meteorshower.png"),
@@ -23,8 +76,12 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Les installations et le matériel risquent d'être endommagés...",
             "Il faut protéger les équipements essentiels avant tout !",
           ],
-          de: [],
-          jp: [],
+          de: [
+            "Ein Meteorschauer hat Kurs auf uns genommen!!",
+            "Stationsstrukturen und Maschinerie könnten schweren Schaden davontragen ...",
+            "Wir müssen den Schutz essenzieller Gerätschaften priorisieren!",
+          ],
+          jp: ["小隕石群の接近を感知！", "施設や機材に\n被害が出るかも…", "重要機材には\n保護を施すとしよう"],
         },
       },
       {
@@ -33,13 +90,21 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-meteorshower-b.png"),
         hints: {
           en: [
-            "A meteor shower is heading right for us!",
+            "A meteor shower is headed right for us!",
             "It could cause irreparable damage to the surface...",
             "We have to act swiftly and fix the problems as they arise!",
           ],
-          fr: [],
-          de: [],
-          jp: [],
+          fr: [
+            "Groupe de météorites en approche !",
+            "Je me demande si on peut en tirer quelque chose ?",
+            "Agissons avec diligence contre cette menace !",
+          ],
+          de: [
+            "Ein Meteorschauer hat Kurs auf uns genommen!!",
+            "Es bleibt uns nur zu hoffen, dass sein Einschlag nicht alles umwirft, wofür wir gearbeitet haben ...",
+            "Wir müssen flexibel bleiben und uns der Situation anpassen!",
+          ],
+          jp: ["小隕石群の接近を感知！", "地表への衝突で\n何がもたらされるのか…", "臨機応変にいこう！"],
         },
       },
     ],
@@ -64,8 +129,12 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "Il faut l'empêcher de grossir, sinon...",
             "On risque vite de se retrouver envahis !",
           ],
-          de: [],
-          jp: [],
+          de: [
+            "Anzeichen für vermehrtes Sporenaufkommen wurden gemessen!",
+            "Die Sporen müssen schnell eingedämmt werden ...",
+            "Wenn die sich so weitervermehren, haben wir ein echtes Problem ...",
+          ],
+          jp: ["胞子霧発生の予兆を観測！", "拡大を防がないと…", "厄介な奴らが繁殖するか…！"],
         },
       },
       {
@@ -79,57 +148,12 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
             "We must remain calm!",
           ],
           fr: ["Nuage de spores en cours de formation !", "On risque de ne plus rien voir !", "Restons calmes et tout se passera bien !"],
-          de: [],
-          jp: [],
-        },
-      },
-    ],
-  },
-  {
-    name: "Astromagnetic Storm",
-    emoji: WEATHER_EMOJIS.ASTROMAGNETIC_STORM,
-    image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm.png"),
-    variants: [
-      {
-        name: "Variant A",
-        classes: ["MIN", "FSH", "ARM", "GSM", "ALC"],
-        image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-a.png"),
-        hints: {
-          en: [
-            "A massive astromagnetic storm is approaching!",
-            "The delicate equipment might not make it through...",
-            "We'll have to prepare for the worst!",
-          ],
-          fr: [
-            "Une terrible tempête magnétique s'approche !",
-            "J'espère qu'elle ne va pas trop perturber nos opérations...",
-            "Nous devrions nous préparer au pire...",
-          ],
           de: [
-            "Ein gigantischer Magnetsturm ist vorhergesagt!",
-            "Ob der Gütertransport dem wohl standhält..?",
-            "Kümmern wir uns umgehend um Gegenmaßnahmen!",
+            "Anzeichen für vermehrtes Sporenaufkommen wurden gemessen!",
+            "Bald vernebelt es uns die Sicht komplett.",
+            "In Zeiten wie diesen müssen wir einen kühlen Kopf bewahren!",
           ],
-          jp: [],
-        },
-      },
-      {
-        name: "Variant B",
-        classes: ["CUL", "MIN", "FSH", "CRP", "GSM", "WVR"],
-        image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-b.png"),
-        hints: {
-          en: [
-            "A massive astromagnetic storm is approaching!",
-            "Will our transport system be able to handle it?",
-            "We have to prepare immediately!",
-          ],
-          fr: [
-            "Une terrible tempête magnétique s'approche !",
-            "J'espère qu'elle ne va pas trop perturber nos opérations...",
-            "Nous devrions nous préparer au pire...",
-          ],
-          de: [],
-          jp: [],
+          jp: ["胞子霧発生の予兆を観測！", "視界が悪くなりそうだ", "冷静な判断が\n求められるぞ！"],
         },
       },
     ],
