@@ -1,14 +1,18 @@
 import { addHours } from "date-fns";
 import {
+  ActionRow,
   ActionRowBuilder,
+  APIEmbed,
   AttachmentBuilder,
   AutocompleteInteraction,
   ButtonBuilder,
+  ButtonComponent,
   ButtonInteraction,
   ButtonStyle,
   ChannelSelectMenuInteraction,
   ChatInputCommandInteraction,
   InteractionContextType,
+  InteractionEditReplyOptions,
   InteractionReplyOptions,
   MentionableSelectMenuInteraction,
   MessageFlags,
@@ -20,7 +24,7 @@ import {
 } from "discord.js";
 import { existsSync as fsExistsSync } from "fs";
 import { kebabCase as _kebabCase } from "lodash";
-import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT } from "../../../constants/constants";
+import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, LANGS } from "../../../constants/constants";
 import { STARS } from "../../../constants/stars.constants";
 import { Log } from "../../logging";
 import { IRedAlertType } from "../../models/red-alert.model";
@@ -114,7 +118,7 @@ export default {
         const replyPayload = {
           content: redAlertMessage,
           files: [],
-          components: [addFalseAlarmButton()],
+          components: addRedAlertButtons(redAlertType),
         };
 
         const chosenVariant = redAlertType.variants?.find((v) => v.name === variant);
@@ -134,6 +138,7 @@ export default {
             time: falseAlarmTimeout * 60 * 1000 + 1000,
           })
           .on("collect", async (c) => {
+            await c.deferReply({ flags: MessageFlags.Ephemeral });
             if (c.customId === "false_alarm") {
               if (c.user.id === interaction.user.id) {
                 await falseAlarm(c);
@@ -148,17 +153,40 @@ export default {
                 falseAlarmRequests = falseAlarmRequests.filter((u) => u !== c.user.id);
                 await setFalseAlarmCounter(c, falseAlarmRequests.length);
               }
+            } else if (c.customId === "hints") {
+              const hintsPayload: InteractionReplyOptions = {
+                embeds: getRedAlertHints(c.locale, redAlertType),
+                components: getHintsLangsButtonRow(redAlertType),
+                flags: MessageFlags.Ephemeral,
+                withResponse: true,
+              };
+              (await c.followUp(hintsPayload)).createMessageComponentCollector().on("collect", async (ch) => {
+                if (ch.customId.startsWith("hintLang-")) {
+                  const lang = ch.customId.substring(ch.customId.indexOf("-") + 1);
+                  const hintsPayload: InteractionEditReplyOptions = {
+                    embeds: getRedAlertHints(lang, redAlertType),
+                    // components: getHintsLangsButtonRow(redAlertType),
+                  };
+                  await c.editReply(hintsPayload);
+                  ch.update({});
+                }
+              });
             }
           });
         setTimeout(() => {
-          interaction.editReply({ components: [] }).catch(() => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton"));
+          const components = [];
+          const hintsButton = addHintsButton(redAlertType);
+          if (hintsButton) {
+            components.push(new ActionRowBuilder<ButtonBuilder>({ components: [hintsButton] }));
+          }
+          interaction.editReply({ components: components }).catch(() => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton"));
         }, falseAlarmTimeout * 60 * 1000);
 
         if (!chosenVariant && redAlertType.variants?.length > 1) {
           const interactionReplyVariants = await interaction
             .followUp({
               content: "Please pick a variant, if you know it...",
-              components: addRedAlertButtons(redAlertType),
+              components: addRedAlertVariantButtons(redAlertType),
               flags: MessageFlags.Ephemeral,
             })
             .catch(Log.error);
@@ -213,6 +241,16 @@ export default {
 };
 
 function addRedAlertButtons(redAlertType: IRedAlertType): ActionRowBuilder<ButtonBuilder>[] {
+  const firstRow = new ActionRowBuilder<ButtonBuilder>();
+  const hintsButton = addHintsButton(redAlertType);
+  if (hintsButton) {
+    firstRow.addComponents(hintsButton);
+  }
+  firstRow.addComponents(addFalseAlarmButton());
+  return [firstRow];
+}
+
+function addRedAlertVariantButtons(redAlertType: IRedAlertType): ActionRowBuilder<ButtonBuilder>[] {
   const buttonRows = [];
 
   if (redAlertType?.variants && redAlertType.variants.length > 1) {
@@ -233,12 +271,16 @@ function addVariantButtons(variantName: string) {
     .setStyle(ButtonStyle.Primary);
 }
 function addFalseAlarmButton(counter = 0) {
-  return new ActionRowBuilder<ButtonBuilder>().addComponents(
-    new ButtonBuilder()
-      .setCustomId("false_alarm")
-      .setLabel(`Report False Alarm${getCounter(counter)}`)
-      .setStyle(ButtonStyle.Secondary)
-  );
+  return new ButtonBuilder()
+    .setCustomId("false_alarm")
+    .setLabel(`Report False Alarm${getCounter(counter)}`)
+    .setStyle(ButtonStyle.Secondary);
+}
+function addHintsButton(redAlertType) {
+  if (redAlertType?.variants && redAlertType.variants.length > 1) {
+    return new ButtonBuilder().setCustomId("hints").setLabel(`NPC hints`).setStyle(ButtonStyle.Primary);
+  }
+  return null;
 }
 
 function getCounter(counter: number) {
@@ -291,5 +333,40 @@ async function setFalseAlarmCounter(
     | ChannelSelectMenuInteraction,
   counter: number
 ) {
-  await c.update({ components: [addFalseAlarmButton(counter)] }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
+  if (c.message.components?.length) {
+    let components = (c.message.components[0] as ActionRow<ButtonComponent>).components;
+    components = components.filter((c) => c.customId !== "false_alarm");
+    await c.update({ components: components }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
+  }
+}
+function getRedAlertHints(lang: string, redAlertType: IRedAlertType): APIEmbed[] {
+  const embed: APIEmbed = {};
+  if (!LANGS[lang]) {
+    lang = "en-US";
+  }
+  let description = `## ${redAlertType.name}\n`;
+  const variants = redAlertType.variants?.filter((v) => v.hints?.[lang]?.length > 0);
+  if (variants) {
+    for (const variant of variants) {
+      description += `### ${variant.name}\n`;
+      for (const line of variant.hints[lang]) {
+        description += `- ${line}\n`;
+      }
+      description += `\n-# If you find any error with a hint translation, please tell me or open an [issue](https://github.com/Uriei/sinus-bot/issues) on GitHub.`;
+    }
+  } else {
+    description += `Sorry, we don't have the translation for this hint yet.\nYou can contribute by making a screenshot of the hints ingame and opening an [issue](https://github.com/Uriei/sinus-bot/issues) on GitHub with them. Thank you.\n`;
+  }
+  embed.description = description;
+  return [embed];
+}
+function getHintsLangsButtonRow(redAlertType: IRedAlertType): ActionRowBuilder<ButtonBuilder>[] {
+  const firstRow = new ActionRowBuilder<ButtonBuilder>();
+  const hintsLangs = Object.entries(redAlertType.variants?.[0].hints)
+    .filter((vh) => vh[1]?.length > 0)
+    .map((vh) => vh[0]);
+  for (const lang of hintsLangs) {
+    firstRow.addComponents(new ButtonBuilder().setCustomId(`hintLang-${lang}`).setLabel(`${LANGS[lang]}`).setStyle(ButtonStyle.Primary));
+  }
+  return [firstRow];
 }
