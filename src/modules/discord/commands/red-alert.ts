@@ -160,12 +160,15 @@ export default {
                 flags: MessageFlags.Ephemeral,
                 withResponse: true,
               };
+              Log.log(`Red Alert-Hints | Role:${role?.name} | Star:${STARS[star].name} | Type:${redAlertType?.name} | Locale:${c.locale}`);
               (await c.followUp(hintsPayload)).createMessageComponentCollector().on("collect", async (ch) => {
                 if (ch.customId.startsWith("hintLang-")) {
                   const lang = ch.customId.substring(ch.customId.indexOf("-") + 1);
+                  Log.log(
+                    `Red Alert-HintsLang | Role:${role?.name} | Star:${STARS[star].name} | Type:${redAlertType?.name} | Lang:${lang}`
+                  );
                   const hintsPayload: InteractionEditReplyOptions = {
                     embeds: getRedAlertHints(lang, redAlertType),
-                    // components: getHintsLangsButtonRow(redAlertType),
                   };
                   await c.editReply(hintsPayload);
                   ch.update({});
