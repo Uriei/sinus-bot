@@ -57,7 +57,7 @@ export default {
     async execute(interaction: ChatInputCommandInteraction) {
       if (Discord.inBL(interaction.user.id)) {
         await interaction.deferReply().catch();
-        interaction.deleteReply().catch();
+        await interaction.deleteReply().catch();
         return;
       }
       const type = interaction.options.getString("type");
@@ -171,18 +171,18 @@ export default {
                     embeds: getRedAlertHints(lang, redAlertType),
                   };
                   await c.editReply(hintsPayload);
-                  ch.update({});
+                  await ch.update({});
                 }
               });
             }
           });
-        setTimeout(() => {
+        setTimeout(async () => {
           const components = [];
           const hintsButton = addHintsButton(redAlertType);
           if (hintsButton) {
             components.push(new ActionRowBuilder<ButtonBuilder>({ components: [hintsButton] }));
           }
-          interaction.editReply({ components: components }).catch(() => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton"));
+          await interaction.editReply({ components: components }).catch(() => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton"));
         }, falseAlarmTimeout * 60 * 1000);
 
         if (!chosenVariant && redAlertType.variants?.length > 1) {
@@ -202,11 +202,13 @@ export default {
                   `Red Alert-Pick Variant | Role:${role?.name} | Star:${STARS[star].name}  | Type:${redAlertType?.name} | Variant:${variant?.name}`
                 );
                 await setVariant(c, interaction, redAlertType);
-                c.update({
-                  content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
-                }).catch(Log.error);
-                setTimeout(() => {
-                  c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
+                await c
+                  .update({
+                    content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
+                  })
+                  .catch(Log.error);
+                setTimeout(async () => {
+                  await c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
                 }, 5 * 60 * 1000);
               }
             }
