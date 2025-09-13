@@ -155,7 +155,7 @@ export default {
               }
             } else if (c.customId === "hints") {
               const hintsPayload: InteractionReplyOptions = {
-                embeds: getRedAlertHints("en", redAlertType),
+                embeds: getRedAlertHints(c.locale, redAlertType),
                 components: getHintsLangsButtonRow(redAlertType),
                 flags: MessageFlags.Ephemeral,
                 withResponse: true,
@@ -352,7 +352,7 @@ function getRedAlertHints(lang: string = "en", redAlertType: IRedAlertType): API
       }
     }
   }
-
+  description += `\n-# If you find any error with a hint translation, please tell me or open an issue on GitHub.`;
   embed.description = description;
   return [embed];
 }
