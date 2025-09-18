@@ -322,7 +322,7 @@ async function falseAlarm(
     | MentionableSelectMenuInteraction
     | ChannelSelectMenuInteraction
 ) {
-  await c.update({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] }).catch(Log.error);
+  await c.editReply({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] }).catch(Log.error);
   setTimeout(async () => {
     return await c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-FalseAlarm", err, c));
   }, 10000);
@@ -341,7 +341,7 @@ async function setFalseAlarmCounter(
   if (c.message.components?.length) {
     let components = (c.message.components[0] as ActionRow<ButtonComponent>).components;
     components = components.filter((c) => c.customId !== "false_alarm");
-    await c.update({ components: components }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
+    await c.editReply({ components: components }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
   }
 }
 function getRedAlertHints(lang: string, redAlertType: IRedAlertType): APIEmbed[] {
