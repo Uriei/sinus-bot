@@ -189,6 +189,29 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
           ja: ["激しい雷雨が\n予測されます！", "機器への影響が\n心配だ…！", "対策用品を点検せねば"],
         },
       },
+      {
+        name: "Variant B",
+        classes: ["GSM", "WVR", "BTN", "BSM", "ALC", "MIN"],
+        image: path.resolve("./assets/red-alerts/phaenna/ra-thunderstorms-b.png"),
+        hints: {
+          "en-US": [
+            "Severe thunderstorms are approaching!",
+            "If the storms get too close, we're in trouble...",
+            "It's time we prepared the backup systems.",
+          ],
+          fr: [
+            "Un violent orage est annoncé !",
+            "Si ça arrive jusqu'ici, on est mal...",
+            "Il va falloir mettre en route notre fameux système !",
+          ],
+          de: [
+            "Ein heftiges Unwetter ist vorhergesagt!",
+            "Wenn das zu nah kommt ... könnte das übel ausgehen.",
+            "Ich muss das eine System noch vorbereiten.",
+          ],
+          ja: ["激しい雷雨が\n予測されます！", "近くに来るならば…\nマズいかもしれないな", "例のシステムの\n準備をしておこう"],
+        },
+      },
     ],
   },
   {

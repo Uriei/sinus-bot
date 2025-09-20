@@ -185,7 +185,7 @@ export default {
           await interaction.editReply({ components: components }).catch(() => Log.error("ERROR: Red Alert-RemoveFalseAlarmButton"));
         }, falseAlarmTimeout * 60 * 1000);
 
-        if (!chosenVariant && redAlertType.variants?.length > 1) {
+        if (!chosenVariant && hasMultipleVariantData(redAlertType)) {
           const interactionReplyVariants = await interaction
             .followUp({
               content: "Please pick a variant, if you know it...",
@@ -374,4 +374,8 @@ function getHintsLangsButtonRow(redAlertType: IRedAlertType): ActionRowBuilder<B
     firstRow.addComponents(new ButtonBuilder().setCustomId(`hintLang-${lang}`).setLabel(`${LANGS[lang]}`).setStyle(ButtonStyle.Primary));
   }
   return [firstRow];
+}
+
+function hasMultipleVariantData(redAlertType: IRedAlertType): boolean {
+  return redAlertType.variants?.filter((v) => fsExistsSync(v.image)).length > 1 || false;
 }
