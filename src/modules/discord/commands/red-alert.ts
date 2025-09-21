@@ -64,7 +64,9 @@ export default {
       const variant = interaction.options.getString("variant");
       const currentTime = new Date().valueOf();
       if (!type) {
-        await interaction.reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral }).catch(Log.error);
+        await interaction
+          .reply({ content: "You must pick an option.", flags: MessageFlags.Ephemeral })
+          .catch((err) => Log.error("ERROR: Red Alert-SendMustPick | ", err));
       } else if (
         Discord.channelRedAlertCooldown[interaction.channelId] &&
         Discord.channelRedAlertCooldown[interaction.channelId] + CHANNEL_REDALERT_COOLDOWN > currentTime
@@ -76,7 +78,7 @@ export default {
             content: `Red Alert in cooldown, please wait ${cooldownRemaining} seconds...`,
             flags: MessageFlags.Ephemeral,
           })
-          .catch(Log.error);
+          .catch((err) => Log.error("ERROR: Red Alert-SendCooldownReply | ", err));
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const star = interaction.options.getString("star");
@@ -106,8 +108,8 @@ export default {
             content: "Invalid selection, please use the selections provided by the bot.",
             flags: MessageFlags.Ephemeral,
           };
-          await interaction.reply(replyPayload).catch(Log.error);
-          Log.error(`Red Alert-BadData | Role:${role?.name} | Star:${STARS[star]?.name}  | Type:${redAlertType?.name}`);
+          await interaction.reply(replyPayload).catch((err) => Log.error("ERROR: Red Alert-SendInvalidSelectionReply | ", err));
+          Log.error(`ERROR: Red Alert-BadData | Role:${role?.name} | Star:${STARS[star]?.name}  | Type:${redAlertType?.name}`);
           return;
         }
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
@@ -129,7 +131,9 @@ export default {
         }
 
         Log.log(`Red Alert | Role:${role?.name} | Star:${STARS[star].name} | Type:${redAlertType?.name} | Variant:${chosenVariant?.name}`);
-        const interactionReply = await interaction.reply(replyPayload).catch(Log.error);
+        const interactionReply = await interaction
+          .reply(replyPayload)
+          .catch((err) => Log.error("ERROR: Red Alert-SendInteractionReply | ", err));
         if (!interactionReply) return;
         let falseAlarmRequests: Array<string> = [];
         const falseAlarmTimeout = 5; // In minutes
@@ -192,7 +196,7 @@ export default {
               components: addRedAlertVariantButtons(redAlertType),
               flags: MessageFlags.Ephemeral,
             })
-            .catch(Log.error);
+            .catch((err) => Log.error("ERROR: Red Alert-SendPickVariant | ", err));
           if (!interactionReplyVariants) return;
           interactionReplyVariants.createMessageComponentCollector({}).on("collect", async (c) => {
             const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === c.customId);
@@ -206,7 +210,7 @@ export default {
                   .editReply({
                     content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
                   })
-                  .catch(Log.error);
+                  .catch((err) => Log.error("ERROR: Red Alert-SendThankYou | ", err));
                 setTimeout(async () => {
                   await c.deleteReply().catch(() => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
                 }, 5 * 60 * 1000);
@@ -230,15 +234,21 @@ export default {
           const variants = RED_ALERTS.find((rat) => rat.name === redAlertType)?.variants;
           if (variants && variants.length > 1) {
             const variantAutoCompleteOptions = variants.map((v) => ({ name: v.name, value: v.name }));
-            await interaction.respond(variantAutoCompleteOptions).catch(Log.error);
+            await interaction
+              .respond(variantAutoCompleteOptions)
+              .catch((err) => Log.error("ERROR: Red Alert-AutoCompleteSendVariantOptions | ", err));
           } else {
-            await interaction.respond([{ name: "No variants information available", value: "" }]).catch(Log.error);
+            await interaction
+              .respond([{ name: "No variants information available", value: "" }])
+              .catch((err) => Log.error("ERROR: Red Alert-AutoCompleteSendNoVariants | ", err));
           }
         } else if (interaction.options.get("type")?.focused && interaction.options.get("star")?.value) {
           const star = interaction.options.getString("star");
           const redAlertTypesOnStar = STARS[star].redAlerts;
           const typesAutoCompleteOptions = redAlertTypesOnStar.map((v) => ({ name: v.name, value: v.name }));
-          await interaction.respond(typesAutoCompleteOptions).catch(Log.error);
+          await interaction
+            .respond(typesAutoCompleteOptions)
+            .catch((err) => Log.error("ERROR: Red Alert-AutoCompleteSendTypesOptions | ", err));
         }
       }
     },
@@ -322,7 +332,9 @@ async function falseAlarm(
     | MentionableSelectMenuInteraction
     | ChannelSelectMenuInteraction
 ) {
-  await c.editReply({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] }).catch(Log.error);
+  await c
+    .editReply({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] })
+    .catch((err) => Log.error("ERROR: Red Alert-SendFalseAlarmReply | ", err));
   setTimeout(async () => {
     return await c.deleteReply().catch((err) => Log.error("ERROR: Red Alert-FalseAlarm", err, c));
   }, 10000);
