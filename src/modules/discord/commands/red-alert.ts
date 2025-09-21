@@ -142,8 +142,8 @@ export default {
             time: falseAlarmTimeout * 60 * 1000 + 1000,
           })
           .on("collect", async (c) => {
-            await c.deferReply({ flags: MessageFlags.Ephemeral });
             if (c.customId === "false_alarm") {
+              await c.deferUpdate();
               if (c.user.id === interaction.user.id) {
                 await falseAlarm(c);
               } else if (!falseAlarmRequests.includes(c.user.id)) {
@@ -151,13 +151,14 @@ export default {
                 if (falseAlarmRequests.length >= FALSE_ALARM_REQUIRED_COUNT) {
                   await falseAlarm(c);
                 } else {
-                  await setFalseAlarmCounter(c, falseAlarmRequests.length);
+                  await setFalseAlarmCounter(c, redAlertType, falseAlarmRequests.length);
                 }
               } else if (falseAlarmRequests.includes(c.user.id)) {
                 falseAlarmRequests = falseAlarmRequests.filter((u) => u !== c.user.id);
-                await setFalseAlarmCounter(c, falseAlarmRequests.length);
+                await setFalseAlarmCounter(c, redAlertType, falseAlarmRequests.length);
               }
             } else if (c.customId === "hints") {
+              await c.deferReply({ flags: MessageFlags.Ephemeral });
               const hintsPayload: InteractionReplyOptions = {
                 embeds: getRedAlertHints(c.locale, redAlertType),
                 components: getHintsLangsButtonRow(redAlertType),
@@ -255,13 +256,13 @@ export default {
   },
 };
 
-function addRedAlertButtons(redAlertType: IRedAlertType): ActionRowBuilder<ButtonBuilder>[] {
+function addRedAlertButtons(redAlertType: IRedAlertType, falseAlarmCounter = 0): ActionRowBuilder<ButtonBuilder>[] {
   const firstRow = new ActionRowBuilder<ButtonBuilder>();
   const hintsButton = addHintsButton(redAlertType);
   if (hintsButton) {
     firstRow.addComponents(hintsButton);
   }
-  firstRow.addComponents(addFalseAlarmButton());
+  firstRow.addComponents(addFalseAlarmButton(falseAlarmCounter));
   return [firstRow];
 }
 
@@ -291,7 +292,7 @@ function addFalseAlarmButton(counter = 0) {
     .setLabel(`Report False Alarm${getCounter(counter)}`)
     .setStyle(ButtonStyle.Secondary);
 }
-function addHintsButton(redAlertType) {
+function addHintsButton(redAlertType: IRedAlertType) {
   if (redAlertType?.variants && redAlertType.variants.length > 1) {
     return new ButtonBuilder().setCustomId("hints").setLabel(`NPC hints`).setStyle(ButtonStyle.Primary);
   }
@@ -348,13 +349,12 @@ async function setFalseAlarmCounter(
     | RoleSelectMenuInteraction
     | MentionableSelectMenuInteraction
     | ChannelSelectMenuInteraction,
+  redAlertType: IRedAlertType,
   counter: number
 ) {
-  if (c.message.components?.length) {
-    let components = (c.message.components[0] as ActionRow<ButtonComponent>).components;
-    components = components.filter((c) => c.customId !== "false_alarm");
-    await c.editReply({ components: components }).catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
-  }
+  await c
+    .editReply({ components: addRedAlertButtons(redAlertType, counter) })
+    .catch((err) => Log.error("ERROR: Red Alert-FalseAlarmCounter", err, c));
 }
 function getRedAlertHints(lang: string, redAlertType: IRedAlertType): APIEmbed[] {
   const embed: APIEmbed = {};
