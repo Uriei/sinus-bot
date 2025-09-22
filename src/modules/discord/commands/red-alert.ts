@@ -212,6 +212,7 @@ export default {
                     content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
                   })
                   .catch((err) => Log.error("ERROR: Red Alert-SendThankYou | ", err));
+                await c.update({});
                 setTimeout(async () => {
                   await c.deleteReply().catch(() => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
                 }, 5 * 60 * 1000);
