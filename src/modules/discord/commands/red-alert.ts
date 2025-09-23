@@ -199,22 +199,16 @@ export default {
             })
             .catch((err) => Log.error("ERROR: Red Alert-SendPickVariant | ", err));
           if (!interactionReplyVariants) return;
-          interactionReplyVariants.createMessageComponentCollector({}).on("collect", async (c) => {
-            const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === c.customId);
+          interactionReplyVariants.createMessageComponentCollector({}).on("collect", async (cVariantButton) => {
+            const variant = redAlertType.variants?.find((v) => _kebabCase(v.name) === cVariantButton.customId);
             if (variant) {
-              if (c.user.id === interaction.user.id) {
+              if (cVariantButton.user.id === interaction.user.id) {
                 Log.log(
                   `Red Alert-Pick Variant | Role:${role?.name} | Star:${STARS[star].name}  | Type:${redAlertType?.name} | Variant:${variant?.name}`
                 );
-                await setVariant(c, interaction, redAlertType);
-                await c
-                  .editReply({
-                    content: `Thank you! Switching to ${redAlertType.name} - ${variant.name}.`,
-                  })
-                  .catch((err) => Log.error("ERROR: Red Alert-SendThankYou | ", err));
-                await c.update({});
+                await setVariant(cVariantButton, interaction, redAlertType);
                 setTimeout(async () => {
-                  await c.deleteReply().catch(() => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
+                  await cVariantButton.deleteReply().catch(() => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
                 }, 5 * 60 * 1000);
               }
             }
