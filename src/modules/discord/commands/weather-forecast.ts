@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
+import { AutocompleteInteraction, BitFieldResolvable, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 import { STARS } from "../../../constants/stars.constants";
 import { ALARM_SOUNDS } from "../../../constants/weather.constants";
@@ -65,7 +65,11 @@ export default {
         interaction.deleteReply().catch();
         return;
       }
-      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+      let flags: BitFieldResolvable<"Ephemeral", MessageFlags.Ephemeral> = [];
+      if (interaction.inGuild()) {
+        flags = MessageFlags.Ephemeral;
+      }
+      await interaction.deferReply({ flags });
       let star = interaction.options.getString("star");
       let hours = interaction.options.getNumber("hours") || 6;
       if (interaction.options.getSubcommand(true) === "forecast") {
