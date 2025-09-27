@@ -1,6 +1,6 @@
 import { AutocompleteInteraction, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
-import { STARS } from "../../../constants/stars.constants";
+import { STARS_DATA } from "../../../constants/stars.constants";
 import { ALARM_SOUNDS } from "../../../constants/weather.constants";
 import { getNextWeatherForecast } from "../../../worker/weather-update";
 import { formatWeatherForecastForDiscord, formatWeatherForecastMacroAlarm } from "../../utils";
@@ -20,7 +20,7 @@ export default {
             .setDescription("Select Star for Red Alert")
             .setRequired(true)
             .setChoices(
-              Object.entries(STARS)
+              Object.entries(STARS_DATA)
                 .filter((s) => s[1].weather)
                 .map((s) => ({ name: s[1].name, value: s[0] }))
             )
@@ -39,7 +39,7 @@ export default {
             .setDescription("Select Star for Red Alert")
             .setRequired(true)
             .setChoices(
-              Object.entries(STARS)
+              Object.entries(STARS_DATA)
                 .filter((s) => s[1].weather)
                 .map((s) => ({ name: s[1].name, value: s[0] }))
             )

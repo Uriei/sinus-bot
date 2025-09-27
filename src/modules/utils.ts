@@ -1,12 +1,12 @@
 import { addHours, format, formatDuration, intervalToDuration } from "date-fns";
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
 import { IWeatherReport } from "./models/weather-report.model";
-import { STARS } from "../constants/stars.constants";
+import { STARS_DATA } from "../constants/stars.constants";
 
 const DEFAULT_COLOR = 0x033280;
 
 export function formatWeatherForecastForDiscord(star: string, weatherReport: IWeatherReport[], hours: number): Array<APIEmbed> {
-  const starName = STARS[star].name;
+  const starName = STARS_DATA[star].name;
   const reportHourLimit = addHours(new Date(), hours).valueOf();
   const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`${starName} Weather Forecast for the next ${hours} hours`);
 
@@ -50,7 +50,7 @@ export function formatWeatherForecastMacroAlarm(
   reminder: number,
   sound: string
 ): Array<APIEmbed> {
-  const starName = STARS[star].name;
+  const starName = STARS_DATA[star].name;
   const reportHourLimit = addHours(new Date(), hours).valueOf();
   const embed = new EmbedBuilder()
     .setColor(DEFAULT_COLOR)

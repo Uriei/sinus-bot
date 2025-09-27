@@ -1,12 +1,13 @@
 import { JOBS } from "../../constants/jobs.constants";
 
-export interface ITimeRestrictedMission {
+export interface ITimeRestrictedMissionJob {
   eorzeaTime: string;
   needsBaseUnlock: boolean;
 }
+export type ITimeRestrictedMission = {
+  [job in JOBS]: ITimeRestrictedMissionJob[];
+};
 
 export interface ITimeRestrictedMissions {
-  [starName: string]: {
-    [job in JOBS]?: ITimeRestrictedMission[];
-  };
+  [starName: string]: ITimeRestrictedMission;
 }

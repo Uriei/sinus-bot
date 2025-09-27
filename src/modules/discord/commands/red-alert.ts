@@ -25,7 +25,7 @@ import {
 import { existsSync as fsExistsSync } from "fs";
 import { kebabCase as _kebabCase } from "lodash";
 import { CHANNEL_REDALERT_COOLDOWN, FALSE_ALARM_REQUIRED_COUNT, LANGS } from "../../../constants/constants";
-import { STARS } from "../../../constants/stars.constants";
+import { STARS_DATA } from "../../../constants/stars.constants";
 import { Log } from "../../logging";
 import { IRedAlertType } from "../../models/red-alert.model";
 import { Discord } from "../discord";
@@ -42,7 +42,7 @@ export default {
         .setDescription("Select Star for Red Alert")
         .setRequired(true)
         .setChoices(
-          Object.entries(STARS)
+          Object.entries(STARS_DATA)
             .filter((s) => s[1].redAlerts)
             .map((s) => ({ name: s[1].name, value: s[0] }))
         )
@@ -82,7 +82,7 @@ export default {
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
         const star = interaction.options.getString("star");
-        const starName = STARS[star].nameRole || STARS[star].name;
+        const starName = STARS_DATA[star].nameRole || STARS_DATA[star].name;
         // Finds a pingable role with the pattern @world-star
         let role = interaction.guild.roles.cache.find(
           (r) =>
@@ -97,19 +97,19 @@ export default {
           );
         }
 
-        const RED_ALERTS = Object.entries(STARS)
+        const RED_ALERTS = Object.entries(STARS_DATA)
           .filter((s) => s[1].redAlerts)
           .map((s) => s[1].redAlerts)
           .reduce((pV, cV) => pV.concat(cV))
           .filter((a) => a);
         const redAlertType = RED_ALERTS.find((ra) => ra.name === type);
-        if (!redAlertType || !STARS[star]) {
+        if (!redAlertType || !STARS_DATA[star]) {
           const replyPayload: InteractionReplyOptions = {
             content: "Invalid selection, please use the selections provided by the bot.",
             flags: MessageFlags.Ephemeral,
           };
           await interaction.reply(replyPayload).catch((err) => Log.error("ERROR: Red Alert-SendInvalidSelectionReply | ", err));
-          Log.error(`ERROR: Red Alert-BadData | Role:${role?.name} | Star:${STARS[star]?.name}  | Type:${redAlertType?.name}`);
+          Log.error(`ERROR: Red Alert-BadData | Role:${role?.name} | Star:${STARS_DATA[star]?.name}  | Type:${redAlertType?.name}`);
           return;
         }
         const nextTimeframeInit = Math.floor(addHours(currentTime, 3).valueOf() / 1000);
@@ -130,7 +130,9 @@ export default {
           replyPayload.files.push(image);
         }
 
-        Log.log(`Red Alert | Role:${role?.name} | Star:${STARS[star].name} | Type:${redAlertType?.name} | Variant:${chosenVariant?.name}`);
+        Log.log(
+          `Red Alert | Role:${role?.name} | Star:${STARS_DATA[star].name} | Type:${redAlertType?.name} | Variant:${chosenVariant?.name}`
+        );
         const interactionReply = await interaction
           .reply(replyPayload)
           .catch((err) => Log.error("ERROR: Red Alert-SendInteractionReply | ", err));
@@ -165,12 +167,14 @@ export default {
                 flags: MessageFlags.Ephemeral,
                 withResponse: true,
               };
-              Log.log(`Red Alert-Hints | Role:${role?.name} | Star:${STARS[star].name} | Type:${redAlertType?.name} | Locale:${c.locale}`);
+              Log.log(
+                `Red Alert-Hints | Role:${role?.name} | Star:${STARS_DATA[star].name} | Type:${redAlertType?.name} | Locale:${c.locale}`
+              );
               (await c.followUp(hintsPayload)).createMessageComponentCollector().on("collect", async (ch) => {
                 if (ch.customId.startsWith("hintLang-")) {
                   const lang = ch.customId.substring(ch.customId.indexOf("-") + 1);
                   Log.log(
-                    `Red Alert-HintsLang | Role:${role?.name} | Star:${STARS[star].name} | Type:${redAlertType?.name} | Lang:${lang}`
+                    `Red Alert-HintsLang | Role:${role?.name} | Star:${STARS_DATA[star].name} | Type:${redAlertType?.name} | Lang:${lang}`
                   );
                   const hintsPayload: InteractionEditReplyOptions = {
                     embeds: getRedAlertHints(lang, redAlertType),
@@ -204,7 +208,7 @@ export default {
             if (variant) {
               if (cVariantButton.user.id === interaction.user.id) {
                 Log.log(
-                  `Red Alert-Pick Variant | Role:${role?.name} | Star:${STARS[star].name}  | Type:${redAlertType?.name} | Variant:${variant?.name}`
+                  `Red Alert-Pick Variant | Role:${role?.name} | Star:${STARS_DATA[star].name}  | Type:${redAlertType?.name} | Variant:${variant?.name}`
                 );
                 await setVariant(cVariantButton, interaction, redAlertType);
                 setTimeout(async () => {
@@ -222,7 +226,7 @@ export default {
       if (interaction.isAutocomplete()) {
         if (interaction.options.get("variant")?.focused && interaction.options.get("type")?.value) {
           const redAlertType = interaction.options.getString("type");
-          const RED_ALERTS = Object.entries(STARS)
+          const RED_ALERTS = Object.entries(STARS_DATA)
             .filter((s) => s[1].redAlerts)
             .map((s) => s[1].redAlerts)
             .reduce((pV, cV) => pV.concat(cV))
@@ -240,7 +244,7 @@ export default {
           }
         } else if (interaction.options.get("type")?.focused && interaction.options.get("star")?.value) {
           const star = interaction.options.getString("star");
-          const redAlertTypesOnStar = STARS[star].redAlerts;
+          const redAlertTypesOnStar = STARS_DATA[star].redAlerts;
           const typesAutoCompleteOptions = redAlertTypesOnStar.map((v) => ({ name: v.name, value: v.name }));
           await interaction
             .respond(typesAutoCompleteOptions)

@@ -1,5 +1,5 @@
 import { ITimeRestrictedMissions } from "../modules/models/jobs.model";
-import { STARS } from "./stars.constants";
+import { STARS_DATA } from "./stars.constants";
 
 export enum JOBS {
   ALC = "ALC",
@@ -16,61 +16,44 @@ export enum JOBS {
 }
 
 export const timeRestrictedMissions: ITimeRestrictedMissions = {
-  [STARS.SINUS_ARDORUM.name]: {
-    // TODO Add Sinus timers https://ffxiv.consolegameswiki.com/wiki/Stellar_Missions#List_of_missions
+  [STARS_DATA.SINUS_ARDORUM.name]: {
     [JOBS.ALC]: [
       {
         eorzeaTime: "0000",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1200",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.ARM]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0800",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "2000",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.BSM]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0400",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1600",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.BTN]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "1000",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "2200",
         needsBaseUnlock: false,
       },
     ],
@@ -80,39 +63,27 @@ export const timeRestrictedMissions: ITimeRestrictedMissions = {
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1200",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.CUL]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0400",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1600",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.FSH]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0600",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1800",
         needsBaseUnlock: false,
       },
     ],
@@ -122,58 +93,42 @@ export const timeRestrictedMissions: ITimeRestrictedMissions = {
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1200",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.LTW]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0400",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1600",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.MIN]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0200",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "1400",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.WVR]: [
       {
-        eorzeaTime: "0000",
+        eorzeaTime: "0800",
         needsBaseUnlock: false,
       },
       {
-        eorzeaTime: "0000",
-        needsBaseUnlock: false,
-      },
-      {
-        eorzeaTime: "0000",
+        eorzeaTime: "2000",
         needsBaseUnlock: false,
       },
     ],
   },
-  [STARS.PHAENNA.name]: {
+  [STARS_DATA.PHAENNA.name]: {
     [JOBS.ALC]: [
       {
         eorzeaTime: "0000",
