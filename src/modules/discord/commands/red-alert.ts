@@ -211,9 +211,6 @@ export default {
                   `Red Alert-Pick Variant | Role:${role?.name} | Star:${STARS_DATA[star].name}  | Type:${redAlertType?.name} | Variant:${variant?.name}`
                 );
                 await setVariant(cVariantButton, interaction, redAlertType);
-                setTimeout(async () => {
-                  await cVariantButton.deleteReply().catch(() => Log.error("ERROR: Red Alert-Variant-DeleteReply"));
-                }, 5 * 60 * 1000);
               }
             }
           });
