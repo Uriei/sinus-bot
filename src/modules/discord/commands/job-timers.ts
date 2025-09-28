@@ -16,6 +16,7 @@ import { TESTING_ENV } from "../../../constants/constants";
 import { JOB_EMOJIS, JOB_NAMES, JOBS } from "../../../constants/jobs.constants";
 import { STARS, STARS_DATA } from "../../../constants/stars.constants";
 import { formatJobTimersForDiscord, formatJobTimersMacroAlarm, generateMessageEmbed } from "../../utils";
+import { Discord } from "../discord";
 
 export default {
   data: new SlashCommandBuilder()
@@ -30,6 +31,11 @@ export default {
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
+      if (Discord.inBL(interaction.user.id)) {
+        await interaction.deferReply().catch();
+        interaction.deleteReply().catch();
+        return;
+      }
       const star = interaction.options.getString("star");
       const starName = STARS_DATA[star].name;
       let flags: BitFieldResolvable<"Ephemeral", MessageFlags.Ephemeral> = [];
