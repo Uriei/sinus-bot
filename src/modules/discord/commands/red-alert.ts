@@ -209,6 +209,7 @@ export default {
                   `Red Alert-Pick Variant | Role:${role?.name} | Star:${STARS_DATA[star].name}  | Type:${redAlertType?.name} | Variant:${variant?.name}`
                 );
                 await setVariant(cVariantButton, interaction, redAlertType);
+                await cVariantButton.update({}).catch();
               }
             }
           });
