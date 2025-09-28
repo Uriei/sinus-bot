@@ -1,4 +1,5 @@
 import { JOBS } from "../../constants/jobs.constants";
+import { STARS } from "../../constants/stars.constants";
 
 export interface ITimeRestrictedMissionJob {
   eorzeaTime: string;
@@ -8,6 +9,6 @@ export type ITimeRestrictedMission = {
   [job in JOBS]: ITimeRestrictedMissionJob[];
 };
 
-export interface ITimeRestrictedMissions {
-  [starName: string]: ITimeRestrictedMission;
-}
+export type ITimeRestrictedMissions = {
+  [star in STARS]: ITimeRestrictedMission;
+};

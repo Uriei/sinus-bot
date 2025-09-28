@@ -1,5 +1,5 @@
 import { IStars } from "../modules/models/stars.model";
-import { timeRestrictedMissions } from "./jobs.constants";
+import { TIMERESTRICTED_MISSIONS } from "./jobs.constants";
 import { RED_ALERT_PHAENNA, RED_ALERT_SINUS_ARDORUM } from "./red-alerts.constants";
 import { PHAENNA_WEATHER, SINUS_ARDORUM_WEATHER } from "./weather.constants";
 
@@ -15,12 +15,12 @@ export const STARS_DATA: IStars = {
     nameRole: "Moon",
     redAlerts: RED_ALERT_SINUS_ARDORUM,
     weather: SINUS_ARDORUM_WEATHER,
-    timeRestrictedMissions: timeRestrictedMissions[STARS.SINUS_ARDORUM],
+    timeRestrictedMissions: TIMERESTRICTED_MISSIONS[STARS.SINUS_ARDORUM],
   },
   [STARS.PHAENNA]: {
     name: "Phaenna",
     redAlerts: RED_ALERT_PHAENNA,
     weather: PHAENNA_WEATHER,
-    timeRestrictedMissions: timeRestrictedMissions[STARS.PHAENNA],
+    timeRestrictedMissions: TIMERESTRICTED_MISSIONS[STARS.PHAENNA],
   },
 };

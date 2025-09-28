@@ -2,6 +2,9 @@ import { addHours, format, formatDuration, intervalToDuration } from "date-fns";
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
 import { IWeatherReport } from "./models/weather-report.model";
 import { STARS_DATA } from "../constants/stars.constants";
+import { JOB_NAMES, TIMERESTRICTED_MISSIONS } from "../constants/jobs.constants";
+import { ITimeRestrictedMission, ITimeRestrictedMissionJob } from "./models/jobs.model";
+import { ALARM_SOUNDS } from "../constants/weather.constants";
 
 const DEFAULT_COLOR = 0x033280;
 
@@ -71,6 +74,121 @@ export function formatWeatherForecastMacroAlarm(
   }
   content = `\`\`\`\n${content.trim()}\n\`\`\``;
   embed.setDescription(content);
+  return [embed.toJSON()];
+}
+
+export function formatJobTimersForDiscord(star: string, jobs: string[]): Array<APIEmbed> {
+  const starName = STARS_DATA[star].name;
+  const embed = new EmbedBuilder()
+    .setColor(DEFAULT_COLOR)
+    .setTitle(`${starName} Time-Restricted Missions`)
+    .setDescription("For the selected jobs:");
+
+  const starRestrictedMissions: ITimeRestrictedMission = TIMERESTRICTED_MISSIONS[star];
+
+  const finalTimers = [];
+  for (const job of jobs) {
+    const jobTimers: ITimeRestrictedMissionJob[] = starRestrictedMissions[job];
+    for (const timer of jobTimers) {
+      const eorzeaTime = timer.eorzeaTime;
+      const needsBaseUnlock = timer.needsBaseUnlock;
+
+      let timerToAdd = finalTimers.find((t) => t?.eorzeaTime === eorzeaTime);
+      if (!timerToAdd) {
+        timerToAdd = { eorzeaTime, jobs: [] };
+        finalTimers.push(timerToAdd);
+      }
+      timerToAdd.jobs.push({ job, needsBaseUnlock });
+    }
+  }
+  finalTimers.sort((a, b) => a.eorzeaTime - b.eorzeaTime);
+
+  for (const timer of finalTimers) {
+    const name = timer.eorzeaTime.replace(/(\d\d)(\d\d)/, "$1:$2").trim();
+    const value = timer.jobs
+      .map((j) => `${JOB_NAMES[j.job]}${j.needsBaseUnlock ? "\\*" : ""}`)
+      .sort((a: string, b: string) => a.localeCompare(b))
+      .join(", ")
+      .trim();
+
+    const field: APIEmbedField = {
+      name: name,
+      value: value,
+      inline: false,
+    };
+
+    embed.addFields(field);
+  }
+
+  const endField: APIEmbedField = {
+    name: "",
+    value: "\\* An asterisk denotes that the mission might be locked behind World progression.",
+    inline: false,
+  };
+  embed.addFields(endField);
+
+  return [embed.toJSON()];
+}
+
+export function formatJobTimersMacroAlarm(
+  star: string,
+  jobs: string[],
+  reminder: number = 3,
+  sound: string = ALARM_SOUNDS[0].value
+): Array<APIEmbed> {
+  const starName = STARS_DATA[star].name;
+  const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`${starName} Time-Restricted Missions Alarms`);
+  let content = "";
+  let linesCount = 0;
+
+  const starRestrictedMissions: ITimeRestrictedMission = TIMERESTRICTED_MISSIONS[star];
+
+  const finalTimers = [];
+  for (const job of jobs) {
+    const jobTimers: ITimeRestrictedMissionJob[] = starRestrictedMissions[job];
+    for (const timer of jobTimers) {
+      const eorzeaTime = timer.eorzeaTime;
+      const needsBaseUnlock = timer.needsBaseUnlock;
+
+      let timerToAdd = finalTimers.find((t) => t?.eorzeaTime === eorzeaTime);
+      if (!timerToAdd) {
+        timerToAdd = { eorzeaTime, jobs: [] };
+        finalTimers.push(timerToAdd);
+      }
+      timerToAdd.jobs.push({ job, needsBaseUnlock });
+    }
+  }
+  finalTimers.sort((a, b) => a.eorzeaTime - b.eorzeaTime);
+
+  for (const timer of finalTimers) {
+    if (linesCount >= 15) {
+      break;
+    }
+    const name: string = (
+      timer.jobs
+        .map((j) => `${j.job}${j.needsBaseUnlock ? "*" : ""}`)
+        .sort((a: string, b: string) => a.localeCompare(b))
+        .join("/")
+        .trim() as string
+    ).slice(0, 20);
+    const value = timer.eorzeaTime.replace(/\D/, "").trim();
+
+    content += `/alarm "${name}" et rp ${value} ${reminder} ${sound}\n`;
+    linesCount++;
+  }
+
+  content = `\`\`\`\n${content.trim()}\n\`\`\``;
+  content +=
+    "\\* An asterisk denotes that the mission might be locked behind World progression.\nThe name of the alarm might be truncated to 20 characters if you've selected many jobs.";
+  embed.setDescription(content);
+  return [embed.toJSON()];
+}
+
+export function generateMessageEmbed(title: string, description?: string) {
+  const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(title);
+  if (description) {
+    embed.setDescription(description);
+  }
   return [embed.toJSON()];
 }
 

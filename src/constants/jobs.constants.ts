@@ -1,22 +1,50 @@
 import { ITimeRestrictedMissions } from "../modules/models/jobs.model";
-import { STARS_DATA } from "./stars.constants";
+import { STARS } from "./stars.constants";
 
 export enum JOBS {
   ALC = "ALC",
   ARM = "ARM",
   BSM = "BSM",
-  BTN = "BTN",
   CRP = "CRP",
   CUL = "CUL",
-  FSH = "FSH",
   GSM = "GSM",
   LTW = "LTW",
-  MIN = "MIN",
   WVR = "WVR",
+  BTN = "BTN",
+  MIN = "MIN",
+  FSH = "FSH",
 }
 
-export const timeRestrictedMissions: ITimeRestrictedMissions = {
-  [STARS_DATA.SINUS_ARDORUM.name]: {
+export enum JOB_NAMES {
+  ALC = "Alchemist",
+  ARM = "Armorer",
+  BSM = "Blacksmith",
+  BTN = "Botanist",
+  CRP = "Carpenter",
+  CUL = "Culinarian",
+  FSH = "Fisher",
+  GSM = "Goldsmith",
+  LTW = "Leatherworker",
+  MIN = "Miner",
+  WVR = "Weaver",
+}
+
+export enum JOB_EMOJIS {
+  ALC = "1421934963468800070",
+  ARM = "1421934972868235365",
+  BSM = "1421934982422728734",
+  BTN = "1421934991318843432",
+  CRP = "1421935001083318423",
+  CUL = "1421935010331496608",
+  FSH = "1421935021358448802",
+  GSM = "1421935029906440304",
+  LTW = "1421935038638985237",
+  MIN = "1421935046935183493",
+  WVR = "1421935055483306175",
+}
+
+export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
+  SINUS_ARDORUM: {
     [JOBS.ALC]: [
       {
         eorzeaTime: "0000",
@@ -128,7 +156,7 @@ export const timeRestrictedMissions: ITimeRestrictedMissions = {
       },
     ],
   },
-  [STARS_DATA.PHAENNA.name]: {
+  PHAENNA: {
     [JOBS.ALC]: [
       {
         eorzeaTime: "0000",
