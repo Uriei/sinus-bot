@@ -1,4 +1,4 @@
-import { STARS } from "../constants/stars.constants";
+import { STARS_DATA } from "../constants/stars.constants";
 import { IWeatherReport } from "../modules/models/weather-report.model";
 
 function calculateForecastTarget(lDate: Date): number {
@@ -17,7 +17,7 @@ function calculateForecastTarget(lDate: Date): number {
 
 function getWeatherForecast(star: string) {
   const currentStep = calculateForecastTarget(new Date());
-  const weatherForecast = STARS[star].weather.find((weather) => currentStep <= weather.rate);
+  const weatherForecast = STARS_DATA[star].weather.find((weather) => currentStep <= weather.rate);
   return weatherForecast;
 }
 export function getWeatherForecastIcon(star: string) {
@@ -34,7 +34,7 @@ export function getNextWeatherForecast(star: string, maxHours: number = 24): Arr
 
   while (currentDate.valueOf() < maxDate.valueOf()) {
     const currentChance = calculateForecastTarget(currentDate);
-    const weatherForecast = STARS[star].weather.find((weather) => currentChance < weather.rate);
+    const weatherForecast = STARS_DATA[star].weather.find((weather) => currentChance < weather.rate);
 
     if (weatherArray.length === 0 || weatherArray[weatherArray.length - 1].name !== weatherForecast.name) {
       const newWeather: IWeatherReport = {

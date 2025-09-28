@@ -1,9 +1,9 @@
 import { ActivityType, Client, Events, GatewayIntentBits, MessageFlags, PresenceStatusData, REST, Routes } from "discord.js";
-import { readdirSync as fsReaddirSync, readFileSync as fsReadFileSync, existsSync as fsExistsSync } from "fs";
+import { existsSync as fsExistsSync, readdirSync as fsReaddirSync, readFileSync as fsReadFileSync } from "fs";
 import { get as _get, has as _has, set as _set } from "lodash";
 import * as path from "path";
-import { IChannelRedAlertCooldown } from "../models/red-alert.model";
 import { Log } from "../logging";
+import { IChannelRedAlertCooldown } from "../models/red-alert.model";
 
 class Discord {
   private static _discordKeepAliveInterval: NodeJS.Timeout;
