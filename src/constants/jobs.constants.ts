@@ -1,5 +1,4 @@
 import { ITimeRestrictedMissions } from "../modules/models/jobs.model";
-import { STARS } from "./stars.constants";
 
 export enum JOBS {
   ALC = "ALC",

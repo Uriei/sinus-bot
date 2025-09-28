@@ -5,7 +5,6 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   MessageFlags,
   SelectMenuOptionBuilder,
   SlashCommandBuilder,
@@ -14,7 +13,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from "discord.js";
 import { TESTING_ENV } from "../../../constants/constants";
-import { JOB_EMOJIS, JOB_NAMES, JOBS, TIMERESTRICTED_MISSIONS } from "../../../constants/jobs.constants";
+import { JOB_EMOJIS, JOB_NAMES, JOBS } from "../../../constants/jobs.constants";
 import { STARS, STARS_DATA } from "../../../constants/stars.constants";
 import { formatJobTimersForDiscord, formatJobTimersMacroAlarm, generateMessageEmbed } from "../../utils";
 

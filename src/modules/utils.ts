@@ -1,10 +1,10 @@
 import { addHours, format, formatDuration, intervalToDuration } from "date-fns";
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
-import { IWeatherReport } from "./models/weather-report.model";
-import { STARS_DATA } from "../constants/stars.constants";
 import { JOB_NAMES, TIMERESTRICTED_MISSIONS } from "../constants/jobs.constants";
-import { ITimeRestrictedMission, ITimeRestrictedMissionJob } from "./models/jobs.model";
+import { STARS_DATA } from "../constants/stars.constants";
 import { ALARM_SOUNDS } from "../constants/weather.constants";
+import { ITimeRestrictedMission, ITimeRestrictedMissionJob } from "./models/jobs.model";
+import { IWeatherReport } from "./models/weather-report.model";
 
 const DEFAULT_COLOR = 0x033280;
 
