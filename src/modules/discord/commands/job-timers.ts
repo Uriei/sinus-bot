@@ -82,6 +82,9 @@ export default {
           });
         }
       });
+      setTimeout(async () => {
+        await interaction.editReply({ components: [] }).catch();
+      }, 5 * 60 * 1000);
     },
   },
   autocomplete: {
