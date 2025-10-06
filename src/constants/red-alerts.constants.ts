@@ -1,6 +1,7 @@
 import * as path from "path";
 import { IRedAlertType } from "../modules/models/red-alert.model";
 import { WEATHER_EMOJIS } from "./weather.constants";
+import { JOBS } from "./jobs.constants";
 
 export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
   {
@@ -10,7 +11,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: ["MIN", "FSH", "ARM", "GSM", "ALC"],
+        classes: [JOBS.MIN, JOBS.FSH, JOBS.ARM, JOBS.GSM, JOBS.ALC],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-a.png"),
         hints: {
           "en-US": [
@@ -33,7 +34,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
       },
       {
         name: "Variant B",
-        classes: ["CUL", "MIN", "FSH", "CRP", "GSM", "WVR"],
+        classes: [JOBS.CUL, JOBS.MIN, JOBS.FSH, JOBS.CRP, JOBS.GSM, JOBS.WVR],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-astromagneticstorm-b.png"),
         hints: {
           "en-US": [
@@ -63,7 +64,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: ["BSM", "LTW", "MIN", "ARM", "GSM"],
+        classes: [JOBS.BSM, JOBS.LTW, JOBS.MIN, JOBS.ARM, JOBS.GSM],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-meteorshower-a.png"),
         hints: {
           "en-US": [
@@ -86,7 +87,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
       },
       {
         name: "Variant B",
-        classes: ["BSM", "ARM", "LTW", "ALC", "CUL", "BTN"],
+        classes: [JOBS.BSM, JOBS.ARM, JOBS.LTW, JOBS.ALC, JOBS.CUL, JOBS.BTN],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-meteorshower-b.png"),
         hints: {
           "en-US": [
@@ -116,7 +117,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: ["BSM", "ALC", "CRP", "WVR", "BTN"],
+        classes: [JOBS.BSM, JOBS.ALC, JOBS.CRP, JOBS.WVR, JOBS.BTN],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-sporingmist-a.png"),
         hints: {
           "en-US": [
@@ -139,7 +140,7 @@ export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
       },
       {
         name: "Variant B",
-        classes: ["CRP", "LTW", "WVR", "CUL", "BTN", "FSH"],
+        classes: [JOBS.CRP, JOBS.LTW, JOBS.WVR, JOBS.CUL, JOBS.BTN, JOBS.FSH],
         image: path.resolve("./assets/red-alerts/sinus-ardorum/ra-sporingmist-b.png"),
         hints: {
           "en-US": [
@@ -168,7 +169,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: ["CRP", "LTW", "ALC", "GSM", "WVR"],
+        classes: [JOBS.CRP, JOBS.LTW, JOBS.ALC, JOBS.GSM, JOBS.WVR],
         image: path.resolve("./assets/red-alerts/phaenna/ra-thunderstorms-a.png"),
         hints: {
           "en-US": [
@@ -191,7 +192,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
       },
       {
         name: "Variant B",
-        classes: ["GSM", "WVR", "BTN", "BSM", "ALC", "MIN"],
+        classes: [JOBS.GSM, JOBS.WVR, JOBS.BTN, JOBS.BSM, JOBS.ALC, JOBS.MIN],
         image: path.resolve("./assets/red-alerts/phaenna/ra-thunderstorms-b.png"),
         hints: {
           "en-US": [
@@ -221,7 +222,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: ["BSM", "LTW", "BTN", "CUL", "MIN", "FSH"],
+        classes: [JOBS.BSM, JOBS.LTW, JOBS.BTN, JOBS.CUL, JOBS.MIN, JOBS.FSH],
         image: path.resolve("./assets/red-alerts/phaenna/ra-annealingwinds-a.png"),
         hints: {
           "en-US": [
@@ -242,6 +243,29 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
           ja: ["寒冷気流の影響で\n気温低下を予測！", "洞窟内の冷え込みに\n注意しなければ", "備えねばなるまい"],
         },
       },
+      {
+        name: "Variant B",
+        classes: [JOBS.ARM, JOBS.CUL, JOBS.FSH, JOBS.CRP, JOBS.BTN],
+        image: path.resolve("./assets/red-alerts/phaenna/ra-annealingwinds-b.png"),
+        hints: {
+          "en-US": [
+            "Annealing winds are on their way... Expect severe drops in temperature.",
+            "The frigid air might force a system shutdown...",
+            "Best we prepare a few contingency plans.",
+          ],
+          fr: [
+            "Des fortes baisses de températures sont prévues !",
+            "Je crains que la chute de la température ne cause des pannes électriques...",
+            "Essayons de réfléchir à un plan de secours !",
+          ],
+          de: [
+            "Eine starke Temperatursenkung aufgrund einer Kältefront ist vorhergesagt!",
+            "Wenn es zu sehr abkühlt, könnte das die Systeme abschalten.",
+            "Ein Plan B für alle Fälle würde nicht schaden.",
+          ],
+          ja: ["寒冷気流の影響で\n気温低下を予測！", "低温化による\nシステムダウンが心配だ", "バックアッププランも\n検討しよう"],
+        },
+      },
     ],
   },
   {
@@ -251,13 +275,29 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
     variants: [
       {
         name: "Variant A",
-        classes: ["CRP", "ARM", "LTW", "CUL", "FSH"],
+        classes: [JOBS.CRP, JOBS.ARM, JOBS.LTW, JOBS.CUL, JOBS.FSH],
         image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain-a.png"),
         hints: {
-          "en-US": [],
-          fr: [],
-          de: [],
-          ja: [],
+          "en-US": [
+            "We've got large quantities of glass rain incoming!",
+            "The way the wind's blowing, the crater might suffer damage.",
+            "Let's prepare for the worst and hope for the best.",
+          ],
+          fr: [
+            "Des pluies de verre sont en approche ! Et elles vont arriver très vite !",
+            "Avec un vent aussi violent, il va y avoir des dégâts dans le fond du gouffre...",
+            "Il vaut mieux se préparer au pire.",
+          ],
+          de: [
+            "Starker Glasregen ist in Kürze vorhergesagt!",
+            "Diese Windrichtung ... Ich mache mir Sorgen um den Kapselgrund.",
+            "Lasst uns für den Notfall gewappnet sein.",
+          ],
+          ja: [
+            "グラスレインの発生を観測！\nもうじき到来します！",
+            "この風向きでは\n大穴下がマズそうだな…",
+            "もしもに備えて\n準備をしておこう",
+          ],
         },
       },
     ],
