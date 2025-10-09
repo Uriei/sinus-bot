@@ -300,6 +300,33 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
           ],
         },
       },
+      {
+        name: "Variant B",
+        classes: [JOBS.BSM, JOBS.WVR, JOBS.ALC, JOBS.ARM, JOBS.GSM, JOBS.MIN],
+        image: path.resolve("./assets/red-alerts/phaenna/ra-glassrain-b.png"),
+        hints: {
+          "en-US": [
+            "We've observed an oncoming glass dust storm...",
+            "Take care not to slip on the dust as it approaches.",
+            "Right. Safety first. Act with due caution.",
+          ],
+          fr: [
+            "Des pluies de verre sont en approche ! Et elles vont arriver très vite !",
+            "Attention à ne pas glisser à cause de la poussière de verre !",
+            "Nous devons rappeler à chacun d'assurer sa sécurité avant tout.",
+          ],
+          de: [
+            "Starker Glasregen ist in Kürze vorhergesagt!",
+            "Der Staub macht den Boden ziemlich rutschig. Seid vorsichtig!",
+            "Denkt immer dran: Sicherheit geht vor!",
+          ],
+          ja: [
+            "グラスレインの発生を観測！\nもうじき到来します！",
+            "粉塵によるスリップも\n十分注意せねば",
+            "安全第一の判断を\n呼びかけるとしよう",
+          ],
+        },
+      },
     ],
   },
 ];
