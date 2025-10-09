@@ -223,7 +223,7 @@ export default {
                   `Variant:${variant?.name}`
                 );
                 await setVariant(cVariantButton, interaction, redAlertType);
-                await cVariantButton.update({}).catch();
+                cVariantButton.update({}).catch();
               }
             }
           });
@@ -327,7 +327,7 @@ async function setVariant(
   if (interaction.id) {
     const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
     const image = new AttachmentBuilder(variant.image);
-    await interaction.editReply({ files: [image] }).catch((err) => Log.error("Red Alert-FalseAlarm", err, interaction));
+    await interaction.editReply({ files: [image] }).catch((err) => Log.error("Red Alert-SetVariant", err, interaction));
   }
 }
 
