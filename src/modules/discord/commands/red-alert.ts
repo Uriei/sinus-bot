@@ -79,6 +79,7 @@ export default {
           .catch((err) => Log.error("Red Alert-SendCooldownReply", err));
       } else {
         Discord.channelRedAlertCooldown[interaction.channelId] = new Date().valueOf();
+        let timeoutRemoveFalseAlarmButton: NodeJS.Timeout = null;
         const star = interaction.options.getString("star");
         const starName = STARS_DATA[star].nameRole || STARS_DATA[star].name;
         // Finds a pingable role with the pattern @world-star
@@ -148,10 +149,12 @@ export default {
               await c.deferUpdate();
               if (c.user.id === interaction.user.id) {
                 await falseAlarm(c);
+                clearTimeout(timeoutRemoveFalseAlarmButton);
               } else if (!falseAlarmRequests.includes(c.user.id)) {
                 falseAlarmRequests.push(c.user.id);
                 if (falseAlarmRequests.length >= FALSE_ALARM_REQUIRED_COUNT) {
                   await falseAlarm(c);
+                  clearTimeout(timeoutRemoveFalseAlarmButton);
                 } else {
                   await setFalseAlarmCounter(c, redAlertType, falseAlarmRequests.length);
                 }
@@ -193,7 +196,7 @@ export default {
               });
             }
           });
-        setTimeout(async () => {
+        timeoutRemoveFalseAlarmButton = setTimeout(async () => {
           const components = [];
           const hintsButton = addHintsButton(redAlertType);
           if (hintsButton) {
