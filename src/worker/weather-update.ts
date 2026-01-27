@@ -17,7 +17,8 @@ function calculateForecastTarget(lDate: Date): number {
 
 function getWeatherForecast(star: string) {
   const currentStep = calculateForecastTarget(new Date());
-  const weatherForecast = STARS_DATA[star].weather.find((weather) => currentStep <= weather.rate);
+  const weatherForecast =
+    STARS_DATA[star].weather.sort((a, b) => a.rate - b.rate).find((weather) => currentStep <= weather.rate) || STARS_DATA[star].weather[0];
   return weatherForecast;
 }
 export function getWeatherForecastIcon(star: string) {

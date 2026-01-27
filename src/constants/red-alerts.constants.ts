@@ -330,3 +330,25 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
     ],
   },
 ];
+
+export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
+  {
+    name: "Bubble Bloom",
+    emoji: WEATHER_EMOJIS.FAIR_SKIES,
+    image: path.resolve("./assets/red-alerts/oizys/ra-bubblebloom.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: [JOBS.CRP, JOBS.CUL, JOBS.BTN, JOBS.GSM, JOBS.MIN, JOBS.FSH],
+        image: path.resolve("./assets/red-alerts/oizys/ra-bubblebloom-a.png"),
+        hints: {
+          "en-US": [
+            "Our sensors indicate a floating seawater event is in progress.",
+            'One of those "bubble blooms," is it?',
+            "Oizys is in a dramatic—albeit brief—shift in conditions.",
+          ],
+        },
+      },
+    ],
+  },
+];

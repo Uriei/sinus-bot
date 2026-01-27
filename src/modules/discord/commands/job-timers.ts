@@ -27,7 +27,7 @@ export default {
         .setName("star")
         .setDescription("Select Star Job timers")
         .setRequired(true)
-        .setChoices(Object.values(STARS).map((s) => ({ name: STARS_DATA[s].name, value: s })))
+        .setChoices(Object.values(STARS).map((s) => ({ name: STARS_DATA[s].name, value: s }))),
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
@@ -56,7 +56,7 @@ export default {
       const reply = await interaction.editReply({
         embeds: generateMessageEmbed(
           `${starName} Time-Restricted Missions`,
-          "Select the jobs for which you want to set the timers on the selector below."
+          "Select the jobs for which you want to set the timers on the selector below.",
         ),
         components: [selectorRow],
       });
@@ -82,9 +82,12 @@ export default {
           });
         }
       });
-      setTimeout(async () => {
-        await interaction.editReply({ components: [] }).catch();
-      }, 5 * 60 * 1000);
+      setTimeout(
+        async () => {
+          await interaction.editReply({ components: [] }).catch();
+        },
+        5 * 60 * 1000,
+      );
     },
   },
   autocomplete: {
@@ -94,7 +97,10 @@ export default {
 
 function generateJobOptions(star: string): SelectMenuOptionBuilder[] {
   const options: SelectMenuOptionBuilder[] = [];
+  const timeRestrictedMissions = STARS_DATA[star].timeRestrictedMissions;
   for (const job in JOBS) {
+    if (timeRestrictedMissions[job].length < 1) continue;
+
     const newOption = new StringSelectMenuOptionBuilder().setLabel(job).setDescription(JOB_NAMES[job]).setValue(job);
     if (!TESTING_ENV) {
       // Yes, because DiscordJS explodes if I send the wrong emoji ID, so in my test environment it breaks.

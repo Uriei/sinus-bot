@@ -311,4 +311,52 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
       },
     ],
   },
+  OIZYS: {
+    [JOBS.ALC]: [
+      {
+        eorzeaTime: "1600",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.ARM]: [],
+    [JOBS.BSM]: [],
+    [JOBS.BTN]: [
+      {
+        eorzeaTime: "1200",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.CRP]: [
+      {
+        eorzeaTime: "1600",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.CUL]: [],
+    [JOBS.FSH]: [
+      {
+        eorzeaTime: "0400",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.GSM]: [
+      {
+        eorzeaTime: "0400",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.LTW]: [
+      {
+        eorzeaTime: "0800",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.MIN]: [
+      {
+        eorzeaTime: "1200",
+        needsBaseUnlock: false,
+      },
+    ],
+    [JOBS.WVR]: [],
+  },
 };

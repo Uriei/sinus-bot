@@ -53,6 +53,14 @@ export const PHAENNA_WEATHER: Array<IWeatherData> = [
     important: true,
   },
 ];
+export const OIZYS_WEATHER: Array<IWeatherData> = [
+  {
+    rate: 100,
+    emoji: WEATHER_EMOJIS.FAIR_SKIES,
+    name: "Unknown",
+    important: false,
+  },
+];
 
 export const ALARM_SOUNDS = [
   { name: "Bell", value: "se00" },

@@ -41,15 +41,15 @@ export default {
         .setRequired(true)
         .setChoices(
           Object.entries(STARS_DATA)
-            .filter((s) => s[1].redAlerts)
-            .map((s) => ({ name: s[1].name, value: s[0] }))
-        )
+            .filter((s) => s[1].redAlerts?.length > 0)
+            .map((s) => ({ name: s[1].name, value: s[0] })),
+        ),
     )
     .addStringOption((stringOption) =>
-      stringOption.setName("type").setDescription("Select the type of Red Alert").setRequired(true).setAutocomplete(true)
+      stringOption.setName("type").setDescription("Select the type of Red Alert").setRequired(true).setAutocomplete(true),
     )
     .addStringOption((stringOption) =>
-      stringOption.setName("variant").setDescription("Select the variant for this Red Alert").setRequired(false).setAutocomplete(true)
+      stringOption.setName("variant").setDescription("Select the variant for this Red Alert").setRequired(false).setAutocomplete(true),
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
@@ -86,13 +86,13 @@ export default {
         let role = interaction.guild.roles.cache.find(
           (r) =>
             r.name.toLowerCase().replaceAll(/\s/g, "") === `${interaction.channel.name}-${starName}`.toLowerCase().replaceAll(/\s/g, "") &&
-            r.mentionable
+            r.mentionable,
         );
         if (!role) {
           // In case there is no pingable @world-star role
           role = interaction.guild.roles.cache.find(
             (r) =>
-              r.name.toLowerCase().replaceAll(/\s/g, "") === interaction.channel.name.toLowerCase().replaceAll(/\s/g, "") && r.mentionable
+              r.name.toLowerCase().replaceAll(/\s/g, "") === interaction.channel.name.toLowerCase().replaceAll(/\s/g, "") && r.mentionable,
           );
         }
 
@@ -134,7 +134,7 @@ export default {
           `Role:${role?.name}`,
           `Star:${STARS_DATA[star].name}`,
           `Type:${redAlertType?.name}`,
-          `Variant:${chosenVariant?.name}`
+          `Variant:${chosenVariant?.name}`,
         );
         const interactionReply = await interaction.reply(replyPayload).catch((err) => Log.error("Red Alert-SendInteractionReply", err));
         if (!interactionReply) return;
@@ -175,7 +175,7 @@ export default {
                 `Role:${role?.name}`,
                 `Star:${STARS_DATA[star].name}`,
                 `Type:${redAlertType?.name}`,
-                `Locale:${c.locale}`
+                `Locale:${c.locale}`,
               );
               (await c.followUp(hintsPayload)).createMessageComponentCollector().on("collect", async (ch) => {
                 if (ch.customId.startsWith("hintLang-")) {
@@ -185,7 +185,7 @@ export default {
                     `Role:${role?.name}`,
                     `Star:${STARS_DATA[star].name}`,
                     `Type:${redAlertType?.name}`,
-                    `Lang:${lang}`
+                    `Lang:${lang}`,
                   );
                   const hintsPayload: InteractionEditReplyOptions = {
                     embeds: getRedAlertHints(lang, redAlertType),
@@ -196,14 +196,17 @@ export default {
               });
             }
           });
-        timeoutRemoveFalseAlarmButton = setTimeout(async () => {
-          const components = [];
-          const hintsButton = addHintsButton(redAlertType);
-          if (hintsButton) {
-            components.push(new ActionRowBuilder<ButtonBuilder>({ components: [hintsButton] }));
-          }
-          await interaction.editReply({ components: components }).catch(() => Log.error("Red Alert-RemoveFalseAlarmButton"));
-        }, falseAlarmTimeout * 60 * 1000);
+        timeoutRemoveFalseAlarmButton = setTimeout(
+          async () => {
+            const components = [];
+            const hintsButton = addHintsButton(redAlertType);
+            if (hintsButton) {
+              components.push(new ActionRowBuilder<ButtonBuilder>({ components: [hintsButton] }));
+            }
+            await interaction.editReply({ components: components }).catch(() => Log.error("Red Alert-RemoveFalseAlarmButton"));
+          },
+          falseAlarmTimeout * 60 * 1000,
+        );
 
         if (!chosenVariant && hasMultipleVariantData(redAlertType)) {
           const interactionReplyVariants = await interaction
@@ -223,7 +226,7 @@ export default {
                   `Role:${role?.name}`,
                   `Star:${STARS_DATA[star].name}`,
                   `Type:${redAlertType?.name}`,
-                  `Variant:${variant?.name}`
+                  `Variant:${variant?.name}`,
                 );
                 await setVariant(cVariantButton, interaction, redAlertType);
                 cVariantButton.update({}).catch();
@@ -325,7 +328,7 @@ async function setVariant(
     | MentionableSelectMenuInteraction
     | ChannelSelectMenuInteraction,
   interaction: ChatInputCommandInteraction,
-  redAlertType: IRedAlertType
+  redAlertType: IRedAlertType,
 ) {
   if (interaction.id) {
     const variant = redAlertType.variants.find((v) => _kebabCase(v.name) === c.customId);
@@ -341,7 +344,7 @@ async function falseAlarm(
     | UserSelectMenuInteraction
     | RoleSelectMenuInteraction
     | MentionableSelectMenuInteraction
-    | ChannelSelectMenuInteraction
+    | ChannelSelectMenuInteraction,
 ) {
   await c
     .editReply({ content: "**IT WAS A FALSE ALARM!!!**", components: [], files: [] })
@@ -360,7 +363,7 @@ async function setFalseAlarmCounter(
     | MentionableSelectMenuInteraction
     | ChannelSelectMenuInteraction,
   redAlertType: IRedAlertType,
-  counter: number
+  counter: number,
 ) {
   await c
     .editReply({ components: addRedAlertButtons(redAlertType, counter) })

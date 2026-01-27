@@ -21,13 +21,13 @@ export default {
             .setRequired(true)
             .setChoices(
               Object.entries(STARS_DATA)
-                .filter((s) => s[1].weather)
-                .map((s) => ({ name: s[1].name, value: s[0] }))
-            )
+                .filter((s) => s[1].weather.length > 1)
+                .map((s) => ({ name: s[1].name, value: s[0] })),
+            ),
         )
         .addNumberOption((numberOption) =>
-          numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
-        )
+          numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false),
+        ),
     )
     .addSubcommand((subCommandOption) =>
       subCommandOption
@@ -41,22 +41,22 @@ export default {
             .setChoices(
               Object.entries(STARS_DATA)
                 .filter((s) => s[1].weather)
-                .map((s) => ({ name: s[1].name, value: s[0] }))
-            )
+                .map((s) => ({ name: s[1].name, value: s[0] })),
+            ),
         )
         .addNumberOption((numberOption) =>
-          numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false)
+          numberOption.setName("hours").setDescription("Hours to forecast").setAutocomplete(true).setRequired(false),
         )
         .addNumberOption((numberOption) =>
           numberOption
             .setName("reminder")
             .setDescription("How many minutes prior to sound the alarm")
             .setAutocomplete(true)
-            .setRequired(false)
+            .setRequired(false),
         )
         .addStringOption((stringOption) =>
-          stringOption.setName("sound").setDescription("Pick the alarm sound").setRequired(false).setChoices(ALARM_SOUNDS)
-        )
+          stringOption.setName("sound").setDescription("Pick the alarm sound").setRequired(false).setChoices(ALARM_SOUNDS),
+        ),
     ),
   execute: {
     async execute(interaction: ChatInputCommandInteraction) {
