@@ -66,7 +66,7 @@ export class WeatherPresenceService {
   }
 
   private getNextStar(): string {
-    const STAR_COUNT = Object.entries(STARS_DATA).filter((s) => s[1].weather).length;
+    const STAR_COUNT = Object.entries(STARS_DATA).filter((s) => s[1].weather.length > 1).length;
     WeatherPresenceService.STAR_INDEX++;
     if (WeatherPresenceService.STAR_INDEX > STAR_COUNT - 1) {
       WeatherPresenceService.STAR_INDEX = 0;

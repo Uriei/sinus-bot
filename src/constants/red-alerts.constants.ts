@@ -351,4 +351,16 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
       },
     ],
   },
+  {
+    name: "Gravitational Anomaly",
+    emoji: WEATHER_EMOJIS.GRAVITATIONAL_ANOMALY,
+    image: path.resolve("./assets/red-alerts/oizys/ra-gravitationalanomaly.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: [JOBS.ARM, JOBS.GSM, JOBS.WVR, JOBS.BSM, JOBS.LTW],
+        image: path.resolve("./assets/red-alerts/oizys/ra-gravitationalanomaly-a.png"),
+      },
+    ],
+  },
 ];
