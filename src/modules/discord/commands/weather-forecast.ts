@@ -1,7 +1,7 @@
 import { AutocompleteInteraction, BitFieldResolvable, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
+import { ALARM_SOUNDS } from "../../../constants/constants";
 import { STARS_DATA } from "../../../constants/stars.constants";
-import { ALARM_SOUNDS } from "../../../constants/weather.constants";
 import { getNextWeatherForecast } from "../../../worker/weather-update";
 import { formatWeatherForecastForDiscord, formatWeatherForecastMacroAlarm } from "../../utils";
 import { Discord } from "../discord";

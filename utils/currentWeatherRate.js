@@ -41,6 +41,11 @@ function getNextWeatherForecast(maxHours = 24) {
   return weatherArray;
 }
 
-console.log(getNextWeatherForecast(8).forEach((a) => console.log(JSON.stringify(a))));
-console.log("Current Weather Rate -", getNextWeatherForecast(24)[0]);
-console.log("Next Weather Rate    -", getNextWeatherForecast(24)[1]);
+getNextWeatherForecast(8)
+  .filter((a) => a)
+  .forEach((a) => console.log(`Date: ${a.date}\teorzeaHour: ${a.eorzeaHour}\trate: ${a.weatherChance}`));
+
+const now = getNextWeatherForecast(24)[0];
+const next = getNextWeatherForecast(24)[1];
+console.log("\nCurrent Weather Rate\t", `${now.date}\teorzeaHour: ${now.eorzeaHour}\trate: ${now.weatherChance}`);
+console.log("Next Weather Rate\t", `${next.date}\teorzeaHour: ${next.eorzeaHour}\trate: ${next.weatherChance}`);

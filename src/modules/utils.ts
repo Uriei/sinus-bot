@@ -1,8 +1,8 @@
 import { addHours, format, formatDuration, intervalToDuration } from "date-fns";
 import { APIEmbed, APIEmbedField, EmbedBuilder } from "discord.js";
+import { ALARM_SOUNDS } from "../constants/constants";
 import { JOB_NAMES, TIMERESTRICTED_MISSIONS } from "../constants/jobs.constants";
 import { STARS_DATA } from "../constants/stars.constants";
-import { ALARM_SOUNDS } from "../constants/weather.constants";
 import { ITimeRestrictedMission, ITimeRestrictedMissionJob } from "./models/jobs.model";
 import { IWeatherReport } from "./models/weather-report.model";
 
@@ -51,7 +51,7 @@ export function formatWeatherForecastMacroAlarm(
   weatherReport: IWeatherReport[],
   hours: number,
   reminder: number,
-  sound: string
+  sound: string,
 ): Array<APIEmbed> {
   const starName = STARS_DATA[star].name;
   const reportHourLimit = addHours(new Date(), hours).valueOf();
@@ -134,7 +134,7 @@ export function formatJobTimersMacroAlarm(
   star: string,
   jobs: string[],
   reminder: number = 3,
-  sound: string = ALARM_SOUNDS[0].value
+  sound: string = ALARM_SOUNDS[0].value,
 ): Array<APIEmbed> {
   const starName = STARS_DATA[star].name;
   const embed = new EmbedBuilder().setColor(DEFAULT_COLOR).setTitle(`${starName} Time-Restricted Missions Alarms`);

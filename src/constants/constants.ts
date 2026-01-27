@@ -12,3 +12,12 @@ export const LANGS = {
   fr: "Français",
   ja: "日本語",
 };
+
+export const ALARM_SOUNDS = [
+  { name: "Bell", value: "se00" },
+  { name: "Music Box", value: "se01" },
+  { name: "Prelude", value: "se02" },
+  { name: "Chocobo", value: "se03" },
+  { name: "La Noscea", value: "se04" },
+  { name: "Festival", value: "se05" },
+];

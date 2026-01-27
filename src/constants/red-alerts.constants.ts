@@ -1,7 +1,7 @@
 import * as path from "path";
 import { IRedAlertType } from "../modules/models/red-alert.model";
-import { WEATHER_EMOJIS } from "./weather.constants";
 import { JOBS } from "./jobs.constants";
+import { WEATHER_EMOJIS } from "./weather.constants";
 
 export const RED_ALERT_SINUS_ARDORUM: Array<IRedAlertType> = [
   {
