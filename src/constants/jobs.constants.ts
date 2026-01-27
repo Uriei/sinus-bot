@@ -318,7 +318,12 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
         needsBaseUnlock: false,
       },
     ],
-    [JOBS.ARM]: [],
+    [JOBS.ARM]: [
+      {
+        eorzeaTime: "0000",
+        needsBaseUnlock: false,
+      },
+    ],
     [JOBS.BSM]: [
       {
         eorzeaTime: "2000",
