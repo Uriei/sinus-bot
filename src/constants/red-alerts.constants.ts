@@ -363,4 +363,16 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
       },
     ],
   },
+  {
+    name: "Gale-force Winds",
+    emoji: WEATHER_EMOJIS.FAIR_SKIES,
+    image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds.png"),
+    variants: [
+      {
+        name: "Variant A",
+        classes: [JOBS.FSH, JOBS.CRP, JOBS.ALC, JOBS.ARM, JOBS.LTW, JOBS.CUL],
+        image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds-a.png"),
+      },
+    ],
+  },
 ];
