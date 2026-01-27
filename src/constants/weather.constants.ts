@@ -64,7 +64,7 @@ export const OIZYS_WEATHER: Array<IWeatherData> = [
     important: true,
   },
   {
-    rate: 60,
+    rate: 70,
     emoji: WEATHER_EMOJIS.FAIR_SKIES,
     name: "Fair Skies",
     important: false,
