@@ -59,7 +59,7 @@ export const PHAENNA_WEATHER: Array<IWeatherData> = [
 ];
 export const OIZYS_WEATHER: Array<IWeatherData> = [
   {
-    rate: 20,
+    rate: 15,
     emoji: WEATHER_EMOJIS.CLOUDS,
     name: "Clouds",
     important: true,
