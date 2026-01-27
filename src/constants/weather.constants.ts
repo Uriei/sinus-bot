@@ -4,6 +4,7 @@ export const WEATHER_EMOJIS = {
   ANNEALING_WINDS: "<:annealingwinds:1412459057410740274>",
   ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
   BUBBLE_BLOOM: "<:bubblebloom:1465657179762851951>",
+  CLEAR_SKIES: "<:clearskies:1465682394634780808>",
   CLOUDS: "<:clouds:1412390614875639808>",
   FAIR_SKIES: "<:fairskies:1369561680278978631>",
   GLASSRAIN: "<:glassrain:1412771742128013433>",
@@ -57,10 +58,22 @@ export const PHAENNA_WEATHER: Array<IWeatherData> = [
 ];
 export const OIZYS_WEATHER: Array<IWeatherData> = [
   {
-    rate: 100,
+    rate: 30,
+    emoji: WEATHER_EMOJIS.CLOUDS,
+    name: "Clouds",
+    important: true,
+  },
+  {
+    rate: 60,
     emoji: WEATHER_EMOJIS.FAIR_SKIES,
-    name: "Unknown",
+    name: "Fair Skies",
     important: false,
+  },
+  {
+    rate: 100,
+    emoji: WEATHER_EMOJIS.CLEAR_SKIES,
+    name: "Clear Skies",
+    important: true,
   },
 ];
 
