@@ -3,6 +3,7 @@ import { IWeatherData } from "../modules/models/weather-report.model";
 export const WEATHER_EMOJIS = {
   ANNEALING_WINDS: "<:annealingwinds:1412459057410740274>",
   ASTROMAGNETIC_STORM: "<:astromagneticstorm:1369563775719575624>",
+  BUBBLE_BLOOM: "<:bubblebloom:1465657179762851951>",
   CLOUDS: "<:clouds:1412390614875639808>",
   FAIR_SKIES: "<:fairskies:1369561680278978631>",
   GLASSRAIN: "<:glassrain:1412771742128013433>",

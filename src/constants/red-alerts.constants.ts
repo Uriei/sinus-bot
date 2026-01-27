@@ -334,7 +334,7 @@ export const RED_ALERT_PHAENNA: Array<IRedAlertType> = [
 export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
   {
     name: "Bubble Bloom",
-    emoji: WEATHER_EMOJIS.FAIR_SKIES,
+    emoji: WEATHER_EMOJIS.BUBBLE_BLOOM,
     image: path.resolve("./assets/red-alerts/oizys/ra-bubblebloom.png"),
     variants: [
       {
