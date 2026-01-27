@@ -376,6 +376,11 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
         needsBaseUnlock: false,
       },
     ],
-    [JOBS.WVR]: [],
+    [JOBS.WVR]: [
+      {
+        eorzeaTime: "1200",
+        needsBaseUnlock: false,
+      },
+    ],
   },
 };
