@@ -360,12 +360,19 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
         name: "Variant A",
         classes: [JOBS.ARM, JOBS.GSM, JOBS.WVR, JOBS.BSM, JOBS.LTW],
         image: path.resolve("./assets/red-alerts/oizys/ra-gravitationalanomaly-a.png"),
+        hints: {
+          "en-US": [
+            "We're detecting an increase in local gravity fluctuations!",
+            "What happens if these gravitational phenomena keep getting worse...?",
+            "Let's keep our eyes open, shall we?",
+          ],
+        },
       },
     ],
   },
   {
     name: "Gale-force Winds",
-    emoji: WEATHER_EMOJIS.FAIR_SKIES,
+    emoji: WEATHER_EMOJIS.GALEFORCE_WINDS,
     image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds.png"),
     variants: [
       {
