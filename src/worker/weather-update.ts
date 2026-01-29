@@ -35,7 +35,7 @@ export function getNextWeatherForecast(star: string, maxHours: number = 24): Arr
 
   while (currentDate.valueOf() < maxDate.valueOf()) {
     const currentChance = calculateForecastTarget(currentDate);
-    const weatherForecast = STARS_DATA[star].weather.find((weather) => currentChance < weather.rate);
+    const weatherForecast = STARS_DATA[star].weather.find((weather) => currentChance <= weather.rate);
 
     if (weatherArray.length === 0 || weatherArray[weatherArray.length - 1].name !== weatherForecast.name) {
       const newWeather: IWeatherReport = {

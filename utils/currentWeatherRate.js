@@ -22,7 +22,7 @@ function calculateForecastTarget(lDate) {
 function getNextWeatherForecast(maxHours = 24) {
   const weatherArray = [];
   const currentDate = new Date(new Date().setMilliseconds(0));
-  const maxDate = new Date().setHours(new Date().getHours() + maxHours + 6);
+  const maxDate = new Date().setHours(new Date().getHours() + maxHours);
 
   while (currentDate.valueOf() < maxDate.valueOf()) {
     const currentChance = calculateForecastTarget(currentDate);
@@ -41,7 +41,7 @@ function getNextWeatherForecast(maxHours = 24) {
   return weatherArray;
 }
 
-getNextWeatherForecast(8)
+getNextWeatherForecast(24)
   .filter((a) => a)
   .forEach((a) => console.log(`Date: ${a.date}\teorzeaHour: ${a.eorzeaHour}\trate: ${a.weatherChance}`));
 
