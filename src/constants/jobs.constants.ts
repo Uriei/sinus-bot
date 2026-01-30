@@ -314,6 +314,10 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
   OIZYS: {
     [JOBS.ALC]: [
       {
+        eorzeaTime: "0600",
+        needsBaseUnlock: false,
+      },
+      {
         eorzeaTime: "1600",
         needsBaseUnlock: false,
       },
@@ -323,8 +327,16 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
         eorzeaTime: "0000",
         needsBaseUnlock: false,
       },
+      {
+        eorzeaTime: "0800",
+        needsBaseUnlock: false,
+      },
     ],
     [JOBS.BSM]: [
+      {
+        eorzeaTime: "0400",
+        needsBaseUnlock: false,
+      },
       {
         eorzeaTime: "2000",
         needsBaseUnlock: false,
@@ -332,17 +344,29 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
     ],
     [JOBS.BTN]: [
       {
+        eorzeaTime: "1000",
+        needsBaseUnlock: false,
+      },
+      {
         eorzeaTime: "2000",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.CRP]: [
       {
+        eorzeaTime: "0000",
+        needsBaseUnlock: false,
+      },
+      {
         eorzeaTime: "1600",
         needsBaseUnlock: false,
       },
     ],
     [JOBS.CUL]: [
+      {
+        eorzeaTime: "0200",
+        needsBaseUnlock: false,
+      },
       {
         eorzeaTime: "2000",
         needsBaseUnlock: false,
@@ -353,10 +377,18 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
         eorzeaTime: "0400",
         needsBaseUnlock: false,
       },
+      {
+        eorzeaTime: "1800",
+        needsBaseUnlock: false,
+      },
     ],
     [JOBS.GSM]: [
       {
         eorzeaTime: "0400",
+        needsBaseUnlock: false,
+      },
+      {
+        eorzeaTime: "1200",
         needsBaseUnlock: false,
       },
     ],
@@ -365,8 +397,16 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
         eorzeaTime: "0800",
         needsBaseUnlock: false,
       },
+      {
+        eorzeaTime: "1600",
+        needsBaseUnlock: false,
+      },
     ],
     [JOBS.MIN]: [
+      {
+        eorzeaTime: "0200",
+        needsBaseUnlock: false,
+      },
       {
         eorzeaTime: "1200",
         needsBaseUnlock: false,
@@ -375,6 +415,10 @@ export const TIMERESTRICTED_MISSIONS: ITimeRestrictedMissions = {
     [JOBS.WVR]: [
       {
         eorzeaTime: "1200",
+        needsBaseUnlock: false,
+      },
+      {
+        eorzeaTime: "2000",
         needsBaseUnlock: false,
       },
     ],
