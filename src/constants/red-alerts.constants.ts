@@ -347,6 +347,21 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
             'One of those "bubble blooms," is it?',
             "Oizys is in a dramatic—albeit brief—shift in conditions.",
           ],
+          fr: [
+            "On nous a signalé que la mer s'est mise à flotter!",
+            "C'est ce qu'on appelle une “tempête de bulles”...",
+            "L'environnement d'Oizys semble très instable...",
+          ],
+          de: [
+            "Es sollen schwebende Gewässer gesichtet worden sein!",
+            "Ein Schaumsturm... Ein echter Schaumsturm...!",
+            "Auf Oizys weiß man nie, was als Nächstes schiefgeht...",
+          ],
+          ja: [
+            "海水が浮き上がる現象が\n発生したそうです",
+            "これが例の\n水泡嵐というやつか",
+            "惑星オイジュスの環境が\n一時的に激変するかもしれないな",
+          ],
         },
       },
     ],
@@ -366,6 +381,17 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
             "What happens if these gravitational phenomena keep getting worse...?",
             "Let's keep our eyes open, shall we?",
           ],
+          fr: [
+            "Nous avons constaté des signes d'anomalies gravitationnelles!",
+            "Ça signifie que la gravité est encore plus instable que prévu?",
+            "Restons vigilants!",
+          ],
+          de: [
+            "Anzeichen auf eine Gravitationsanomalie wurden gemessen!",
+            "Der Einfluss der Gravitationsanomalie wird noch... gravierender?!",
+            "Besser, wir bleiben auf der Hut.",
+          ],
+          ja: ["乱重力の予兆が\n観測されました！", "重力異常の影響が\n深刻化すると…？", "警戒を怠らないようにしよう"],
         },
       },
     ],
@@ -379,6 +405,52 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
         name: "Variant A",
         classes: [JOBS.FSH, JOBS.CRP, JOBS.ALC, JOBS.ARM, JOBS.LTW, JOBS.CUL],
         image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds-a.png"),
+        hints: {
+          "en-US": [
+            "We've confirmed the approach of a Progenitrix-level extreme low pressure front.",
+            "How will that affect our materials currently en route...?",
+            "We need to prepare for the worst.",
+          ],
+          fr: [
+            "On a détecté une chute de la pression atmosphérique de rang maman bombo!",
+            "J'espère que ça ne va pas trop perturber nos livraisons...",
+            "Nous devons être parés à toute éventualité.",
+          ],
+          de: [
+            "Ein Progenitrix-Zyklon! Und der steuert direkt auf uns zu!",
+            "Hoffentlich ist den Materialien beim Unfall nichts passiert- von der Maschinerie ganz zu schweigen!",
+            "Lieber alarmiert, als wegen kruder Schwerkraft im All dekomponiert.",
+          ],
+          ja: ["マザーボム級の\n極大低気圧の接近を確認！", "輸送中の資材への\n影響が心配だな…", "万一の場合に備えておこう"],
+        },
+      },
+      {
+        name: "Variant B",
+        classes: [JOBS.MIN, JOBS.BSM, JOBS.WVR, JOBS.ALC, JOBS.BTN],
+        image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds-a.png"),
+        hints: {
+          "en-US": [
+            "We've confirmed the approach of a Progenitrix-level extreme low pressure front.",
+            "How will that affect our materials currently en route...?",
+            "We need to prepare for the worst.",
+          ],
+          fr: [
+            "On a détecté une chute de la pression atmosphérique de rang maman bombo!",
+            "Selon la direction du vent, ça risque de provoquer des chutes de pierres.",
+            "Les cas échéant, nous devons être prêts à agir.",
+          ],
+          de: [
+            "Ein Progenitrix-Zyklon! Und der steuert direkt auf uns zu!",
+            "Wenn der Wind nicht ablässt, könnten die spröden Felsstrukturen unser Ende bedeuten.",
+            "Bereiten wir uns darauf vor, schnellstmöglich auszurücken.",
+          ],
+          ja: [
+            ,
+            "マザーボム級の\n極大低気圧の接近を確認！",
+            "この風向きだと脆い岩盤から\n落石事故でもありそうだ",
+            "有事の際は\n迅速に行動しなければな",
+          ],
+        },
       },
     ],
   },
