@@ -445,7 +445,6 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
             "Bereiten wir uns darauf vor, schnellstmöglich auszurücken.",
           ],
           ja: [
-            ,
             "マザーボム級の\n極大低気圧の接近を確認！",
             "この風向きだと脆い岩盤から\n落石事故でもありそうだ",
             "有事の際は\n迅速に行動しなければな",
