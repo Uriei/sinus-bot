@@ -431,8 +431,8 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
         hints: {
           "en-US": [
             "We've confirmed the approach of a Progenitrix-level extreme low pressure front.",
-            "How will that affect our materials currently en route...?",
-            "We need to prepare for the worst.",
+            "When the winds hit those crumbling outcrops, we'll be showered with rocks...",
+            "We need to be ready to act quickly.",
           ],
           fr: [
             "On a détecté une chute de la pression atmosphérique de rang maman bombo!",
