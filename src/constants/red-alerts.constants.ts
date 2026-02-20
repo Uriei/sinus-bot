@@ -427,7 +427,7 @@ export const RED_ALERT_OIZYS: Array<IRedAlertType> = [
       {
         name: "Variant B",
         classes: [JOBS.MIN, JOBS.BSM, JOBS.WVR, JOBS.ALC, JOBS.BTN],
-        image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds-a.png"),
+        image: path.resolve("./assets/red-alerts/oizys/ra-galeforcewinds-b.png"),
         hints: {
           "en-US": [
             "We've confirmed the approach of a Progenitrix-level extreme low pressure front.",
