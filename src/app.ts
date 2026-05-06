@@ -11,18 +11,18 @@ async function app() {
   discord = await Discord.getInstance();
   weatherPresenceService = await WeatherPresenceService.getInstance();
   weatherPresenceService.start(60000);
-  Log.log("Sinus Bot online.");
+  Log.log("-", "Sinus Bot online.");
 }
 
 async function shutdown() {
   discord.setPresence("idle");
-  Log.log("Closing Sinus Bot.");
+  Log.log("-", "Closing Sinus Bot.");
   // Stop all timeout intervals
   discord.disconnect();
   clearInterval(discord.discordKeepAliveInterval);
   clearInterval(weatherPresenceService.timeoutCallback);
 
-  Log.log("Sinus Bot offline.");
+  Log.log("-", "Sinus Bot offline.");
   process.exit(0);
 }
 

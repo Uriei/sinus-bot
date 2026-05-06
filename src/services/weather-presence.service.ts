@@ -32,7 +32,7 @@ export class WeatherPresenceService {
 
   public async start(interval: number = 120000) {
     if (interval < 60000) {
-      Log.error("Interval can't be lower than 60000ms, 1 minute.");
+      Log.error("-", "Interval can't be lower than 60000ms, 1 minute.");
     } else {
       this.interval = interval;
     }
@@ -43,14 +43,14 @@ export class WeatherPresenceService {
 
   private async runWeatherPresenceService() {
     try {
-      Log.debug("Weather Presence Service: Checking for weather forecast.");
+      Log.debug("-", "Weather Presence Service: Checking for weather forecast.");
       const star = this.getNextStar();
       const weatherForecast = getNextWeatherForecast(star, 24);
       const newPresence = getCustomPresence(star, weatherForecast);
       this.discord.setPresence("online", newPresence);
-      Log.debug(`Weather Presence Service: Setting Bot Presence to "${newPresence}"`);
+      Log.debug("-", `Weather Presence Service: Setting Bot Presence to "${newPresence}"`);
     } catch (error) {
-      Log.error("Weather Presence Service: ERROR:", error);
+      Log.error("-", "Weather Presence Service: ERROR:", error);
     }
 
     this.scheduleNextRun();
